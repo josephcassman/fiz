@@ -71,6 +71,7 @@
 
         <CommandBar Grid.Row="3">
             <AppBarButton Icon="Add" Label="Add" Click="AppBarButton_Click" />
+            <AppBarButton Icon="Clear" Label="Clear" Click="AppBarButton_Click" />
             <AppBarSeparator />
             <AppBarButton Icon="Stop" Label="Stop" IsEnabled="False" />
             <AppBarButton Icon="Pause" Label="Pause" IsEnabled="False" />
