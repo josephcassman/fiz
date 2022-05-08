@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Fiz (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Fiz (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
