@@ -7,20 +7,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition Height="auto" MaxHeight="70" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <TextBlock FontSize="50" FontWeight="Light"
-                       Foreground="Gray">Drop files here</TextBlock>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.RowSpan="3"
+                    AllowDrop="True"
+                    DragOver="DragOver"
+                    Drop="Drop"
+                    Background="Transparent">
         </StackPanel>
 
-        <CommandBar Grid.Row="1">
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   FontSize="50"
+                   FontWeight="Light"
+                   Foreground="Gray"
+                   HorizontalTextAlignment="Center"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   x:Name="DropInstructions">
+                Drop files here
+        </TextBlock>
+
+        <CommandBar Grid.Row="3">
             <AppBarButton Icon="Add" Label="Stop" />
             <AppBarSeparator />
             <AppBarButton Icon="Stop" Label="Stop" IsEnabled="False" />
@@ -33,4 +57,5 @@
             </CommandBar.Content>
         </CommandBar>
     </Grid>
+
 </Window>
