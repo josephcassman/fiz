@@ -21,8 +21,10 @@ namespace Fiz {
             if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
                 var items = await e.DataView.GetStorageItemsAsync();
                 if (0 < items.Count) {
+                    var file = items[0] as StorageFile;
                     MediaItems.Add(new MediaItem {
-                        File = items[0] as StorageFile,
+                        File = file,
+                        FileName = file.Name,
                     });
                 }
             }
@@ -30,7 +32,9 @@ namespace Fiz {
         }
 
         void setVisibility () {
-            DropInstructions.Visibility = MediaItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            var empty = MediaItems.Count == 0;
+            DropInstructions.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;
+            Contents.Visibility = empty ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private async void AppBarButton_Click (object sender, RoutedEventArgs e) {
@@ -52,6 +56,7 @@ namespace Fiz {
                 if (file != null) {
                     MediaItems.Add(new MediaItem {
                         File = file,
+                        FileName = file.Name,
                     });
                 }
                 else {}
@@ -62,5 +67,6 @@ namespace Fiz {
 
     public class MediaItem {
         public StorageFile File { get; set; }
+        public string FileName { get; set; } = "";
     }
 }

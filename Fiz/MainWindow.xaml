@@ -7,7 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid MinWidth="1150">
+        <Grid.Resources>
+            <DataTemplate x:Key="MediaItemTemplate" x:DataType="local:MediaItem">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind FileName, TargetNullValue=''}" TextWrapping="NoWrap" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -42,6 +49,25 @@
                    x:Name="DropInstructions">
                 Drop files here
         </TextBlock>
+
+        <Grid Grid.Row="0"
+              Grid.RowSpan="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="3"
+              Visibility="Collapsed"
+              AllowDrop="True"
+              DragOver="DragOver"
+              Drop="Drop"
+              x:Name="Contents">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ListView Grid.Column="0"
+                      ItemsSource="{x:Bind MediaItems}"
+                      ItemTemplate="{StaticResource MediaItemTemplate}"
+                      SelectedIndex="0" />
+        </Grid>
 
         <CommandBar Grid.Row="3">
             <AppBarButton Icon="Add" Label="Add" Click="AppBarButton_Click" />
