@@ -7,7 +7,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" MaxHeight="70" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock FontSize="50" FontWeight="Light"
+                       Foreground="Gray">Drop files here</TextBlock>
+        </StackPanel>
+
+        <CommandBar Grid.Row="1">
+            <AppBarButton Icon="Add" Label="Stop" />
+            <AppBarSeparator />
+            <AppBarButton Icon="Stop" Label="Stop" IsEnabled="False" />
+            <AppBarButton Icon="Pause" Label="Pause" IsEnabled="False" />
+            <AppBarButton Icon="Play" Label="Play" IsEnabled="False" />
+            <AppBarButton Icon="Back" Label="Back" IsEnabled="False" />
+            <AppBarButton Icon="Forward" Label="Forward" IsEnabled="False" />
+            <CommandBar.Content>
+                <TextBlock Text="" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </Grid>
 </Window>
