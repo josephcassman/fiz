@@ -81,6 +81,14 @@ namespace Fiz {
                     break;
             }
         }
+
+        private async void FileList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
+            if (FileList.SelectedItem != null) {
+                var file = MediaItems[FileList.SelectedIndex].File;
+                var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
+                displayPreview(MediaPreview, thumbnail);
+            }
+        }
     }
 
     public class MediaItem {
