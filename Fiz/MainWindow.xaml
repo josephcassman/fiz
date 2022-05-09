@@ -67,6 +67,7 @@
                       ItemsSource="{x:Bind MediaItems}"
                       ItemTemplate="{StaticResource MediaItemTemplate}"
                       SelectedIndex="0" />
+            <Image Grid.Column="1" x:Name="MediaPreview" />
         </Grid>
 
         <CommandBar Grid.Row="3">

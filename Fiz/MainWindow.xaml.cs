@@ -1,9 +1,11 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Fiz {
     public sealed partial class MainWindow : Window {
@@ -17,6 +19,12 @@ namespace Fiz {
             e.AcceptedOperation = DataPackageOperation.Copy;
         }
 
+        static void displayPreview (Image img, StorageItemThumbnail thumbnail) {
+            var bmp = new BitmapImage();
+            bmp.SetSource(thumbnail);
+            img.Source = bmp;
+        }
+
         private async void Drop (object sender, DragEventArgs e) {
             if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
                 var items = await e.DataView.GetStorageItemsAsync();
@@ -26,9 +34,11 @@ namespace Fiz {
                         File = file,
                         FileName = file.Name,
                     });
+                    var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
+                    displayPreview(MediaPreview, thumbnail);
+                    setVisibility();
                 }
             }
-            setVisibility();
         }
 
         void setVisibility () {
@@ -59,6 +69,8 @@ namespace Fiz {
                             File = file,
                             FileName = file.Name,
                         });
+                        var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
+                        displayPreview(MediaPreview, thumbnail);
                     }
                     else { }
                     setVisibility();
