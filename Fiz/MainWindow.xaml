@@ -72,19 +72,22 @@
             <Image Grid.Column="1" x:Name="MediaPreview" />
         </Grid>
 
-        <CommandBar Grid.Row="3">
-            <AppBarButton Icon="Add" Label="Add" Click="AppBarButton_Click" />
-            <AppBarButton Icon="Clear" Label="Clear" Click="AppBarButton_Click" />
-            <AppBarSeparator />
-            <AppBarButton Icon="Stop" Label="Stop" IsEnabled="False" />
-            <AppBarButton Icon="Pause" Label="Pause" IsEnabled="False" />
-            <AppBarButton Icon="Play" Label="Play" IsEnabled="False" />
-            <AppBarButton Icon="Back" Label="Back" IsEnabled="False" />
-            <AppBarButton Icon="Forward" Label="Forward" IsEnabled="False" />
-            <CommandBar.Content>
-                <TextBlock Text="" Margin="12,14"/>
-            </CommandBar.Content>
-        </CommandBar>
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Padding="5"
+                    Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border CornerRadius="3" Padding="10"
+                    PointerEntered="ImageButton_PointerEntered" PointerExited="ImageButton_PointerExited">
+                <Image Source="Assets/Icons/plus-sign.png" Width="32" Height="32" Tapped="Add_Tapped" />
+            </Border>
+            <Border CornerRadius="3" Padding="10"
+                    PointerEntered="ImageButton_PointerEntered" PointerExited="ImageButton_PointerExited">
+                <Image Source="Assets/Icons/up-arrow.png" Width="32" Height="32" Tapped="Up_Tapped"/>
+            </Border>
+            <Border CornerRadius="3" Padding="10"
+                    PointerEntered="ImageButton_PointerEntered" PointerExited="ImageButton_PointerExited">
+                <Image Source="Assets/Icons/down-arrow.png" Width="32" Height="32" Tapped="Down_Tapped"/>
+            </Border>
+        </StackPanel>
+
     </Grid>
 
 </Window>
