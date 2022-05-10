@@ -1,13 +1,62 @@
-﻿<Window x:Class="src.MainWindow"
+﻿<Window x:Class="UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:src"
+        xmlns:local="clr-namespace:UI"
+        xmlns:vm="clr-namespace:UI.ViewModel"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <vm:InvertConverter x:Key="invert" />
+        <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
+        <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
+        <Style x:Key="TabButton" TargetType="Button">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="FontSize" Value="20" />
+        </Style>
+    </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button IsEnabled="{Binding Path=PictureMode}"
+                    Click="Picture_Click"
+                    Style="{StaticResource TabButton}">Pictures</Button>
+            <Button IsEnabled="{Binding Path=PictureMode, Converter={StaticResource invert}}"
+                    Click="Video_Click"
+                    Style="{StaticResource TabButton}"
+                    Margin="10,0,0,0">Video</Button>
+        </StackPanel>
+
+        <TextBlock Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
+            picture view
+        </TextBlock>
+
+        <TextBlock Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}">
+            video view
+        </TextBlock>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal">
+            
+        </StackPanel>
     </Grid>
 </Window>
