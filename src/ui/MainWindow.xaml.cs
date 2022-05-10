@@ -17,5 +17,17 @@ namespace UI {
         private void Video_Click (object sender, RoutedEventArgs e) {
             vm.PictureMode = true;
         }
+
+        private void AddPicture_Click (object sender, RoutedEventArgs e) {
+            Microsoft.Win32.OpenFileDialog dialog = new();
+            dialog.FileName = "Document";
+            dialog.Filter = "Pictures |*.jpg;*.jpeg;*.png;*.gif";
+
+            var result = dialog.ShowDialog();
+
+            if (result == true) {
+                var filename = dialog.FileName;
+            }
+        }
     }
 }
