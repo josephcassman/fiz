@@ -20,23 +20,6 @@ namespace Fiz {
 
         public MainViewModel ViewModel => App.ViewModel;
 
-        private void DragOver (object sender, DragEventArgs e) {
-            e.AcceptedOperation = DataPackageOperation.Copy;
-        }
-
-        private async void Drop (object sender, DragEventArgs e) {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
-                try {
-                    var items = await e.DataView.GetStorageItemsAsync();
-                    await addFiles(items);
-                    if (0 < ViewModel.MediaItems.Count)
-                        ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
-                    FileList.SelectedIndex = FileList.Items.Count - 1;
-                }
-                catch (Exception) { }
-            }
-        }
-
         async Task addFiles (IEnumerable<IStorageItem> files) {
             static async Task processFile (IStorageItem file, ConcurrentBag<MediaItem> results) {
                 var a = file as StorageFile;
@@ -56,6 +39,23 @@ namespace Fiz {
                 ViewModel.MediaItems.Add(result);
         }
 
+        private void DragOver (object sender, DragEventArgs e) {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+
+        private async void Drop (object sender, DragEventArgs e) {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
+                try {
+                    var items = await e.DataView.GetStorageItemsAsync();
+                    await addFiles(items);
+                    if (0 < ViewModel.MediaItems.Count)
+                        ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
+                    FileList.SelectedIndex = FileList.Items.Count - 1;
+                }
+                catch (Exception) { }
+            }
+        }
+
         private void FileList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
             if (FileList.SelectedItem == null) return;
             ViewModel.SelectedMediaItem = ViewModel.MediaItems[FileList.SelectedIndex];
@@ -73,7 +73,7 @@ namespace Fiz {
 
         private async void Add_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
             try {
-                var window = new Microsoft.UI.Xaml.Window();
+                var window = new Window();
                 var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
                 var picker = new Windows.Storage.Pickers.FileOpenPicker();
                 WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
