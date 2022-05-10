@@ -46,7 +46,7 @@
                    HorizontalTextAlignment="Center"
                    TextAlignment="Center"
                    VerticalAlignment="Center"
-                   x:Name="DropInstructions">
+                   Visibility="{x:Bind local:Converters.VisibleWhenEmpty(ViewModel.MediaItems), Mode=OneWay}">
                 Drop files here
         </TextBlock>
 
@@ -54,22 +54,26 @@
               Grid.RowSpan="3"
               Grid.Column="0"
               Grid.ColumnSpan="3"
-              Visibility="Collapsed"
               AllowDrop="True"
               DragOver="DragOver"
               Drop="Drop"
-              x:Name="Contents">
+              Visibility="{x:Bind local:Converters.VisibleWhenNotEmpty(ViewModel.MediaItems), Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="600" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <ListView Grid.Column="0"
-                      ItemsSource="{x:Bind MediaItems}"
+                      ItemsSource="{x:Bind ViewModel.MediaItems}"
                       ItemTemplate="{StaticResource MediaItemTemplate}"
                       SelectionMode="Single"
                       SelectionChanged="FileList_SelectionChanged"
                       x:Name="FileList" />
-            <Image Grid.Column="1" x:Name="MediaPreview" />
+
+            <Border Grid.Column="1" BorderThickness="5" BorderBrush="Black">
+                <Image
+                   Source="{x:Bind ViewModel.SelectedMediaItem.Preview, Mode=OneWay}"/>
+
+            </Border>
         </Grid>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Padding="5"
