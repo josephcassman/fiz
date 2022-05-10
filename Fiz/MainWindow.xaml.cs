@@ -91,20 +91,18 @@ namespace Fiz {
         private void Up_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
             if (FileList.SelectedItem == null) return;
             if (ViewModel.MediaItems.Count == 0) return;
+            if (FileList.SelectedIndex == 0) return;
             var i = FileList.SelectedIndex;
-            var a = ViewModel.MediaItems[i - 1];
-            ViewModel.MediaItems[i - 1] = ViewModel.MediaItems[i];
-            ViewModel.MediaItems[i] = a;
+            (ViewModel.MediaItems[i], ViewModel.MediaItems[i - 1]) = (ViewModel.MediaItems[i - 1], ViewModel.MediaItems[i]);
             FileList.SelectedIndex = i - 1;
         }
 
         private void Down_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
             if (FileList.SelectedItem == null) return;
-            if (ViewModel.MediaItems.Count <= FileList.SelectedIndex) return;
+            if (ViewModel.MediaItems.Count == 0) return;
+            if (FileList.Items.Count - 1 <= FileList.SelectedIndex) return;
             var i = FileList.SelectedIndex;
-            var a = ViewModel.MediaItems[i + 1];
-            ViewModel.MediaItems[i + 1] = ViewModel.MediaItems[i];
-            ViewModel.MediaItems[i] = a;
+            (ViewModel.MediaItems[i], ViewModel.MediaItems[i + 1]) = (ViewModel.MediaItems[i + 1], ViewModel.MediaItems[i]);
             FileList.SelectedIndex = i + 1;
         }
     }
