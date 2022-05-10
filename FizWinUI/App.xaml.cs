@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace Fiz {
+namespace FizWinUI {
     public partial class App : Application
     {
         public App()
