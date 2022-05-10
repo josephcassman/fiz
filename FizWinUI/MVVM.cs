@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
 
-namespace Fiz {
+namespace FizWinUI {
     public abstract class BindableBase : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 

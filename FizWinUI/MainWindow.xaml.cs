@@ -12,7 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Fiz {
+namespace FizWinUI {
     public sealed partial class MainWindow : Window {
         public MainWindow () {
             this.InitializeComponent();
