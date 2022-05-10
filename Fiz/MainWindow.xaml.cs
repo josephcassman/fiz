@@ -4,7 +4,10 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -15,46 +18,44 @@ namespace Fiz {
             this.InitializeComponent();
         }
 
-        public ObservableCollection<MediaItem> MediaItems { get; set; } = new ObservableCollection<MediaItem>();
+        public MainViewModel ViewModel => App.ViewModel;
 
         private void DragOver (object sender, DragEventArgs e) {
             e.AcceptedOperation = DataPackageOperation.Copy;
         }
 
-        static void displayPreview (Image img, StorageItemThumbnail thumbnail) {
-            var bmp = new BitmapImage();
-            bmp.SetSource(thumbnail);
-            img.Source = bmp;
-        }
-
         private async void Drop (object sender, DragEventArgs e) {
             if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
                 var items = await e.DataView.GetStorageItemsAsync();
-                if (0 < items.Count) {
-                    var file = items[0] as StorageFile;
-                    MediaItems.Add(new MediaItem {
-                        File = file,
-                        FileName = file.Name,
-                    });
-                    var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
-                    displayPreview(MediaPreview, thumbnail);
-                    setVisibility();
-                }
+                try { await addFiles(items); } catch (Exception) { }
+                if (0 < ViewModel.MediaItems.Count)
+                    ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
+                FileList.SelectedIndex = FileList.Items.Count - 1;
             }
         }
 
-        void setVisibility () {
-            var empty = MediaItems.Count == 0;
-            DropInstructions.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;
-            Contents.Visibility = empty ? Visibility.Collapsed : Visibility.Visible;
+        async Task addFiles (IEnumerable<IStorageItem> files) {
+            static async Task processFile (IStorageItem file, ConcurrentBag<MediaItem> results) {
+                var a = file as StorageFile;
+                var thumbnail = await a.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
+                var bmp = new BitmapImage();
+                bmp.SetSource(thumbnail);
+                results.Add(new MediaItem {
+                    File = a,
+                    FileName = a.Name,
+                    Preview = bmp,
+                });
+            }
+
+            var results = new ConcurrentBag<MediaItem>();
+            await Task.WhenAll(files.Select(file => processFile(file, results)));
+            foreach (var result in results)
+                ViewModel.MediaItems.Add(result);
         }
 
-        private async void FileList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
-            if (FileList.SelectedItem != null) {
-                var file = MediaItems[FileList.SelectedIndex].File;
-                var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
-                displayPreview(MediaPreview, thumbnail);
-            }
+        private void FileList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
+            if (FileList.SelectedItem == null) return;
+            ViewModel.SelectedMediaItem = ViewModel.MediaItems[FileList.SelectedIndex];
         }
 
         private void ImageButton_PointerEntered (object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) {
@@ -80,34 +81,31 @@ namespace Fiz {
             picker.FileTypeFilter.Add(".gif");
             picker.FileTypeFilter.Add(".mp4");
             picker.FileTypeFilter.Add(".mp3");
-            var file = await picker.PickSingleFileAsync();
-            if (file != null) {
-                MediaItems.Add(new MediaItem {
-                    File = file,
-                    FileName = file.Name,
-                });
-                var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 150, ThumbnailOptions.UseCurrentScale);
-                displayPreview(MediaPreview, thumbnail);
-            }
-            else { }
-            setVisibility();
+            var items = await picker.PickMultipleFilesAsync();
+            try { await addFiles(items); } catch (Exception) { }
+            if (0 < ViewModel.MediaItems.Count)
+                ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
+            FileList.SelectedIndex = FileList.Items.Count - 1;
         }
 
         private void Up_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
             if (FileList.SelectedItem == null) return;
-            if (MediaItems.Count == 0) return;
-            MediaItems[FileList.SelectedIndex] = MediaItems[FileList.SelectedIndex - 1];
+            if (ViewModel.MediaItems.Count == 0) return;
+            var i = FileList.SelectedIndex;
+            var a = ViewModel.MediaItems[i - 1];
+            ViewModel.MediaItems[i - 1] = ViewModel.MediaItems[i];
+            ViewModel.MediaItems[i] = a;
+            FileList.SelectedIndex = i - 1;
         }
 
         private void Down_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
             if (FileList.SelectedItem == null) return;
-            if (MediaItems.Count <= FileList.SelectedIndex) return;
-            MediaItems[FileList.SelectedIndex] = MediaItems[FileList.SelectedIndex + 1];
+            if (ViewModel.MediaItems.Count <= FileList.SelectedIndex) return;
+            var i = FileList.SelectedIndex;
+            var a = ViewModel.MediaItems[i + 1];
+            ViewModel.MediaItems[i + 1] = ViewModel.MediaItems[i];
+            ViewModel.MediaItems[i] = a;
+            FileList.SelectedIndex = i + 1;
         }
-    }
-
-    public class MediaItem {
-        public StorageFile File { get; set; }
-        public string FileName { get; set; } = "";
     }
 }
