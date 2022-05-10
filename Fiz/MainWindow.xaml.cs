@@ -26,11 +26,14 @@ namespace Fiz {
 
         private async void Drop (object sender, DragEventArgs e) {
             if (e.DataView.Contains(StandardDataFormats.StorageItems)) {
-                var items = await e.DataView.GetStorageItemsAsync();
-                try { await addFiles(items); } catch (Exception) { }
-                if (0 < ViewModel.MediaItems.Count)
-                    ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
-                FileList.SelectedIndex = FileList.Items.Count - 1;
+                try {
+                    var items = await e.DataView.GetStorageItemsAsync();
+                    await addFiles(items);
+                    if (0 < ViewModel.MediaItems.Count)
+                        ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
+                    FileList.SelectedIndex = FileList.Items.Count - 1;
+                }
+                catch (Exception) { }
             }
         }
 
@@ -69,23 +72,26 @@ namespace Fiz {
         }
 
         private async void Add_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
-            var window = new Microsoft.UI.Xaml.Window();
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
-            picker.FileTypeFilter.Add(".gif");
-            picker.FileTypeFilter.Add(".mp4");
-            picker.FileTypeFilter.Add(".mp3");
-            var items = await picker.PickMultipleFilesAsync();
-            try { await addFiles(items); } catch (Exception) { }
-            if (0 < ViewModel.MediaItems.Count)
-                ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
-            FileList.SelectedIndex = FileList.Items.Count - 1;
+            try {
+                var window = new Microsoft.UI.Xaml.Window();
+                var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+                var picker = new Windows.Storage.Pickers.FileOpenPicker();
+                WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+                picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+                picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
+                picker.FileTypeFilter.Add(".gif");
+                picker.FileTypeFilter.Add(".mp4");
+                picker.FileTypeFilter.Add(".mp3");
+                var items = await picker.PickMultipleFilesAsync();
+                await addFiles(items);
+                if (0 < ViewModel.MediaItems.Count)
+                    ViewModel.SelectedMediaItem = ViewModel.MediaItems[^1];
+                FileList.SelectedIndex = FileList.Items.Count - 1;
+            }
+            catch (Exception) { }
         }
 
         private void Up_Tapped (object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) {
