@@ -15,5 +15,7 @@ namespace Fiz {
         }
 
         private Window m_window;
+
+        public static MainViewModel ViewModel { get; } = new MainViewModel();
     }
 }
