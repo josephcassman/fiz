@@ -101,6 +101,8 @@
                  AllowDrop="True"
                  Drop="PictureList_Drop"
                  HorizontalContentAlignment="Stretch"
+                 SelectionChanged="PictureList_SelectionChanged"
+                 MouseDown="PictureList_MouseDown"
                  ItemTemplate="{StaticResource PictureListTemplate}"
                  Name="PictureList" />
 
@@ -112,16 +114,44 @@
             video view
         </TextBlock>
 
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal">
-            <Border Style="{StaticResource IconButtonBorder}">
-                <Button Style="{StaticResource IconButton}"
-                        FontSize="30"
-                        Margin="15"
-                        Click="AddPicture_Click">
-                    &#xE948;
-                </Button>
-            </Border>
-        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                <Border Style="{StaticResource IconButtonBorder}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="30"
+                            Margin="15"
+                            Click="AddPicture_Click">
+                        &#xE948;
+                    </Button>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
+                <Border Style="{StaticResource IconButtonBorder}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="30"
+                            Margin="15"
+                            Click="MoveDown_Click">
+                        &#xE70D;
+                    </Button>
+                </Border>
+                <Border Style="{StaticResource IconButtonBorder}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="30"
+                            Margin="15"
+                            Click="MoveUp_Click">
+                        &#xE70E;
+                    </Button>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
