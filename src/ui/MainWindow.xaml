@@ -77,13 +77,31 @@
                     Margin="10,0,0,0">Video</Button>
         </StackPanel>
 
-        <TextBlock Grid.Row="1"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="30"
-                   Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
-            picture view
-        </TextBlock>
+        <ItemsControl Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      x:Name="PictureList">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Width="70">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="70" UriSource="{Binding Path=Path}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Grid.Column="1"
+                                   FontSize="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Text="{Binding Path=Name}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <TextBlock Grid.Row="1"
                    HorizontalAlignment="Center"
