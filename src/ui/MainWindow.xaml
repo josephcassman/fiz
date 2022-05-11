@@ -57,6 +57,26 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <DataTemplate x:Key="PictureListTemplate">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                       Width="70">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="70" UriSource="{Binding Path=Path}" />
+                    </Image.Source>
+                </Image>
+                <Grid Grid.Column="1">
+                    <TextBlock FontSize="30"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Text="{Binding Path=Name}" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -77,31 +97,10 @@
                     Margin="10,0,0,0">Video</Button>
         </StackPanel>
 
-        <ItemsControl Grid.Row="1"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      x:Name="PictureList">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Width="70">
-                            <Image.Source>
-                                <BitmapImage DecodePixelWidth="70" UriSource="{Binding Path=Path}" />
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Grid.Column="1"
-                                   FontSize="30"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   Text="{Binding Path=Name}" />
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ListBox Grid.Row="1"
+                 HorizontalContentAlignment="Stretch"
+                 ItemTemplate="{StaticResource PictureListTemplate}"
+                 Name="PictureList" />
 
         <TextBlock Grid.Row="1"
                    HorizontalAlignment="Center"
