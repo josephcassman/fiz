@@ -35,6 +35,10 @@ namespace UI {
                     Path = path.b,
                 });
             }
+            if (0 < PictureList.Items.Count) {
+                PictureList.SelectedIndex = 0;
+                PictureList.Focus();
+            }
         }
 
         static readonly HashSet<string> PictureExtensions = new HashSet<string> {
@@ -52,6 +56,10 @@ namespace UI {
                     Name = Path.GetFileName(path),
                     Path = path,
                 });
+            }
+            if (0 < PictureList.Items.Count) {
+                PictureList.SelectedIndex = 0;
+                PictureList.Focus();
             }
         }
 
