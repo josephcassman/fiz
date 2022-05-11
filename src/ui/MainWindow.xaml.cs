@@ -25,13 +25,14 @@ namespace UI {
         private void AddPicture_Click (object sender, RoutedEventArgs e) {
             Microsoft.Win32.OpenFileDialog dialog = new() {
                 FileName = "Document",
-                Filter = "Pictures |*.jpg;*.jpeg;*.png;*.gif"
+                Filter = "Pictures |*.jpg;*.jpeg;*.png;*.gif",
+                Multiselect = true,
             };
             var result = dialog.ShowDialog();
-            if (result == true) {
+            foreach (var path in dialog.SafeFileNames.Zip(dialog.FileNames, (a, b) => (a, b))) {
                 vm.Pictures.Add(new PictureItem {
-                    Name = dialog.SafeFileName,
-                    Path = dialog.FileName,
+                    Name = path.a,
+                    Path = path.b,
                 });
             }
         }
