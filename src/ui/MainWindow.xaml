@@ -98,6 +98,8 @@
         </StackPanel>
 
         <ListBox Grid.Row="1"
+                 AllowDrop="True"
+                 Drop="PictureList_Drop"
                  HorizontalContentAlignment="Stretch"
                  ItemTemplate="{StaticResource PictureListTemplate}"
                  Name="PictureList" />

@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using UI.ViewModel;
 
 namespace UI {
@@ -29,6 +32,24 @@ namespace UI {
                 vm.Pictures.Add(new PictureItem {
                     Name = dialog.SafeFileName,
                     Path = dialog.FileName,
+                });
+            }
+        }
+
+        static readonly HashSet<string> PictureExtensions = new HashSet<string> {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+        };
+
+        private void PictureList_Drop (object sender, DragEventArgs e) {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+            var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            foreach (var path in paths.Where(x => PictureExtensions.Contains(Path.GetExtension(x)))) {
+                vm.Pictures.Add(new PictureItem {
+                    Name = Path.GetFileName(path),
+                    Path = path,
                 });
             }
         }
