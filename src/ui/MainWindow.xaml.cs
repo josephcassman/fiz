@@ -77,6 +77,7 @@ namespace UI {
             PictureList.ItemsSource = vm.Pictures;
 
             PictureList.SelectedIndex = i + 1;
+            PictureList.Focus();
         }
 
         private void MoveUp_Click (object sender, RoutedEventArgs e) {
@@ -92,6 +93,7 @@ namespace UI {
             PictureList.ItemsSource = vm.Pictures;
 
             PictureList.SelectedIndex = i - 1;
+            PictureList.Focus();
         }
     }
 }
