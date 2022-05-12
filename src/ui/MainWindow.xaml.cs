@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using UI.ViewModel;
 
 namespace UI {
@@ -110,6 +112,22 @@ namespace UI {
             pictureList.Focus();
         }
 
+        private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) {
+            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Left });
+        }
+
+        private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) {
+            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Right });
+        }
+
+        private void MoveLeft_Click (object sender, RoutedEventArgs e) {
+            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Left });
+        }
+
+        private void MoveRight_Click (object sender, RoutedEventArgs e) {
+            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Right });
+        }
+
         private void PlaySlideshow_Click (object sender, RoutedEventArgs e) {
             if (vm.Pictures.Count == 0 || pictureList.Items.Count == 0) {
                 vm.HasPictures = false;
@@ -129,6 +147,10 @@ namespace UI {
         private void StopSlideshow_Click (object sender, RoutedEventArgs e) {
             slideshow?.Close();
             vm.PlayingPictureSlideshow = false;
+        }
+
+        private void Window_MouseDown (object sender, MouseButtonEventArgs e) {
+            pictureList.Focus();
         }
     }
 }
