@@ -8,6 +8,7 @@
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
+        Topmost="False"
         MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
     <Window.CommandBindings>
