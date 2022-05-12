@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace UI.ViewModel {
     public class PictureItem {
@@ -7,6 +8,12 @@ namespace UI.ViewModel {
     }
 
     public class MainViewModel : BindableBase {
+        public event EventHandler<MessageEventArgs>? Message;
+
+        public void SendMessage (object sender, MessageEventArgs args) {
+            Message?.Invoke(sender, args);
+        }
+
         public ObservableCollection<PictureItem> Pictures = new();
 
         public void AddPicture (PictureItem picture) {

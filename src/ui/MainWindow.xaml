@@ -8,7 +8,12 @@
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
+        MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
+        <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
+    </Window.CommandBindings>
     <Window.Resources>
         <vm:InvertConverter x:Key="invert" />
         <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
@@ -173,6 +178,31 @@
                         </Button>
                     </Border>
                 </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
+                <Border Style="{StaticResource IconButtonBorder}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="21"
+                            Margin="15"
+                            Click="MoveLeft_Click"
+                            Name="pictureLeft">
+                        &#xE973;
+                    </Button>
+                </Border>
+                <Border Style="{StaticResource IconButtonBorder}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="21"
+                            Margin="15"
+                            Click="MoveRight_Click"
+                            Name="pictureRight">
+                        &#xE974;
+                    </Button>
+                </Border>
             </StackPanel>
         </Grid>
         
