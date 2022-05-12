@@ -12,7 +12,8 @@
         AllowsTransparency="True"
         Height="450"
         Width="800"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        MouseDoubleClick="Window_MouseDoubleClick">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="Left_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="Right_Executed" />
