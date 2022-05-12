@@ -54,6 +54,13 @@ namespace UI {
             hideChrome();
         }
 
+        void toggleMaximize () {
+            if (WindowState == WindowState.Maximized)
+                SystemCommands.RestoreWindow(this);
+            else
+                SystemCommands.MaximizeWindow(this);
+        }
+
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
             DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
             makeTransparentTitleBar.Children.Add(a0);
@@ -107,10 +114,7 @@ namespace UI {
         }
 
         private void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (WindowState == WindowState.Maximized)
-                SystemCommands.RestoreWindow(this);
-            else
-                SystemCommands.MaximizeWindow(this);
+            toggleMaximize();
         }
 
         private void Close_Click (object sender, RoutedEventArgs e) {
@@ -122,6 +126,10 @@ namespace UI {
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
             showHideChrome();
+        }
+
+        private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            toggleMaximize();
         }
     }
 }
