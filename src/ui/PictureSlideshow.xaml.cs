@@ -48,11 +48,14 @@ namespace UI {
             makeTransparentMaximizeButton.Begin(this);
             makeTransparentCloseButton.Begin(this);
 
+            titleBar.BeginAnimation(StackPanel.VisibilityProperty, makeInvisible);
             maximizeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
             closeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
         }
 
         void showHideChrome () {
+            titleBar.Visibility = Visibility.Visible;
+
             maximizeBorder.Visibility = Visibility.Visible;
             maximize.Visibility = Visibility.Visible;
 
@@ -141,6 +144,7 @@ namespace UI {
             picture.Width = e.NewSize.Width;
             height = (int) e.NewSize.Height;
             showPicture();
+            showHideChrome();
         }
     }
 }
