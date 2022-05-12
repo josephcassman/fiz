@@ -12,6 +12,7 @@ namespace UI {
             InitializeComponent();
             Loaded += PictureSlideshow_Loaded;
             MouseMove += PictureSlideshow_MouseMove;
+            SizeChanged += PictureSlideshow_SizeChanged;
 
             makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
 
@@ -33,9 +34,11 @@ namespace UI {
         readonly Storyboard makeOpaqueMaximizeButton = new();
         readonly Storyboard makeOpaqueCloseButton = new();
 
+        int height = 450;
+
         void showPicture () {
             var bmp = new BitmapImage(new Uri(vm.CurrentPicture.Path)) {
-                DecodePixelHeight = 450,
+                DecodePixelHeight = height,
             };
             picture.Source = bmp;
         }
@@ -131,6 +134,13 @@ namespace UI {
 
         private void Close_Click (object sender, RoutedEventArgs e) {
             Close();
+        }
+
+        private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
+            picture.Height = e.NewSize.Height;
+            picture.Width = e.NewSize.Width;
+            height = (int) e.NewSize.Height;
+            showPicture();
         }
     }
 }
