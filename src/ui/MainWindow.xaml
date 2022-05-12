@@ -8,7 +8,7 @@
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="500">
+        Title="Fiz" Height="700" Width="500">
     <Window.Resources>
         <vm:InvertConverter x:Key="invert" />
         <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
