@@ -109,6 +109,7 @@
                Canvas.Top="0"
                Canvas.Left="0"
                MouseDown="Window_MouseDown"
+               Source="{Binding CurrentPicture}"
                Name="picture" />
     </Canvas>
 </Window>

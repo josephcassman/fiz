@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using UI.ViewModel;
 
 namespace UI {
@@ -48,6 +49,7 @@ namespace UI {
                 vm.AddPicture(new PictureItem {
                     Name = path.a,
                     Path = path.b,
+                    Bitmap = new BitmapImage(new Uri(path.b)) { DecodePixelHeight = 450 },
                 });
             }
             if (0 < pictureList.Items.Count) {
@@ -63,6 +65,7 @@ namespace UI {
                 vm.AddPicture(new PictureItem {
                     Name = Path.GetFileName(path),
                     Path = path,
+                    Bitmap = new BitmapImage(new Uri(path)) { DecodePixelHeight = 450 },
                 });
             }
             if (0 < pictureList.Items.Count) {
@@ -113,19 +116,19 @@ namespace UI {
         }
 
         private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) {
-            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Left });
+            vm.MovePrevious();
         }
 
         private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) {
-            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Right });
+            vm.MoveNext();
         }
 
         private void MoveLeft_Click (object sender, RoutedEventArgs e) {
-            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Left });
+            vm.MovePrevious();
         }
 
         private void MoveRight_Click (object sender, RoutedEventArgs e) {
-            vm.SendMessage(sender, new MessageEventArgs() { Type = MessageType.Right });
+            vm.MoveNext();
         }
 
         private void PlaySlideshow_Click (object sender, RoutedEventArgs e) {
@@ -135,12 +138,10 @@ namespace UI {
             }
             if (pictureList.SelectedValue == null) pictureList.SelectedIndex = 0;
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
-            vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex];
-            slideshow = new() {
-                DataContext = vm,
-            };
+            slideshow = new();
             Topmost = true;
             slideshow.Show();
+            vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex].Bitmap;
             vm.PlayingPictureSlideshow = true;
         }
 
