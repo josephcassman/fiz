@@ -13,17 +13,12 @@ namespace UI {
             Loaded += PictureSlideshow_Loaded;
             MouseMove += PictureSlideshow_MouseMove;
             SizeChanged += PictureSlideshow_SizeChanged;
+            vm.Message += PictureSlideshow_Message;
 
             makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
-
-            PictureLeft.InputGestures.Add(new KeyGesture(Key.Left));
-            PictureRight.InputGestures.Add(new KeyGesture(Key.Right));
         }
 
         public MainViewModel vm => App.ViewModel;
-
-        public static readonly RoutedCommand PictureLeft = new();
-        public static readonly RoutedCommand PictureRight = new();
 
         readonly Storyboard makeTransparentTitleBar = new();
         readonly Storyboard makeTransparentMaximizeButton = new();
@@ -109,18 +104,26 @@ namespace UI {
             showHideChrome();
         }
 
-        private void PictureLeftExecuted (object sender, ExecutedRoutedEventArgs e) {
+        void moveLeft () {
             if (vm.Pictures.Count == 0) return;
             if (vm.CurrentPictureIndex == 0) return;
             vm.CurrentPicture = vm.Pictures[--vm.CurrentPictureIndex];
             showPicture();
         }
 
-        private void PictureRightExecuted (object sender, ExecutedRoutedEventArgs e) {
+        void moveRight () {
             if (vm.Pictures.Count == 0) return;
             if (vm.Pictures.Count - 1 <= vm.CurrentPictureIndex) return;
             vm.CurrentPicture = vm.Pictures[++vm.CurrentPictureIndex];
             showPicture();
+        }
+
+        private void Left_Executed (object sender, ExecutedRoutedEventArgs e) {
+            moveLeft();
+        }
+
+        private void Right_Executed (object sender, ExecutedRoutedEventArgs e) {
+            moveRight();
         }
 
         private void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -145,6 +148,19 @@ namespace UI {
             height = (int) e.NewSize.Height;
             showPicture();
             showHideChrome();
+        }
+
+        private void PictureSlideshow_Message (object? sender, MessageEventArgs e) {
+            switch (e.Type) {
+                case MessageType.Left:
+                    moveLeft();
+                    break;
+                case MessageType.Right:
+                    moveRight();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }
