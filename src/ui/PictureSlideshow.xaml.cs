@@ -3,17 +3,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using UI.ViewModel;
 
 namespace UI {
     public partial class PictureSlideshow : Window {
         public PictureSlideshow () {
             InitializeComponent();
+            DataContext = vm;
             Loaded += PictureSlideshow_Loaded;
             MouseMove += PictureSlideshow_MouseMove;
             SizeChanged += PictureSlideshow_SizeChanged;
-            vm.Message += PictureSlideshow_Message;
 
             makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
         }
@@ -28,15 +27,6 @@ namespace UI {
         readonly Storyboard makeOpaqueTitleBar = new();
         readonly Storyboard makeOpaqueMaximizeButton = new();
         readonly Storyboard makeOpaqueCloseButton = new();
-
-        int height = 450;
-
-        void showPicture () {
-            var bmp = new BitmapImage(new Uri(vm.CurrentPicture.Path)) {
-                DecodePixelHeight = height,
-            };
-            picture.Source = bmp;
-        }
 
         void hideChrome () {
             makeTransparentTitleBar.Begin(this);
@@ -65,8 +55,6 @@ namespace UI {
         }
 
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
-            showPicture();
-
             DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
             makeTransparentTitleBar.Children.Add(a0);
             Storyboard.SetTargetName(a0, titleBar.Name);
@@ -104,26 +92,12 @@ namespace UI {
             showHideChrome();
         }
 
-        void moveLeft () {
-            if (vm.Pictures.Count == 0) return;
-            if (vm.CurrentPictureIndex == 0) return;
-            vm.CurrentPicture = vm.Pictures[--vm.CurrentPictureIndex];
-            showPicture();
-        }
-
-        void moveRight () {
-            if (vm.Pictures.Count == 0) return;
-            if (vm.Pictures.Count - 1 <= vm.CurrentPictureIndex) return;
-            vm.CurrentPicture = vm.Pictures[++vm.CurrentPictureIndex];
-            showPicture();
-        }
-
         private void Left_Executed (object sender, ExecutedRoutedEventArgs e) {
-            moveLeft();
+            vm.MovePrevious();
         }
 
         private void Right_Executed (object sender, ExecutedRoutedEventArgs e) {
-            moveRight();
+            vm.MoveNext();
         }
 
         private void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -145,22 +119,7 @@ namespace UI {
         private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
-            height = (int) e.NewSize.Height;
-            showPicture();
             showHideChrome();
-        }
-
-        private void PictureSlideshow_Message (object? sender, MessageEventArgs e) {
-            switch (e.Type) {
-                case MessageType.Left:
-                    moveLeft();
-                    break;
-                case MessageType.Right:
-                    moveRight();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
         }
     }
 }
