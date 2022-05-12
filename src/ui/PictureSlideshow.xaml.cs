@@ -103,6 +103,7 @@ namespace UI {
         private void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+            showHideChrome();
         }
 
         private void Maximize_Click (object sender, RoutedEventArgs e) {
