@@ -117,6 +117,7 @@ namespace UI {
         }
 
         private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
+            titleBar.Width = e.NewSize.Width;
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
             showHideChrome();
