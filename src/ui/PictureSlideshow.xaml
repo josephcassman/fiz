@@ -11,7 +11,8 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Height="450"
-        Width="800">
+        Width="800"
+        MouseDown="Window_MouseDown">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="Left_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="Right_Executed" />
@@ -97,7 +98,6 @@
                     Canvas.Left="0"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
-                    MouseDown="Window_MouseDown"
                     Background="#202020"
                     Opacity="0.8"
                     Name="titleBar">
@@ -108,7 +108,6 @@
                Height="450"
                Canvas.Top="0"
                Canvas.Left="0"
-               MouseDown="Window_MouseDown"
                Source="{Binding CurrentPicture}"
                Name="picture" />
     </Canvas>
