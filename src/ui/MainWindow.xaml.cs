@@ -10,9 +10,22 @@ namespace UI {
             InitializeComponent();
             DataContext = vm;
             PictureList.ItemsSource = vm.Pictures;
+            Closing += MainWindow_Closing;
         }
 
         public MainViewModel vm => App.ViewModel;
+        PictureSlideshow? slideshow;
+
+        static readonly HashSet<string> PictureExtensions = new HashSet<string> {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+        };
+
+        private void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) {
+            slideshow?.Close();
+        }
 
         private void Picture_Click (object sender, RoutedEventArgs e) {
             vm.PictureMode = false;
@@ -30,7 +43,7 @@ namespace UI {
             };
             var result = dialog.ShowDialog();
             foreach (var path in dialog.SafeFileNames.Zip(dialog.FileNames, (a, b) => (a, b))) {
-                vm.Pictures.Add(new PictureItem {
+                vm.AddPicture(new PictureItem {
                     Name = path.a,
                     Path = path.b,
                 });
@@ -41,18 +54,11 @@ namespace UI {
             }
         }
 
-        static readonly HashSet<string> PictureExtensions = new HashSet<string> {
-            ".jpg",
-            ".jpeg",
-            ".png",
-            ".gif",
-        };
-
         private void PictureList_Drop (object sender, DragEventArgs e) {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
             foreach (var path in paths.Where(x => PictureExtensions.Contains(Path.GetExtension(x)))) {
-                vm.Pictures.Add(new PictureItem {
+                vm.AddPicture(new PictureItem {
                     Name = Path.GetFileName(path),
                     Path = path,
                 });
@@ -102,6 +108,27 @@ namespace UI {
 
             PictureList.SelectedIndex = i - 1;
             PictureList.Focus();
+        }
+
+        private void PlaySlideshow_Click (object sender, RoutedEventArgs e) {
+            if (vm.Pictures.Count == 0 || PictureList.Items.Count == 0) {
+                vm.HasPictures = false;
+                return;
+            }
+            if (PictureList.SelectedValue == null) PictureList.SelectedIndex = 0;
+            vm.CurrentPictureIndex = PictureList.SelectedIndex;
+            vm.CurrentPicture = vm.Pictures[PictureList.SelectedIndex];
+            slideshow = new() {
+                DataContext = vm,
+            };
+            Topmost = true;
+            slideshow.Show();
+            vm.PlayingPictureSlideshow = true;
+        }
+
+        private void StopSlideshow_Click (object sender, RoutedEventArgs e) {
+            slideshow?.Close();
+            vm.PlayingPictureSlideshow = false;
         }
     }
 }

@@ -9,6 +9,31 @@ namespace UI.ViewModel {
     public class MainViewModel : BindableBase {
         public ObservableCollection<PictureItem> Pictures = new();
 
+        public void AddPicture (PictureItem picture) {
+            Pictures.Add(picture);
+            HasPictures = true;
+        }
+
+        private bool _hasPictures = false;
+        public bool HasPictures {
+            get => _hasPictures;
+            set => Set(ref _hasPictures, value);
+        }
+
+        private bool _playingPictureSlideshow = false;
+        public bool PlayingPictureSlideshow {
+            get => _playingPictureSlideshow;
+            set => Set(ref _playingPictureSlideshow, value);
+        }
+
+        public int CurrentPictureIndex;
+
+        private PictureItem _currentPicture = new();
+        public PictureItem CurrentPicture {
+            get => _currentPicture;
+            set => Set(ref _currentPicture, value);
+        }
+
         private bool _pictureMode = true;
         public bool PictureMode {
             get => _pictureMode;
