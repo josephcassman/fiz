@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:UI"
         xmlns:vm="clr-namespace:UI.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        mc:Ignorable="d"
         ResizeMode="CanMinimize"
+        mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="500">
     <Window.Resources>
         <vm:InvertConverter x:Key="invert" />
@@ -37,10 +37,6 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -122,36 +118,63 @@
             <StackPanel Grid.Column="0"
                         Orientation="Horizontal"
                         HorizontalAlignment="Left">
-                <Border Style="{StaticResource IconButtonBorder}">
-                    <Button Style="{StaticResource IconButton}"
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                    <Border Style="{StaticResource IconButtonBorder}">
+                        <Button Style="{StaticResource IconButton}"
                             FontSize="30"
                             Margin="15"
                             Click="AddPicture_Click">
-                        &#xE948;
+                            &#xE948;
+                        </Button>
+                    </Border>
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="50"
+                                Margin="5"
+                                Click="PlaySlideshow_Click">
+                            &#xEE4A;
+                        </Button>
+                    </Border>
+                </StackPanel>
+                <Border Style="{StaticResource IconButtonBorder}"
+                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="25"
+                            Margin="15"
+                            Click="StopSlideshow_Click">
+                        &#xE71A;
                     </Button>
                 </Border>
             </StackPanel>
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
-                        Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
-                <Border Style="{StaticResource IconButtonBorder}">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="30"
-                            Margin="15"
-                            Click="MoveDown_Click">
-                        &#xE70D;
-                    </Button>
-                </Border>
-                <Border Style="{StaticResource IconButtonBorder}">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="30"
-                            Margin="15"
-                            Click="MoveUp_Click">
-                        &#xE70E;
-                    </Button>
-                </Border>
+                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
+                    <Border Style="{StaticResource IconButtonBorder}">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="30"
+                                Margin="15"
+                                Click="MoveDown_Click">
+                            &#xE70D;
+                        </Button>
+                    </Border>
+                    <Border Style="{StaticResource IconButtonBorder}">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="30"
+                                Margin="15"
+                                Click="MoveUp_Click">
+                            &#xE70E;
+                        </Button>
+                    </Border>
+                </StackPanel>
             </StackPanel>
         </Grid>
+        
     </Grid>
 </Window>

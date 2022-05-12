@@ -1,0 +1,113 @@
+﻿<Window x:Class="UI.PictureSlideshow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI"
+        mc:Ignorable="d"
+        Background="Black"
+        ResizeMode="CanResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Height="450"
+        Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:PictureSlideshow.PictureLeft}" Executed="PictureLeftExecuted" />
+        <CommandBinding Command="{x:Static local:PictureSlideshow.PictureRight}" Executed="PictureRightExecuted" />
+    </Window.CommandBindings>
+    <Window.Resources>
+        <Style x:Key="IconButtonBorder" TargetType="Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="4" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#454545" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#454545" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0"
+                      CornerRadius="0"
+                      CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+    <Canvas>
+        <Border Style="{StaticResource IconButtonBorder}"
+                Canvas.Right="55"
+                Canvas.Top="0"
+                Panel.ZIndex="3"
+                Name="maximizeBorder">
+            <Button Style="{StaticResource IconButton}"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Right"
+                    FontSize="20"
+                    Margin="10"
+                    Click="Maximize_Click"
+                    Name="maximize">
+                &#xE922;
+            </Button>
+        </Border>
+        
+        <Border Style="{StaticResource IconButtonBorder}"
+                Canvas.Right="5"
+                Canvas.Top="0"
+                Panel.ZIndex="3"
+                Name="closeBorder">
+            <Button Style="{StaticResource IconButton}"
+                    FontSize="20"
+                    Margin="10"
+                    Click="Close_Click"
+                    Name="close">
+                &#xE8BB;
+            </Button>
+        </Border>
+
+        <StackPanel Width="850"
+                    Height="50"
+                    Panel.ZIndex="2"
+                    Canvas.Top="0"
+                    Canvas.Left="0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    MouseDown="Window_MouseDown"
+                    Background="#202020"
+                    Opacity="0.8"
+                    Name="titleBar">
+        </StackPanel>
+        
+        <Image Panel.ZIndex="1"
+               Width="850"
+               Height="450"
+               Canvas.Top="0"
+               Canvas.Left="0"
+               MouseDown="Window_MouseDown"
+               Name="picture" />
+    </Canvas>
+</Window>
