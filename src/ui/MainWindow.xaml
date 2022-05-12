@@ -100,7 +100,7 @@
                  SelectionChanged="PictureList_SelectionChanged"
                  MouseDown="PictureList_MouseDown"
                  ItemTemplate="{StaticResource PictureListTemplate}"
-                 Name="PictureList" />
+                 Name="pictureList" />
 
         <TextBlock Grid.Row="1"
                    HorizontalAlignment="Center"

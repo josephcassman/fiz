@@ -9,7 +9,7 @@ namespace UI {
         public MainWindow () {
             InitializeComponent();
             DataContext = vm;
-            PictureList.ItemsSource = vm.Pictures;
+            pictureList.ItemsSource = vm.Pictures;
             Closing += MainWindow_Closing;
         }
 
@@ -48,9 +48,9 @@ namespace UI {
                     Path = path.b,
                 });
             }
-            if (0 < PictureList.Items.Count) {
-                PictureList.SelectedIndex = 0;
-                PictureList.Focus();
+            if (0 < pictureList.Items.Count) {
+                pictureList.SelectedIndex = 0;
+                pictureList.Focus();
             }
         }
 
@@ -63,9 +63,9 @@ namespace UI {
                     Path = path,
                 });
             }
-            if (0 < PictureList.Items.Count) {
-                PictureList.SelectedIndex = 0;
-                PictureList.Focus();
+            if (0 < pictureList.Items.Count) {
+                pictureList.SelectedIndex = 0;
+                pictureList.Focus();
             }
         }
 
@@ -75,49 +75,49 @@ namespace UI {
 
         private void PictureList_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
             vm.PictureSelected = false;
-            PictureList.SelectedIndex = -1;
+            pictureList.SelectedIndex = -1;
         }
 
         private void MoveDown_Click (object sender, RoutedEventArgs e) {
-            if (PictureList.SelectedItem == null) return;
+            if (pictureList.SelectedItem == null) return;
             if (vm.Pictures.Count == 0) return;
-            if (PictureList.Items.Count - 1 <= PictureList.SelectedIndex) return;
-            var i = PictureList.SelectedIndex;
+            if (pictureList.Items.Count - 1 <= pictureList.SelectedIndex) return;
+            var i = pictureList.SelectedIndex;
 
             // Necessary to cause the picture thumbnail to update
-            PictureList.ItemsSource = null;
+            pictureList.ItemsSource = null;
 
             (vm.Pictures[i], vm.Pictures[i + 1]) = (vm.Pictures[i + 1], vm.Pictures[i]);
-            PictureList.ItemsSource = vm.Pictures;
+            pictureList.ItemsSource = vm.Pictures;
 
-            PictureList.SelectedIndex = i + 1;
-            PictureList.Focus();
+            pictureList.SelectedIndex = i + 1;
+            pictureList.Focus();
         }
 
         private void MoveUp_Click (object sender, RoutedEventArgs e) {
-            if (PictureList.SelectedItem == null) return;
+            if (pictureList.SelectedItem == null) return;
             if (vm.Pictures.Count == 0) return;
-            if (PictureList.SelectedIndex == 0) return;
-            var i = PictureList.SelectedIndex;
+            if (pictureList.SelectedIndex == 0) return;
+            var i = pictureList.SelectedIndex;
 
             // Necessary to cause the picture thumbnail to update
-            PictureList.ItemsSource = null;
+            pictureList.ItemsSource = null;
 
             (vm.Pictures[i], vm.Pictures[i - 1]) = (vm.Pictures[i - 1], vm.Pictures[i]);
-            PictureList.ItemsSource = vm.Pictures;
+            pictureList.ItemsSource = vm.Pictures;
 
-            PictureList.SelectedIndex = i - 1;
-            PictureList.Focus();
+            pictureList.SelectedIndex = i - 1;
+            pictureList.Focus();
         }
 
         private void PlaySlideshow_Click (object sender, RoutedEventArgs e) {
-            if (vm.Pictures.Count == 0 || PictureList.Items.Count == 0) {
+            if (vm.Pictures.Count == 0 || pictureList.Items.Count == 0) {
                 vm.HasPictures = false;
                 return;
             }
-            if (PictureList.SelectedValue == null) PictureList.SelectedIndex = 0;
-            vm.CurrentPictureIndex = PictureList.SelectedIndex;
-            vm.CurrentPicture = vm.Pictures[PictureList.SelectedIndex];
+            if (pictureList.SelectedValue == null) pictureList.SelectedIndex = 0;
+            vm.CurrentPictureIndex = pictureList.SelectedIndex;
+            vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex];
             slideshow = new() {
                 DataContext = vm,
             };
