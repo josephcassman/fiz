@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace UI.ViewModel {
     public static class CustomCommands {
@@ -20,14 +19,5 @@ namespace UI.ViewModel {
 				new KeyGesture(Key.Right)
 			}
 		);
-	}
-
-	public enum MessageType {
-		Left,
-		Right,
-	}
-
-	public class MessageEventArgs : EventArgs {
-		public MessageType Type;
 	}
 }
