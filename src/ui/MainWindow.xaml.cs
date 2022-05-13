@@ -158,7 +158,20 @@ namespace UI {
         }
 
         private void Window_MouseDown (object sender, MouseButtonEventArgs e) {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
             pictureList.Focus();
+        }
+
+        private void Menu_Click (object sender, RoutedEventArgs e) {
+            var menu = new MenuWindow {
+                Owner = this
+            };
+            menu.Show();
+        }
+
+        private void Close_Click (object sender, RoutedEventArgs e) {
+            Close();
         }
     }
 }

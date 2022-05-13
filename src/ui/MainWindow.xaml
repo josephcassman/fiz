@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:UI"
         xmlns:vm="clr-namespace:UI.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        ResizeMode="CanMinimize"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        AllowsTransparency="True"
         mc:Ignorable="d"
         Topmost="False"
         AllowDrop="True"
@@ -61,6 +65,27 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="MenuIconButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <DataTemplate x:Key="PictureListTemplate">
             <Grid Margin="3">
                 <Grid.ColumnDefinitions>
@@ -82,150 +107,183 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid AllowDrop="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="70" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="70" />
-        </Grid.RowDefinitions>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0"
+                      CornerRadius="4"
+                      CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+    <Canvas>
+        <Border Canvas.Top="10"
+                Canvas.Left="10">
+            <Button Style="{StaticResource MenuIconButton}"
+                    FontSize="25"
+                    Margin="0"
+                    Foreground="DarkGray"
+                    Click="Menu_Click">
+                &#xEDE3;
+            </Button>
+        </Border>
+        <Border Canvas.Top="10"
+                Canvas.Right="10">
+            <Button Style="{StaticResource MenuIconButton}"
+                    FontSize="17"
+                    Margin="0"
+                    Foreground="DarkGray"
+                    Click="Close_Click">
+                &#xE8BB;
+            </Button>
+        </Border>
+        <Grid Canvas.Top="0"
+              Canvas.Left="0"
+              Width="500"
+              Height="700"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              AllowDrop="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <Button IsEnabled="{Binding Path=PictureMode}"
-                    Click="Picture_Click"
-                    Style="{StaticResource TabButton}">Pictures</Button>
-            <Button IsEnabled="{Binding Path=PictureMode, Converter={StaticResource invert}}"
-                    Click="Video_Click"
-                    Style="{StaticResource TabButton}"
-                    Margin="10,0,0,0">Video</Button>
-        </StackPanel>
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button IsEnabled="{Binding Path=PictureMode}"
+                        Click="Picture_Click"
+                        Style="{StaticResource TabButton}">Pictures</Button>
+                <Button IsEnabled="{Binding Path=PictureMode, Converter={StaticResource invert}}"
+                        Click="Video_Click"
+                        Style="{StaticResource TabButton}"
+                        Margin="10,0,0,0">Video</Button>
+            </StackPanel>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Vertical"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    AllowDrop="True"
-                    Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}">
-            <TextBlock HorizontalAlignment="Center"
-                       FontSize="50"
-                       Foreground="LightGray"
-                       AllowDrop="True"
-                       Text="Drag and drop" />
-            <TextBlock HorizontalAlignment="Center"
-                       FontSize="50"
-                       Foreground="LightGray"
-                       AllowDrop="True"
-                       Text="pictures here" />
-        </StackPanel>
+            <StackPanel Grid.Row="1"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        AllowDrop="True"
+                        Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}">
+                <TextBlock HorizontalAlignment="Center"
+                           FontSize="50"
+                           Foreground="LightGray"
+                           AllowDrop="True"
+                           Text="Drag and drop" />
+                <TextBlock HorizontalAlignment="Center"
+                           FontSize="50"
+                           Foreground="LightGray"
+                           AllowDrop="True"
+                           Text="pictures here" />
+            </StackPanel>
 
-        <ListBox Grid.Row="1"
-                 AllowDrop="True"
-                 HorizontalContentAlignment="Stretch"
-                 SelectionChanged="PictureList_SelectionChanged"
-                 MouseDown="PictureList_MouseDown"
-                 ItemTemplate="{StaticResource PictureListTemplate}"
-                 Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
-                 Name="pictureList" />
+            <ListBox Grid.Row="1"
+                     AllowDrop="True"
+                     HorizontalContentAlignment="Stretch"
+                     SelectionChanged="PictureList_SelectionChanged"
+                     MouseDown="PictureList_MouseDown"
+                     ItemTemplate="{StaticResource PictureListTemplate}"
+                     Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
+                     Name="pictureList" />
 
-        <TextBlock Grid.Row="1"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="30"
-                   Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}">
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="30"
+                       Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}">
             video view
-        </TextBlock>
+            </TextBlock>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
-                    <Border Style="{StaticResource IconButtonBorder}">
-                        <Button Style="{StaticResource IconButton}"
-                            FontSize="30"
-                            Margin="15"
-                            Click="AddPicture_Click">
-                            &#xE948;
-                        </Button>
-                    </Border>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                        <Border Style="{StaticResource IconButtonBorder}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="30"
+                                    Margin="15"
+                                    Click="AddPicture_Click">
+                                &#xE948;
+                            </Button>
+                        </Border>
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="50"
+                                    Margin="5"
+                                    Click="PlaySlideshow_Click">
+                                &#xEE4A;
+                            </Button>
+                        </Border>
+                    </StackPanel>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}">
+                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="50"
-                                Margin="5"
-                                Click="PlaySlideshow_Click">
-                            &#xEE4A;
+                                FontSize="25"
+                                Margin="15"
+                                Click="StopSlideshow_Click">
+                            &#xE71A;
                         </Button>
                     </Border>
                 </StackPanel>
-                <Border Style="{StaticResource IconButtonBorder}"
-                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="25"
-                            Margin="15"
-                            Click="StopSlideshow_Click">
-                        &#xE71A;
-                    </Button>
-                </Border>
-            </StackPanel>
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
-                <StackPanel Orientation="Horizontal"
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
+                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
+                        <Border Style="{StaticResource IconButtonBorder}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="25"
+                                    Margin="15"
+                                    Click="MoveDown_Click">
+                                &#xE70D;
+                            </Button>
+                        </Border>
+                        <Border Style="{StaticResource IconButtonBorder}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="25"
+                                    Margin="15"
+                                    Click="MoveUp_Click">
+                                &#xE70E;
+                            </Button>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="25"
+                                FontSize="21"
                                 Margin="15"
-                                Click="MoveDown_Click">
-                            &#xE70D;
+                                Click="MoveLeft_Click"
+                                Name="pictureLeft">
+                            &#xE973;
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="25"
+                                FontSize="21"
                                 Margin="15"
-                                Click="MoveUp_Click">
-                            &#xE70E;
+                                Click="MoveRight_Click"
+                                Name="pictureRight">
+                            &#xE974;
                         </Button>
                     </Border>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
 
-
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
-                <Border Style="{StaticResource IconButtonBorder}">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="21"
-                            Margin="15"
-                            Click="MoveLeft_Click"
-                            Name="pictureLeft">
-                        &#xE973;
-                    </Button>
-                </Border>
-                <Border Style="{StaticResource IconButtonBorder}">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="21"
-                            Margin="15"
-                            Click="MoveRight_Click"
-                            Name="pictureRight">
-                        &#xE974;
-                    </Button>
-                </Border>
-            </StackPanel>
         </Grid>
-        
-    </Grid>
+    </Canvas>
 </Window>
