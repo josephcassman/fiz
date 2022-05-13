@@ -29,6 +29,8 @@ namespace UI {
         readonly Storyboard makeOpaqueCloseButton = new();
 
         void hideChrome () {
+            if (vm.SlideshowOnSecondMonitor) return;
+
             makeTransparentTitleBar.Begin(this);
             makeTransparentMaximizeButton.Begin(this);
             makeTransparentCloseButton.Begin(this);
@@ -39,6 +41,8 @@ namespace UI {
         }
 
         void showHideChrome () {
+            if (vm.SlideshowOnSecondMonitor) return;
+
             titleBar.Visibility = Visibility.Visible;
 
             maximizeBorder.Visibility = Visibility.Visible;
@@ -55,13 +59,23 @@ namespace UI {
         }
 
         void toggleMaximize () {
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized) {
                 SystemCommands.RestoreWindow(this);
+            }
             else
                 SystemCommands.MaximizeWindow(this);
         }
 
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
+            if (vm.SlideshowOnSecondMonitor) {
+                titleBar.Visibility = Visibility.Hidden;
+                maximizeBorder.Visibility = Visibility.Hidden;
+                maximize.Visibility = Visibility.Hidden;
+                closeBorder.Visibility = Visibility.Hidden;
+                close.Visibility = Visibility.Hidden;
+                return;
+            }
+
             DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
             makeTransparentTitleBar.Children.Add(a0);
             Storyboard.SetTargetName(a0, titleBar.Name);
@@ -114,6 +128,7 @@ namespace UI {
         }
 
         private void Maximize_Click (object sender, RoutedEventArgs e) {
+            if (vm.SlideshowOnSecondMonitor) return;
             toggleMaximize();
         }
 
@@ -129,6 +144,7 @@ namespace UI {
         }
 
         private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            if (vm.SlideshowOnSecondMonitor) return;
             toggleMaximize();
         }
     }
