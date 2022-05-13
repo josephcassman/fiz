@@ -58,5 +58,11 @@ namespace UI.ViewModel {
             get => _playingPictureSlideshow;
             set => Set(ref _playingPictureSlideshow, value);
         }
+
+        private bool _slideshowOnSecondMonitor = true;
+        public bool SlideshowOnSecondMonitor {
+            get => _slideshowOnSecondMonitor;
+            set => Set(ref _slideshowOnSecondMonitor, value);
+        }
     }
 }
