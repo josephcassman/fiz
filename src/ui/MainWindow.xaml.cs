@@ -140,7 +140,7 @@ namespace UI {
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
             slideshow = new();
             Topmost = true;
-            if (vm.SlideshowOnSecondMonitor)
+            if (vm.ShowMediaOnSecondMonitor)
                 SecondMonitor.ShowMaximizedOnSecondScreen(slideshow);
             else {
                 slideshow.WindowStartupLocation = WindowStartupLocation.CenterScreen;

@@ -29,7 +29,7 @@ namespace UI {
         readonly Storyboard makeOpaqueCloseButton = new();
 
         void hideChrome () {
-            if (vm.SlideshowOnSecondMonitor) return;
+            if (vm.ShowMediaOnSecondMonitor) return;
 
             makeTransparentTitleBar.Begin(this);
             makeTransparentMaximizeButton.Begin(this);
@@ -41,7 +41,7 @@ namespace UI {
         }
 
         void showHideChrome () {
-            if (vm.SlideshowOnSecondMonitor) return;
+            if (vm.ShowMediaOnSecondMonitor) return;
 
             titleBar.Visibility = Visibility.Visible;
 
@@ -67,7 +67,7 @@ namespace UI {
         }
 
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
-            if (vm.SlideshowOnSecondMonitor) {
+            if (vm.ShowMediaOnSecondMonitor) {
                 titleBar.Visibility = Visibility.Hidden;
                 maximizeBorder.Visibility = Visibility.Hidden;
                 maximize.Visibility = Visibility.Hidden;
@@ -128,7 +128,7 @@ namespace UI {
         }
 
         private void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (vm.SlideshowOnSecondMonitor) return;
+            if (vm.ShowMediaOnSecondMonitor) return;
             toggleMaximize();
         }
 
@@ -144,7 +144,7 @@ namespace UI {
         }
 
         private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (vm.SlideshowOnSecondMonitor) return;
+            if (vm.ShowMediaOnSecondMonitor) return;
             toggleMaximize();
         }
     }
