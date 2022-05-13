@@ -163,27 +163,39 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         AllowDrop="True"
-                        Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}">
+                        Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
-                           Text="Drag and drop" />
+                           Text="Drag and drop"
+                           Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}" />
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
-                           Text="pictures here" />
+                           Text="pictures here"
+                           Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}" />
             </StackPanel>
 
-            <ListBox Grid.Row="1"
-                     AllowDrop="True"
-                     HorizontalContentAlignment="Stretch"
-                     SelectionChanged="PictureList_SelectionChanged"
-                     MouseDown="PictureList_MouseDown"
-                     ItemTemplate="{StaticResource PictureListTemplate}"
-                     Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
-                     Name="pictureList" />
+            <StackPanel Grid.Row="1"
+                        AllowDrop="True"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
+                <ListBox AllowDrop="True"
+                         BorderThickness="0"
+                         HorizontalContentAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         VerticalContentAlignment="Top"
+                         HorizontalAlignment="Stretch"
+                         SelectionChanged="PictureList_SelectionChanged"
+                         MouseDown="PictureList_MouseDown"
+                         ItemTemplate="{StaticResource PictureListTemplate}"
+                         Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
+                         Name="pictureList" />
+            </StackPanel>
 
             <TextBlock Grid.Row="1"
                        HorizontalAlignment="Center"
