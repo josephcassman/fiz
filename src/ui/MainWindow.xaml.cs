@@ -17,7 +17,7 @@ namespace UI {
         }
 
         public MainViewModel vm => App.ViewModel;
-        PictureSlideshow? slideshow;
+        PictureSlideshowWindow? slideshow;
 
         static readonly HashSet<string> PictureExtensions = new HashSet<string> {
             ".jpg",
