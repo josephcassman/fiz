@@ -118,7 +118,7 @@
             <Button Style="{StaticResource MenuIconButton}"
                     FontSize="25"
                     Margin="0"
-                    Foreground="DarkGray"
+                    Foreground="#555555"
                     Click="Menu_Click">
                 &#xEDE3;
             </Button>
@@ -128,7 +128,7 @@
             <Button Style="{StaticResource MenuIconButton}"
                     FontSize="17"
                     Margin="0"
-                    Foreground="DarkGray"
+                    Foreground="#555555"
                     Click="Close_Click">
                 &#xE8BB;
             </Button>
