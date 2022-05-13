@@ -9,6 +9,8 @@
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
         Topmost="False"
+        AllowDrop="True"
+        Drop="PictureList_Drop"
         MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
     <Window.CommandBindings>
@@ -80,7 +82,7 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid AllowDrop="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
             <RowDefinition Height="*" />
@@ -99,13 +101,31 @@
                     Margin="10,0,0,0">Video</Button>
         </StackPanel>
 
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    AllowDrop="True"
+                    Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}">
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="50"
+                       Foreground="LightGray"
+                       AllowDrop="True"
+                       Text="Drag and drop" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="50"
+                       Foreground="LightGray"
+                       AllowDrop="True"
+                       Text="pictures here" />
+        </StackPanel>
+
         <ListBox Grid.Row="1"
                  AllowDrop="True"
-                 Drop="PictureList_Drop"
                  HorizontalContentAlignment="Stretch"
                  SelectionChanged="PictureList_SelectionChanged"
                  MouseDown="PictureList_MouseDown"
                  ItemTemplate="{StaticResource PictureListTemplate}"
+                 Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
                  Name="pictureList" />
 
         <TextBlock Grid.Row="1"
