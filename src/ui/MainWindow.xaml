@@ -204,7 +204,8 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
-                        <Border Style="{StaticResource IconButtonBorder}">
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="AddPicture_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="30"
                                     Margin="15"
@@ -213,7 +214,8 @@
                             </Button>
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}">
+                                Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
+                                MouseLeftButtonDown="PlaySlideshow_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="50"
                                     Margin="5"
@@ -223,7 +225,8 @@
                         </Border>
                     </StackPanel>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
+                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}"
+                            MouseLeftButtonDown="StopSlideshow_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="25"
                                 Margin="15"
@@ -239,19 +242,21 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right"
                                 Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
-                        <Border Style="{StaticResource IconButtonBorder}">
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="MovePictureDown_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="25"
                                     Margin="15"
-                                    Click="MoveDown_Click">
+                                    Click="MovePictureDown_Click">
                                 &#xE70D;
                             </Button>
                         </Border>
-                        <Border Style="{StaticResource IconButtonBorder}">
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="MovePictureUp_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="25"
                                     Margin="15"
-                                    Click="MoveUp_Click">
+                                    Click="MovePictureUp_Click">
                                 &#xE70E;
                             </Button>
                         </Border>
@@ -263,20 +268,22 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
-                    <Border Style="{StaticResource IconButtonBorder}">
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="MovePictureLeft_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="21"
                                 Margin="15"
-                                Click="MoveLeft_Click"
+                                Click="MovePictureLeft_Click"
                                 Name="pictureLeft">
                             &#xE973;
                         </Button>
                     </Border>
-                    <Border Style="{StaticResource IconButtonBorder}">
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="MovePictureRight_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="21"
                                 Margin="15"
-                                Click="MoveRight_Click"
+                                Click="MovePictureRight_Click"
                                 Name="pictureRight">
                             &#xE974;
                         </Button>
