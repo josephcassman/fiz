@@ -184,7 +184,7 @@
                             Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
+                                FontSize="25"
                                 Margin="15"
                                 Click="MoveDown_Click">
                             &#xE70D;
@@ -192,7 +192,7 @@
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
+                                FontSize="25"
                                 Margin="15"
                                 Click="MoveUp_Click">
                             &#xE70E;
