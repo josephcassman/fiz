@@ -95,6 +95,13 @@ namespace UI {
                 SystemCommands.MaximizeWindow(this);
         }
 
+        // Keyboard access key events
+        
+        private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousPicture(); }
+        private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextPicture(); }
+
+        // Slideshow
+
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
             if (vm.ShowMediaOnSecondMonitor) {
                 titleBar.Visibility = Visibility.Hidden;
@@ -112,12 +119,26 @@ namespace UI {
             showHideChrome();
         }
 
-        private void Left_Executed (object sender, ExecutedRoutedEventArgs e) {
-            vm.MovePrevious();
+        private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
+            titleBar.Width = e.NewSize.Width;
+            picture.Height = e.NewSize.Height;
+            picture.Width = e.NewSize.Width;
+            showHideChrome();
         }
 
-        private void Right_Executed (object sender, ExecutedRoutedEventArgs e) {
-            vm.MoveNext();
+        // Manage window
+
+        private void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { Close(); }
+        private void Close_Click (object sender, RoutedEventArgs e) { Close(); }
+
+        private void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+            if (vm.ShowMediaOnSecondMonitor) return;
+            toggleMaximize();
+        }
+
+        private void Maximize_Click (object sender, RoutedEventArgs e) {
+            if (vm.ShowMediaOnSecondMonitor) return;
+            toggleMaximize();
         }
 
         private void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -126,24 +147,9 @@ namespace UI {
             showHideChrome();
         }
 
-        private void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor) return;
-            toggleMaximize();
-        }
-
-        private void Close_Click (object sender, RoutedEventArgs e) {
-            Close();
-        }
-
-        private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
-            titleBar.Width = e.NewSize.Width;
-            picture.Height = e.NewSize.Height;
-            picture.Width = e.NewSize.Width;
-            showHideChrome();
-        }
-
         private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor) return;
+            if (vm.ShowMediaOnSecondMonitor)
+                return;
             toggleMaximize();
         }
     }

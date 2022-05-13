@@ -15,8 +15,8 @@
         MouseDown="Window_MouseDown"
         MouseDoubleClick="Window_MouseDoubleClick">
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="Left_Executed" />
-        <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="Right_Executed" />
+        <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
+        <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
     </Window.CommandBindings>
     <Window.Resources>
         <Style x:Key="IconButtonBorder" TargetType="Border">
@@ -66,6 +66,7 @@
                 Canvas.Right="55"
                 Canvas.Top="0"
                 Panel.ZIndex="3"
+                MouseLeftButtonDown="MaximizeBorder_MouseLeftButtonDown"
                 Name="maximizeBorder">
             <Button Style="{StaticResource IconButton}"
                     HorizontalAlignment="Right"
@@ -82,6 +83,7 @@
                 Canvas.Right="5"
                 Canvas.Top="0"
                 Panel.ZIndex="3"
+                MouseLeftButtonDown="CloseBorder_MouseLeftButtonDown"
                 Name="closeBorder">
             <Button Style="{StaticResource IconButton}"
                     FontSize="20"
@@ -101,9 +103,8 @@
                     HorizontalAlignment="Stretch"
                     Background="#202020"
                     Opacity="0.8"
-                    Name="titleBar">
-        </StackPanel>
-        
+                    Name="titleBar" />
+
         <Image Panel.ZIndex="1"
                Width="850"
                Height="450"

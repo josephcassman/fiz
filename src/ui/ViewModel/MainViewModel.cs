@@ -18,13 +18,13 @@ namespace UI.ViewModel {
             set => Set(ref _currentPicture, value);
         }
 
-        public void MovePrevious () {
+        public void MoveToPreviousPicture () {
             if (Pictures.Count == 0) return;
             if (CurrentPictureIndex == 0) return;
             CurrentPicture = Pictures[--CurrentPictureIndex].Bitmap;
         }
 
-        public void MoveNext () {
+        public void MoveToNextPicture () {
             if (Pictures.Count == 0) return;
             if (Pictures.Count - 1 <= CurrentPictureIndex) return;
             CurrentPicture = Pictures[++CurrentPictureIndex].Bitmap;
