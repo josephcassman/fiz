@@ -13,36 +13,44 @@ namespace UI {
             Loaded += PictureSlideshow_Loaded;
             MouseMove += PictureSlideshow_MouseMove;
             SizeChanged += PictureSlideshow_SizeChanged;
-
-            makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
         }
 
         public MainViewModel vm => App.ViewModel;
 
-        readonly Storyboard makeTransparentTitleBar = new();
-        readonly Storyboard makeTransparentMaximizeButton = new();
-        readonly Storyboard makeTransparentCloseButton = new();
-        readonly ObjectAnimationUsingKeyFrames makeInvisible = new();
-
-        readonly Storyboard makeOpaqueTitleBar = new();
-        readonly Storyboard makeOpaqueMaximizeButton = new();
-        readonly Storyboard makeOpaqueCloseButton = new();
-
         void hideChrome () {
             if (vm.ShowMediaOnSecondMonitor) return;
+
+            DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
+            Storyboard makeTransparentTitleBar = new();
+            makeTransparentTitleBar.Children.Add(a0);
+            Storyboard.SetTargetName(a0, titleBar.Name);
+            Storyboard.SetTargetProperty(a0, new PropertyPath(StackPanel.OpacityProperty));
+
+            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
+            Storyboard makeTransparentMaximizeButton = new();
+            makeTransparentMaximizeButton.Children.Add(a1);
+            Storyboard.SetTargetName(a1, maximizeBorder.Name);
+            Storyboard.SetTargetProperty(a1, new PropertyPath(Border.OpacityProperty));
+
+            DoubleAnimation a2 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
+            Storyboard makeTransparentCloseButton = new();
+            makeTransparentCloseButton.Children.Add(a2);
+            Storyboard.SetTargetName(a2, closeBorder.Name);
+            Storyboard.SetTargetProperty(a2, new PropertyPath(Border.OpacityProperty));
 
             makeTransparentTitleBar.Begin(this);
             makeTransparentMaximizeButton.Begin(this);
             makeTransparentCloseButton.Begin(this);
+
+            ObjectAnimationUsingKeyFrames makeInvisible = new();
+            makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
 
             titleBar.BeginAnimation(StackPanel.VisibilityProperty, makeInvisible);
             maximizeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
             closeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
         }
 
-        void showHideChrome () {
-            if (vm.ShowMediaOnSecondMonitor) return;
-
+        void showChrome () {
             titleBar.Visibility = Visibility.Visible;
 
             maximizeBorder.Visibility = Visibility.Visible;
@@ -51,10 +59,32 @@ namespace UI {
             closeBorder.Visibility = Visibility.Visible;
             close.Visibility = Visibility.Visible;
 
+            DoubleAnimation a3 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
+            Storyboard makeOpaqueTitleBar = new();
+            makeOpaqueTitleBar.Children.Add(a3);
+            Storyboard.SetTargetName(a3, titleBar.Name);
+            Storyboard.SetTargetProperty(a3, new PropertyPath(StackPanel.OpacityProperty));
+
+            DoubleAnimation a4 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
+            Storyboard makeOpaqueMaximizeButton = new();
+            makeOpaqueMaximizeButton.Children.Add(a4);
+            Storyboard.SetTargetName(a4, maximizeBorder.Name);
+            Storyboard.SetTargetProperty(a4, new PropertyPath(Border.OpacityProperty));
+
+            DoubleAnimation a5 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
+            Storyboard makeOpaqueCloseButton = new();
+            makeOpaqueCloseButton.Children.Add(a5);
+            Storyboard.SetTargetName(a5, closeBorder.Name);
+            Storyboard.SetTargetProperty(a5, new PropertyPath(Border.OpacityProperty));
+
             makeOpaqueTitleBar.Begin(this);
             makeOpaqueMaximizeButton.Begin(this);
             makeOpaqueCloseButton.Begin(this);
+        }
 
+        void showHideChrome () {
+            if (vm.ShowMediaOnSecondMonitor) return;
+            showChrome();
             hideChrome();
         }
 
@@ -76,37 +106,7 @@ namespace UI {
                 return;
             }
 
-            DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
-            makeTransparentTitleBar.Children.Add(a0);
-            Storyboard.SetTargetName(a0, titleBar.Name);
-            Storyboard.SetTargetProperty(a0, new PropertyPath(StackPanel.OpacityProperty));
-
-            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
-            makeTransparentMaximizeButton.Children.Add(a1);
-            Storyboard.SetTargetName(a1, maximizeBorder.Name);
-            Storyboard.SetTargetProperty(a1, new PropertyPath(Border.OpacityProperty));
-
-            DoubleAnimation a2 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
-            makeTransparentCloseButton.Children.Add(a2);
-            Storyboard.SetTargetName(a2, closeBorder.Name);
-            Storyboard.SetTargetProperty(a2, new PropertyPath(Border.OpacityProperty));
-
             hideChrome();
-
-            DoubleAnimation a3 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            makeOpaqueTitleBar.Children.Add(a3);
-            Storyboard.SetTargetName(a3, titleBar.Name);
-            Storyboard.SetTargetProperty(a3, new PropertyPath(StackPanel.OpacityProperty));
-
-            DoubleAnimation a4 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            makeOpaqueMaximizeButton.Children.Add(a4);
-            Storyboard.SetTargetName(a4, maximizeBorder.Name);
-            Storyboard.SetTargetProperty(a4, new PropertyPath(Border.OpacityProperty));
-
-            DoubleAnimation a5 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase()};
-            makeOpaqueCloseButton.Children.Add(a5);
-            Storyboard.SetTargetName(a5, closeBorder.Name);
-            Storyboard.SetTargetProperty(a5, new PropertyPath(Border.OpacityProperty));
         }
 
         private void PictureSlideshow_MouseMove (object sender, MouseEventArgs e) {
