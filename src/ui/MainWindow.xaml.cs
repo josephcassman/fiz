@@ -139,14 +139,7 @@ namespace UI {
             if (pictureList.SelectedValue == null) pictureList.SelectedIndex = 0;
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
             slideshow = new();
-            if (vm.ShowMediaOnSecondMonitor)
-                SecondMonitor.ShowMaximizedOnSecondScreen(slideshow, vm);
-            else {
-                slideshow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                slideshow.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2;
-                slideshow.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2;
-                slideshow.Show();
-            }
+            SecondMonitor.ShowMediaWindow(slideshow, vm);
             vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex].Bitmap;
             vm.PlayingPictureSlideshow = true;
         }
