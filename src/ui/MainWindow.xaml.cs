@@ -139,7 +139,6 @@ namespace UI {
             if (pictureList.SelectedValue == null) pictureList.SelectedIndex = 0;
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
             slideshow = new();
-            Topmost = true;
             if (vm.ShowMediaOnSecondMonitor)
                 SecondMonitor.ShowMaximizedOnSecondScreen(slideshow);
             else {
