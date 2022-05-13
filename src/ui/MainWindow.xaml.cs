@@ -19,7 +19,7 @@ namespace UI {
         public MainViewModel vm => App.ViewModel;
         PictureSlideshowWindow? slideshow;
 
-        static readonly HashSet<string> PictureExtensions = new HashSet<string> {
+        static readonly HashSet<string> PictureExtensions = new() {
             ".jpg",
             ".jpeg",
             ".png",
@@ -78,7 +78,7 @@ namespace UI {
             vm.PictureSelected = 0 < e.AddedItems.Count;
         }
 
-        private void PictureList_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void PictureList_MouseDown (object sender, MouseButtonEventArgs e) {
             vm.PictureSelected = false;
             pictureList.SelectedIndex = -1;
         }

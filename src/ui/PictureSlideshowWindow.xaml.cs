@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using UI.ViewModel;
@@ -23,20 +22,20 @@ namespace UI {
             DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
             Storyboard makeTransparentTitleBar = new();
             makeTransparentTitleBar.Children.Add(a0);
-            Storyboard.SetTargetName(a0, titleBar.Name);
-            Storyboard.SetTargetProperty(a0, new PropertyPath(StackPanel.OpacityProperty));
+            Storyboard.SetTargetName(a0, titleBar?.Name);
+            Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
 
             DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
             Storyboard makeTransparentMaximizeButton = new();
             makeTransparentMaximizeButton.Children.Add(a1);
-            Storyboard.SetTargetName(a1, maximizeBorder.Name);
-            Storyboard.SetTargetProperty(a1, new PropertyPath(Border.OpacityProperty));
+            Storyboard.SetTargetName(a1, maximizeBorder?.Name);
+            Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
 
             DoubleAnimation a2 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
             Storyboard makeTransparentCloseButton = new();
             makeTransparentCloseButton.Children.Add(a2);
-            Storyboard.SetTargetName(a2, closeBorder.Name);
-            Storyboard.SetTargetProperty(a2, new PropertyPath(Border.OpacityProperty));
+            Storyboard.SetTargetName(a2, closeBorder?.Name);
+            Storyboard.SetTargetProperty(a2, new PropertyPath(OpacityProperty));
 
             makeTransparentTitleBar.Begin(this);
             makeTransparentMaximizeButton.Begin(this);
@@ -45,9 +44,9 @@ namespace UI {
             ObjectAnimationUsingKeyFrames makeInvisible = new();
             makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
 
-            titleBar.BeginAnimation(StackPanel.VisibilityProperty, makeInvisible);
-            maximizeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
-            closeBorder.BeginAnimation(Border.VisibilityProperty, makeInvisible);
+            titleBar?.BeginAnimation(VisibilityProperty, makeInvisible);
+            maximizeBorder?.BeginAnimation(VisibilityProperty, makeInvisible);
+            closeBorder?.BeginAnimation(VisibilityProperty, makeInvisible);
         }
 
         void showChrome () {
@@ -62,20 +61,20 @@ namespace UI {
             DoubleAnimation a3 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
             Storyboard makeOpaqueTitleBar = new();
             makeOpaqueTitleBar.Children.Add(a3);
-            Storyboard.SetTargetName(a3, titleBar.Name);
-            Storyboard.SetTargetProperty(a3, new PropertyPath(StackPanel.OpacityProperty));
+            Storyboard.SetTargetName(a3, titleBar?.Name);
+            Storyboard.SetTargetProperty(a3, new PropertyPath(OpacityProperty));
 
             DoubleAnimation a4 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
             Storyboard makeOpaqueMaximizeButton = new();
             makeOpaqueMaximizeButton.Children.Add(a4);
-            Storyboard.SetTargetName(a4, maximizeBorder.Name);
-            Storyboard.SetTargetProperty(a4, new PropertyPath(Border.OpacityProperty));
+            Storyboard.SetTargetName(a4, maximizeBorder?.Name);
+            Storyboard.SetTargetProperty(a4, new PropertyPath(OpacityProperty));
 
             DoubleAnimation a5 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
             Storyboard makeOpaqueCloseButton = new();
             makeOpaqueCloseButton.Children.Add(a5);
-            Storyboard.SetTargetName(a5, closeBorder.Name);
-            Storyboard.SetTargetProperty(a5, new PropertyPath(Border.OpacityProperty));
+            Storyboard.SetTargetName(a5, closeBorder?.Name);
+            Storyboard.SetTargetProperty(a5, new PropertyPath(OpacityProperty));
 
             makeOpaqueTitleBar.Begin(this);
             makeOpaqueMaximizeButton.Begin(this);
