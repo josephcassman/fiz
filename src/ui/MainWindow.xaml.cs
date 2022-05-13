@@ -94,7 +94,7 @@ namespace UI {
                 pictureList.SelectedIndex = 0;
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
             slideshow = new();
-            SecondMonitor.ShowMediaWindow(slideshow, vm);
+            SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.PlayingPictureSlideshow = false; });
             vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex].Bitmap;
             vm.PlayingPictureSlideshow = true;
         }

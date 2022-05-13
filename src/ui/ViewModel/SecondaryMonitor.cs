@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 
 namespace UI.ViewModel {
     public static class SecondMonitor {
-        public static void ShowMediaWindow (Window window, MainViewModel vm) {
+        public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {
             void showOnPrimaryMonitor () {
+                window.Closing += closing;
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 window.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2;
                 window.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2;
@@ -24,6 +26,8 @@ namespace UI.ViewModel {
                     window.Top = b.WorkingArea.Top;
                     window.Width = b.WorkingArea.Width;
                     window.Height = b.WorkingArea.Height;
+
+                    window.Closing += closing;
 
                     window.Show();
 
