@@ -14,6 +14,9 @@
         mc:Ignorable="d"
         Topmost="False"
         AllowDrop="True"
+        Left="20"
+        Top="20"
+        WindowStartupLocation="Manual"
         Drop="PictureList_Drop"
         MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
