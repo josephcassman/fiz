@@ -4,28 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="#404040"
+        BorderBrush="#404040"
+        BorderThickness="4"
+        AllowsTransparency="True"
         mc:Ignorable="d"
+        MouseDown="Window_MouseDown"
         Title="MenuWindow" Height="300" Width="400">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="100" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   FontSize="22"
-                   TextWrapping="Wrap"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   Text="Show media on second display" />
-        <CheckBox Grid.Row="0"
-                  Grid.Column="1"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}" />
-    </Grid>
+    <Window.Resources>
+        <Style x:Key="MenuIconButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0"
+                      CornerRadius="4"
+                      CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+    <Canvas>
+        <Border Canvas.Top="10"
+                Canvas.Right="10">
+            <Button Style="{StaticResource MenuIconButton}"
+                    FontSize="17"
+                    Margin="0"
+                    Foreground="WhiteSmoke"
+                    Click="Close_Click">
+                &#xE8BB;
+            </Button>
+        </Border>
+        <Grid Canvas.Top="50"
+              Canvas.Left="25"
+              Width="375"
+              Height="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       FontSize="22"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="WhiteSmoke"
+                       Text="Show media on second display" />
+            <CheckBox Grid.Row="0"
+                      Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}" />
+        </Grid>
+    </Canvas>
 </Window>
