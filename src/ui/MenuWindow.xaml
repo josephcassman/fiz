@@ -59,6 +59,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -66,7 +67,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0"
                        Grid.Column="0"
-                       FontSize="22"
+                       FontSize="20"
                        TextWrapping="Wrap"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -77,6 +78,19 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       FontSize="20"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="WhiteSmoke"
+                       Text="Show media fullscreen" />
+            <CheckBox Grid.Row="1"
+                      Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding Path=ShowMediaFullscreen, Mode=TwoWay}" />
         </Grid>
     </Canvas>
 </Window>

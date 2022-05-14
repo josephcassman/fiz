@@ -27,6 +27,18 @@ namespace UI.ViewModel {
             }
         }
 
+        public static bool ShowMediaFullscreen {
+            get {
+                using var con = Connection;
+                var a = readValue(con, "ShowMediaFullscreen");
+                return a == null || a == "1";
+            }
+            set {
+                using var con = Connection;
+                writeValue(con, "ShowMediaFullscreen", value ? "1" : "0");
+            }
+        }
+
         static SqliteConnection Connection {
             get {
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
