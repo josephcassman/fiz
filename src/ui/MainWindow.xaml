@@ -25,7 +25,6 @@
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
     </Window.CommandBindings>
     <Window.Resources>
-        <vm:InvertConverter x:Key="invert" />
         <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
         <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
         <Style x:Key="TabButton" TargetType="Button">
