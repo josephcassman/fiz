@@ -12,6 +12,7 @@ namespace UI.ViewModel {
         public MainViewModel() {
             SettingsStorage.Initialize();
             ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
+            ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
         }
 
         public ObservableCollection<PictureItem> Pictures = new();
@@ -70,6 +71,15 @@ namespace UI.ViewModel {
             set {
                 Set(ref _showMediaOnSecondMonitor, value);
                 SettingsStorage.ShowMediaOnSecondMonitor = value;
+            }
+        }
+
+        private bool _showMediaFullscreen = true;
+        public bool ShowMediaFullscreen {
+            get => _showMediaFullscreen;
+            set {
+                Set(ref _showMediaFullscreen, value);
+                SettingsStorage.ShowMediaFullscreen = value;
             }
         }
     }

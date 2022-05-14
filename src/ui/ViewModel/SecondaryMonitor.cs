@@ -1,43 +1,44 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 
 namespace UI.ViewModel {
     public static class SecondMonitor {
         public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {
-            void showOnPrimaryMonitor () {
-                window.Closing += closing;
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                window.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2;
-                window.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2;
+            window.Closing += closing;
+            window.WindowStartupLocation = WindowStartupLocation.Manual;
+            if (vm.ShowMediaOnSecondMonitor) {
+                var width = SystemParameters.VirtualScreenWidth - SystemParameters.PrimaryScreenWidth;
+                if (vm.ShowMediaFullscreen) {
+                    window.Left = SystemParameters.PrimaryScreenWidth;
+                    window.Top = 0;
+                    window.Height = SystemParameters.VirtualScreenHeight;
+                    window.Width = width;
+                    window.Loaded += (s, e) => {
+                        var a = (s as Window) ?? new();
+                        a.WindowState = WindowState.Maximized;
+                    };
+                }
+                else {
+                    window.Left = SystemParameters.PrimaryScreenWidth + width * 0.025;
+                    window.Top = SystemParameters.VirtualScreenHeight * 0.025;
+                    window.Height = SystemParameters.VirtualScreenHeight * 0.95;
+                    window.Width = width * 0.95;
+                }
                 window.Show();
             }
-
-            var a = System.Windows.Forms.Screen.AllScreens.Where(a => !a.Primary);
-            if (a.Any()) {
-                if (!vm.ShowMediaOnSecondMonitor) showOnPrimaryMonitor();
-                else {
-                    if (!window.IsLoaded)
-                        window.WindowStartupLocation = WindowStartupLocation.Manual;
-
-                    var b = a.First();
-
-                    window.Left = b.WorkingArea.Left;
-                    window.Top = b.WorkingArea.Top;
-                    window.Width = b.WorkingArea.Width;
-                    window.Height = b.WorkingArea.Height;
-
-                    window.Closing += closing;
-
-                    window.Show();
-
-                    if (window.IsLoaded)
-                        window.WindowState = WindowState.Maximized;
-                }
-            }
             else {
-                vm.ShowMediaOnSecondMonitor = false;
-                showOnPrimaryMonitor();
+                if (vm.ShowMediaFullscreen) {
+                    window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    window.WindowState = WindowState.Maximized;
+                    window.Show();
+                }
+                else {
+                    window.Top = SystemParameters.PrimaryScreenHeight * 0.05;
+                    window.Left = SystemParameters.PrimaryScreenWidth * 0.05;
+                    window.Height = SystemParameters.WorkArea.Height * 0.9;
+                    window.Width = SystemParameters.PrimaryScreenWidth * 0.9;
+                    window.Show();
+                }
             }
         }
     }
