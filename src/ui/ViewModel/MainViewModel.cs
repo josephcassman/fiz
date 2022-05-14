@@ -9,6 +9,11 @@ namespace UI.ViewModel {
     }
 
     public class MainViewModel : BindableBase {
+        public MainViewModel() {
+            SettingsStorage.Initialize();
+            ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
+        }
+
         public ObservableCollection<PictureItem> Pictures = new();
         public int CurrentPictureIndex;
 
@@ -62,7 +67,10 @@ namespace UI.ViewModel {
         private bool _showMediaOnSecondMonitor = true;
         public bool ShowMediaOnSecondMonitor {
             get => _showMediaOnSecondMonitor;
-            set => Set(ref _showMediaOnSecondMonitor, value);
+            set {
+                Set(ref _showMediaOnSecondMonitor, value);
+                SettingsStorage.ShowMediaOnSecondMonitor = value;
+            }
         }
     }
 }
