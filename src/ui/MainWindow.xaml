@@ -211,6 +211,7 @@
                         Orientation="Vertical"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Margin="4 10 4 0"
                         Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
                 <ListBox AllowDrop="True"
                          BorderThickness="0"
