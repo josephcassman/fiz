@@ -16,8 +16,10 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
 
+        bool chromeHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
+
         void hideChrome () {
-            if (vm.ShowMediaOnSecondMonitor) return;
+            if (chromeHidden) return;
 
             DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
             Storyboard makeTransparentTitleBar = new();
@@ -82,7 +84,6 @@ namespace UI {
         }
 
         void showHideChrome () {
-            if (vm.ShowMediaOnSecondMonitor) return;
             showChrome();
             hideChrome();
         }
@@ -103,7 +104,7 @@ namespace UI {
         // Slideshow
 
         private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor) {
+            if (chromeHidden) {
                 titleBar.Visibility = Visibility.Hidden;
                 maximizeBorder.Visibility = Visibility.Hidden;
                 maximize.Visibility = Visibility.Hidden;
@@ -132,12 +133,12 @@ namespace UI {
         private void Close_Click (object sender, RoutedEventArgs e) { Close(); }
 
         private void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor) return;
+            if (chromeHidden) return;
             toggleMaximize();
         }
 
         private void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor) return;
+            if (chromeHidden) return;
             toggleMaximize();
         }
 
@@ -148,8 +149,7 @@ namespace UI {
         }
 
         private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (vm.ShowMediaOnSecondMonitor)
-                return;
+            if (chromeHidden) return;
             toggleMaximize();
         }
     }
