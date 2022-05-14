@@ -27,6 +27,8 @@ namespace UI {
             ".gif",
         };
 
+        readonly string[] NoResults = new string[] { "Document" };
+
         void addPictureUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog dialog = new() {
                 FileName = "Document",
@@ -34,6 +36,12 @@ namespace UI {
                 Multiselect = true,
             };
             var result = dialog.ShowDialog();
+
+            // SafeFileNames = ["Document"] when the dialog is cancelled or closed without
+            // selecting a file
+            if (Enumerable.SequenceEqual(dialog.SafeFileNames, NoResults))
+                return;
+
             foreach (var path in dialog.SafeFileNames.Zip(dialog.FileNames, (a, b) => (a, b))) {
                 vm.AddPicture(new PictureItem {
                     Name = path.a,
