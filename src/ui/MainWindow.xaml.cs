@@ -159,8 +159,16 @@ namespace UI {
 
         private void Close_Click (object sender, RoutedEventArgs e) { Close(); }
         private void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { slideshow?.Close(); }
-        private void Picture_Click (object sender, RoutedEventArgs e) { vm.PictureMode = false; }
-        private void Video_Click (object sender, RoutedEventArgs e) { vm.PictureMode = true; }
+
+        private void Picture_Click (object sender, RoutedEventArgs e) {
+            if (!vm.PictureMode)
+                vm.PictureMode = true;
+        }
+
+        private void Video_Click (object sender, RoutedEventArgs e) {
+            if (vm.PictureMode)
+                vm.PictureMode = false;
+        }
 
         private void Menu_Click (object sender, RoutedEventArgs e) {
             var menu = new MenuWindow {
