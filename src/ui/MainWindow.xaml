@@ -32,6 +32,15 @@
             <Setter Property="Height" Value="50" />
             <Setter Property="Padding" Value="10" />
             <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="BorderBrush" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="IconButtonBorder" TargetType="Border">
             <Setter Property="Background" Value="Transparent" />
@@ -151,14 +160,30 @@
 
             <StackPanel Grid.Row="0"
                         Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                <Button IsEnabled="{Binding Path=PictureMode}"
-                        Click="Picture_Click"
-                        Style="{StaticResource TabButton}">Pictures</Button>
-                <Button IsEnabled="{Binding Path=PictureMode, Converter={StaticResource invert}}"
-                        Click="Video_Click"
-                        Style="{StaticResource TabButton}"
-                        Margin="10,0,0,0">Video</Button>
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Style="{StaticResource TabButton}"
+                            Click="Picture_Click">
+                        Pictures
+                    </Button>
+                    <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
+                               Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0">
+                    <Button Click="Video_Click"
+                            Style="{StaticResource TabButton}" >
+                        Video
+                    </Button>
+                    <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
+                               Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}" />
+                </StackPanel>
+
             </StackPanel>
 
             <StackPanel Grid.Row="1"
