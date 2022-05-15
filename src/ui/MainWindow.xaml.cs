@@ -43,10 +43,12 @@ namespace UI {
                 return;
 
             foreach (var path in dialog.SafeFileNames.Zip(dialog.FileNames, (a, b) => (a, b))) {
+                var bmp = new BitmapImage(new Uri(path.b));
                 vm.AddPicture(new PictureItem {
                     Name = path.a,
                     Path = path.b,
-                    Bitmap = new BitmapImage(new Uri(path.b)) { DecodePixelHeight = 450 },
+                    Preview = bmp,
+                    Media = bmp,
                 });
             }
             if (0 < pictureList.Items.Count) {
@@ -97,7 +99,6 @@ namespace UI {
             vm.CurrentMediaItemIndex = pictureList.SelectedIndex;
             slideshow = new();
             SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.MediaDisplayMode = false; });
-            vm.CurrentPicture = vm.MediaItems[pictureList.SelectedIndex].Bitmap;
             vm.MediaDisplayMode = true;
         }
 
@@ -121,10 +122,12 @@ namespace UI {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
             foreach (var path in paths.Where(x => PictureExtensions.Contains(Path.GetExtension(x)))) {
+                var bmp = new BitmapImage(new Uri(path));
                 vm.AddPicture(new PictureItem {
                     Name = Path.GetFileName(path),
                     Path = path,
-                    Bitmap = new BitmapImage(new Uri(path)) { DecodePixelHeight = 450 },
+                    Preview = bmp,
+                    Media = bmp,
                 });
             }
             if (0 < pictureList.Items.Count) {
