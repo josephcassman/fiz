@@ -100,7 +100,7 @@ namespace UI {
             }
             if (pictureList.SelectedValue == null)
                 pictureList.SelectedIndex = 0;
-            vm.CurrentPictureIndex = pictureList.SelectedIndex;
+            vm.CurrentMediaItemIndex = pictureList.SelectedIndex;
             slideshow = new();
             SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.MediaDisplayMode = false; });
             vm.CurrentPicture = vm.MediaItems[pictureList.SelectedIndex].Bitmap;
