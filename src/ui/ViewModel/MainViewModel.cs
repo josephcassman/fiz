@@ -16,7 +16,7 @@ namespace UI.ViewModel {
             get => _currentMediaItemIndex;
             set {
                 Set(ref _currentMediaItemIndex, value);
-                CurrentPicture = MediaItems[CurrentMediaItemIndex].Bitmap;
+                CurrentPicture = MediaItems[CurrentMediaItemIndex].Media;
             }
         }
 
