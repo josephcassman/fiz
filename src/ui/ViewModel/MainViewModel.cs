@@ -10,7 +10,15 @@ namespace UI.ViewModel {
         }
 
         public ObservableCollection<PictureItem> MediaItems = new();
-        public int CurrentPictureIndex;
+
+        private int _currentMediaItemIndex = -1;
+        public int CurrentMediaItemIndex {
+            get => _currentMediaItemIndex;
+            set {
+                Set(ref _currentMediaItemIndex, value);
+                CurrentPicture = MediaItems[CurrentMediaItemIndex].Bitmap;
+            }
+        }
 
         private BitmapImage _currentPicture = new();
         public BitmapImage CurrentPicture {
@@ -20,14 +28,14 @@ namespace UI.ViewModel {
 
         public void MoveToPreviousPicture () {
             if (MediaItems.Count == 0) return;
-            if (CurrentPictureIndex == 0) return;
-            CurrentPicture = MediaItems[--CurrentPictureIndex].Bitmap;
+            if (CurrentMediaItemIndex == 0) return;
+            --CurrentMediaItemIndex;
         }
 
         public void MoveToNextPicture () {
             if (MediaItems.Count == 0) return;
-            if (MediaItems.Count - 1 <= CurrentPictureIndex) return;
-            CurrentPicture = MediaItems[++CurrentPictureIndex].Bitmap;
+            if (MediaItems.Count - 1 <= CurrentMediaItemIndex) return;
+            ++CurrentMediaItemIndex;
         }
 
         public void AddPicture (PictureItem picture) {
