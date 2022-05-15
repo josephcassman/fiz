@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
@@ -9,14 +10,17 @@ namespace UI.ViewModel {
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
         }
 
-        public ObservableCollection<PictureItem> MediaItems = new();
+        public ObservableCollection<MediaItem> MediaItems = new();
 
         private int _currentMediaItemIndex = -1;
         public int CurrentMediaItemIndex {
             get => _currentMediaItemIndex;
             set {
                 Set(ref _currentMediaItemIndex, value);
-                CurrentPicture = MediaItems[CurrentMediaItemIndex].Media;
+                if (MediaItems[CurrentMediaItemIndex] is PictureItem a)
+                    CurrentPicture = a.Media;
+                else
+                    CurrentVideo = ((VideoItem) MediaItems[CurrentMediaItemIndex]).Media;
             }
         }
 
@@ -26,20 +30,26 @@ namespace UI.ViewModel {
             set => Set(ref _currentPicture, value);
         }
 
-        public void MoveToPreviousPicture () {
+        private Uri _currentVideo = new("about:blank");
+        public Uri CurrentVideo {
+            get => _currentVideo;
+            set => Set(ref _currentVideo, value);
+        }
+
+        public void MoveToPreviousMediaItem () {
             if (MediaItems.Count == 0) return;
             if (CurrentMediaItemIndex == 0) return;
             --CurrentMediaItemIndex;
         }
 
-        public void MoveToNextPicture () {
+        public void MoveToNextMediaItem () {
             if (MediaItems.Count == 0) return;
             if (MediaItems.Count - 1 <= CurrentMediaItemIndex) return;
             ++CurrentMediaItemIndex;
         }
 
-        public void AddPicture (PictureItem picture) {
-            MediaItems.Add(picture);
+        public void AddMediaItem (MediaItem a) {
+            MediaItems.Add(a);
             MediaListHasContents = true;
         }
 
