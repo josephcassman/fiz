@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         xmlns:vm="clr-namespace:UI.ViewModel"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         mc:Ignorable="d"
         Background="Black"
         ResizeMode="CanResize"
@@ -19,6 +20,8 @@
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
     </Window.CommandBindings>
     <Window.Resources>
+        <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
+        <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
         <Style x:Key="IconButtonBorder" TargetType="Border">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -110,7 +113,21 @@
                Height="450"
                Canvas.Top="0"
                Canvas.Left="0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
                Source="{Binding CurrentPicture}"
+               Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityTrue}}"
                Name="picture" />
+
+        <MediaElement Panel.ZIndex="1"
+                      Width="850"
+                      Canvas.Top="0"
+                      Canvas.Left="0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Source="{Binding CurrentVideo}"
+                      Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityFalse}}"
+                      Name="video" />
+
     </Canvas>
 </Window>

@@ -17,11 +17,21 @@ namespace UI.ViewModel {
             get => _currentMediaItemIndex;
             set {
                 Set(ref _currentMediaItemIndex, value);
-                if (MediaItems[CurrentMediaItemIndex] is PictureItem a)
+                if (MediaItems[CurrentMediaItemIndex] is PictureItem a) {
                     CurrentPicture = a.Media;
-                else
+                    IsPicture = true;
+                }
+                else {
                     CurrentVideo = ((VideoItem) MediaItems[CurrentMediaItemIndex]).Media;
+                    IsPicture = false;
+                }
             }
+        }
+
+        private bool _isPicture = true;
+        public bool IsPicture {
+            get => _isPicture;
+            set => Set(ref _isPicture, value);
         }
 
         private BitmapImage _currentPicture = new();
