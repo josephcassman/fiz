@@ -5,8 +5,8 @@ using System.Windows.Media.Animation;
 using UI.ViewModel;
 
 namespace UI {
-    public partial class PictureSlideshowWindow : Window {
-        public PictureSlideshowWindow () {
+    public partial class MediaWindow : Window {
+        public MediaWindow () {
             InitializeComponent();
             DataContext = vm;
             Loaded += PictureSlideshow_Loaded;
