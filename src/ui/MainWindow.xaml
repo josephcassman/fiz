@@ -104,11 +104,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
-                       Width="70">
-                    <Image.Source>
-                        <BitmapImage DecodePixelWidth="70" UriSource="{Binding Path=Path}" />
-                    </Image.Source>
-                </Image>
+                       Width="70"
+                       Source="{Binding Preview}" />
                 <Grid Grid.Column="1">
                     <TextBlock FontSize="30"
                                VerticalAlignment="Center"
