@@ -30,6 +30,7 @@
         <Style x:Key="TabButton" TargetType="Button">
             <Setter Property="Height" Value="50" />
             <Setter Property="Padding" Value="10" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
@@ -174,7 +175,7 @@
                             VerticalAlignment="Center">
                     <Button Style="{StaticResource TabButton}"
                             Click="Picture_Click">
-                        Pictures
+                        &#xEA37;
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}" />
@@ -185,7 +186,7 @@
                             Margin="10,0,0,0">
                     <Button Click="Video_Click"
                             Style="{StaticResource TabButton}" >
-                        Video
+                        &#xE714;
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}" />
@@ -209,7 +210,7 @@
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
-                           Text="pictures here"
+                           Text="media here"
                            Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityFalse}}" />
             </StackPanel>
 
