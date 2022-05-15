@@ -56,12 +56,9 @@ namespace UI {
         }
 
         void movePictureDown () {
-            if (pictureList.SelectedItem == null)
-                return;
-            if (vm.MediaItems.Count == 0)
-                return;
-            if (pictureList.Items.Count - 1 <= pictureList.SelectedIndex)
-                return;
+            if (pictureList.SelectedItem == null) return;
+            if (vm.MediaItems.Count == 0) return;
+            if (pictureList.Items.Count - 1 <= pictureList.SelectedIndex) return;
             var i = pictureList.SelectedIndex;
 
             // Necessary to cause the picture thumbnail to update
@@ -75,12 +72,9 @@ namespace UI {
         }
 
         void movePictureUp () {
-            if (pictureList.SelectedItem == null)
-                return;
-            if (vm.MediaItems.Count == 0)
-                return;
-            if (pictureList.SelectedIndex == 0)
-                return;
+            if (pictureList.SelectedItem == null) return;
+            if (vm.MediaItems.Count == 0) return;
+            if (pictureList.SelectedIndex == 0) return;
             var i = pictureList.SelectedIndex;
 
             // Necessary to cause the picture thumbnail to update
@@ -124,8 +118,7 @@ namespace UI {
         private void PictureList_SelectionChanged (object sender, SelectionChangedEventArgs e) { vm.MediaItemSelected = 0 < e.AddedItems.Count; }
 
         private void PictureList_Drop (object sender, DragEventArgs e) {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-                return;
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
             foreach (var path in paths.Where(x => PictureExtensions.Contains(Path.GetExtension(x)))) {
                 vm.AddPicture(new PictureItem {
