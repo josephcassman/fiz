@@ -9,9 +9,9 @@ namespace UI {
         public MediaWindow () {
             InitializeComponent();
             DataContext = vm;
-            Loaded += PictureSlideshow_Loaded;
-            MouseMove += PictureSlideshow_MouseMove;
-            SizeChanged += PictureSlideshow_SizeChanged;
+            Loaded += MediaWindow_Loaded;
+            MouseMove += MediaWindow_MouseMove;
+            SizeChanged += MediaWindow_SizeChanged;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -103,7 +103,7 @@ namespace UI {
 
         // Slideshow
 
-        private void PictureSlideshow_Loaded (object sender, RoutedEventArgs e) {
+        private void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
             if (chromeHidden) {
                 titleBar.Visibility = Visibility.Hidden;
                 maximizeBorder.Visibility = Visibility.Hidden;
@@ -116,14 +116,15 @@ namespace UI {
             hideChrome();
         }
 
-        private void PictureSlideshow_MouseMove (object sender, MouseEventArgs e) {
+        private void MediaWindow_MouseMove (object sender, MouseEventArgs e) {
             showHideChrome();
         }
 
-        private void PictureSlideshow_SizeChanged (object sender, SizeChangedEventArgs e) {
+        private void MediaWindow_SizeChanged (object sender, SizeChangedEventArgs e) {
             titleBar.Width = e.NewSize.Width;
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
+            video.Width = e.NewSize.Width;
             showHideChrome();
         }
 
