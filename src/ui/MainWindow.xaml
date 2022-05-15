@@ -169,7 +169,7 @@
                         Pictures
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}" />
+                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                             HorizontalAlignment="Center"
@@ -180,7 +180,7 @@
                         Video
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}" />
+                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}" />
                 </StackPanel>
 
             </StackPanel>
@@ -190,19 +190,19 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         AllowDrop="True"
-                        Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
+                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}">
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
                            Text="Drag and drop"
-                           Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}" />
+                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityFalse}}" />
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
                            Text="pictures here"
-                           Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityFalse}}" />
+                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityFalse}}" />
             </StackPanel>
 
             <StackPanel Grid.Row="1"
@@ -211,7 +211,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Margin="4 10 4 0"
-                        Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityTrue}}">
+                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}">
                 <ListBox AllowDrop="True"
                          BorderThickness="0"
                          HorizontalContentAlignment="Stretch"
@@ -221,7 +221,7 @@
                          SelectionChanged="PictureList_SelectionChanged"
                          MouseDown="PictureList_MouseDown"
                          ItemTemplate="{StaticResource PictureListTemplate}"
-                         Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
+                         Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
                          Name="pictureList" />
             </StackPanel>
 
@@ -229,7 +229,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="30"
-                       Visibility="{Binding Path=PictureMode, Converter={StaticResource visibilityFalse}}">
+                       Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}">
             video view
             </TextBlock>
 
@@ -243,7 +243,7 @@
                             HorizontalAlignment="Left">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
-                                Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                                Visibility="{Binding Path=MediaDisplayMode, Converter={StaticResource visibilityFalse}}">
                         <Border Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="AddPicture_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
@@ -254,7 +254,7 @@
                             </Button>
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=HasPictures, Converter={StaticResource visibilityTrue}}"
+                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
                                 MouseLeftButtonDown="PlaySlideshow_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="50"
@@ -265,7 +265,7 @@
                         </Border>
                     </StackPanel>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}"
+                            Visibility="{Binding Path=MediaDisplayMode, Converter={StaticResource visibilityTrue}}"
                             MouseLeftButtonDown="StopSlideshow_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="25"
@@ -278,10 +278,10 @@
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityFalse}}">
+                            Visibility="{Binding Path=MediaDisplayMode, Converter={StaticResource visibilityFalse}}">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right"
-                                Visibility="{Binding Path=PictureSelected, Converter={StaticResource visibilityTrue}}">
+                                Visibility="{Binding Path=MediaItemSelected, Converter={StaticResource visibilityTrue}}">
                         <Border Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="MovePictureDown_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
@@ -307,7 +307,7 @@
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            Visibility="{Binding Path=PlayingPictureSlideshow, Converter={StaticResource visibilityTrue}}">
+                            Visibility="{Binding Path=MediaDisplayMode, Converter={StaticResource visibilityTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}"
                             MouseLeftButtonDown="MovePictureLeft_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
