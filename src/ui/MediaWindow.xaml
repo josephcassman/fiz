@@ -116,7 +116,7 @@
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="{Binding CurrentPicture}"
-               Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityTrue}}"
+               Visibility="{Binding Path=IsPictureOnDisplay, Converter={StaticResource visibilityTrue}}"
                Name="picture" />
 
         <MediaElement Panel.ZIndex="1"
@@ -126,7 +126,7 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Source="{Binding CurrentVideo}"
-                      Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityFalse}}"
+                      Visibility="{Binding Path=IsPictureOnDisplay, Converter={StaticResource visibilityFalse}}"
                       Name="video" />
 
     </Canvas>

@@ -19,19 +19,19 @@ namespace UI.ViewModel {
                 Set(ref _currentMediaItemIndex, value);
                 if (MediaItems[CurrentMediaItemIndex] is PictureItem a) {
                     CurrentPicture = a.Media;
-                    IsPicture = true;
+                    IsPictureOnDisplay = true;
                 }
                 else {
                     CurrentVideo = ((VideoItem) MediaItems[CurrentMediaItemIndex]).Media;
-                    IsPicture = false;
+                    IsPictureOnDisplay = false;
                 }
             }
         }
 
-        private bool _isPicture = true;
-        public bool IsPicture {
-            get => _isPicture;
-            set => Set(ref _isPicture, value);
+        private bool _isPictureOnDisplay = true;
+        public bool IsPictureOnDisplay {
+            get => _isPictureOnDisplay;
+            set => Set(ref _isPictureOnDisplay, value);
         }
 
         private BitmapImage _currentPicture = new();
