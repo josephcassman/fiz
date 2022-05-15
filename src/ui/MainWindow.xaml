@@ -99,13 +99,24 @@
         </Style>
         <DataTemplate x:Key="PictureListTemplate">
             <Grid Margin="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
                        Width="70"
-                       Source="{Binding Preview}" />
+                       Source="{Binding Preview}"
+                       Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityTrue}}" />
+                <TextBlock Grid.Column="0"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="30"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="&#xE714;"
+                           Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityFalse}}" />
                 <Grid Grid.Column="1">
                     <TextBlock FontSize="30"
                                VerticalAlignment="Center"
@@ -219,7 +230,7 @@
                          MouseDown="PictureList_MouseDown"
                          ItemTemplate="{StaticResource PictureListTemplate}"
                          Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
-                         Name="pictureList" />
+                         Name="mediaList" />
             </StackPanel>
 
             <TextBlock Grid.Row="1"
