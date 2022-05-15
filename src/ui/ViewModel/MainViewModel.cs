@@ -2,12 +2,6 @@
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
-    public class PictureItem {
-        public string Name { get; set; } = "";
-        public string Path { get; set; } = "";
-        public BitmapImage Bitmap { get; set; } = new();
-    }
-
     public class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
@@ -15,7 +9,7 @@ namespace UI.ViewModel {
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
         }
 
-        public ObservableCollection<PictureItem> Pictures = new();
+        public ObservableCollection<PictureItem> MediaItems = new();
         public int CurrentPictureIndex;
 
         private BitmapImage _currentPicture = new();
@@ -25,44 +19,44 @@ namespace UI.ViewModel {
         }
 
         public void MoveToPreviousPicture () {
-            if (Pictures.Count == 0) return;
+            if (MediaItems.Count == 0) return;
             if (CurrentPictureIndex == 0) return;
-            CurrentPicture = Pictures[--CurrentPictureIndex].Bitmap;
+            CurrentPicture = MediaItems[--CurrentPictureIndex].Bitmap;
         }
 
         public void MoveToNextPicture () {
-            if (Pictures.Count == 0) return;
-            if (Pictures.Count - 1 <= CurrentPictureIndex) return;
-            CurrentPicture = Pictures[++CurrentPictureIndex].Bitmap;
+            if (MediaItems.Count == 0) return;
+            if (MediaItems.Count - 1 <= CurrentPictureIndex) return;
+            CurrentPicture = MediaItems[++CurrentPictureIndex].Bitmap;
         }
 
         public void AddPicture (PictureItem picture) {
-            Pictures.Add(picture);
-            HasPictures = true;
+            MediaItems.Add(picture);
+            MediaListHasContents = true;
         }
 
-        private bool _hasPictures = false;
-        public bool HasPictures {
-            get => _hasPictures;
-            set => Set(ref _hasPictures, value);
+        private bool _mediaListHasContents = false;
+        public bool MediaListHasContents {
+            get => _mediaListHasContents;
+            set => Set(ref _mediaListHasContents, value);
         }
 
-        private bool _pictureMode = true;
-        public bool PictureMode {
-            get => _pictureMode;
-            set => Set(ref _pictureMode, value);
+        private bool _mediaListMode = true;
+        public bool MediaListMode {
+            get => _mediaListMode;
+            set => Set(ref _mediaListMode, value);
         }
 
-        private bool _pictureSelected = false;
-        public bool PictureSelected {
-            get => _pictureSelected;
-            set => Set(ref _pictureSelected, value);
+        private bool _mediaItemSelected = false;
+        public bool MediaItemSelected {
+            get => _mediaItemSelected;
+            set => Set(ref _mediaItemSelected, value);
         }
 
-        private bool _playingPictureSlideshow = false;
-        public bool PlayingPictureSlideshow {
-            get => _playingPictureSlideshow;
-            set => Set(ref _playingPictureSlideshow, value);
+        private bool _mediaDisplayMode = false;
+        public bool MediaDisplayMode {
+            get => _mediaDisplayMode;
+            set => Set(ref _mediaDisplayMode, value);
         }
 
         private bool _showMediaOnSecondMonitor = true;

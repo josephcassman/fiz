@@ -13,7 +13,7 @@ namespace UI {
         public MainWindow () {
             InitializeComponent();
             DataContext = vm;
-            pictureList.ItemsSource = vm.Pictures;
+            pictureList.ItemsSource = vm.MediaItems;
             Closing += MainWindow_Closing;
         }
 
@@ -58,7 +58,7 @@ namespace UI {
         void movePictureDown () {
             if (pictureList.SelectedItem == null)
                 return;
-            if (vm.Pictures.Count == 0)
+            if (vm.MediaItems.Count == 0)
                 return;
             if (pictureList.Items.Count - 1 <= pictureList.SelectedIndex)
                 return;
@@ -67,8 +67,8 @@ namespace UI {
             // Necessary to cause the picture thumbnail to update
             pictureList.ItemsSource = null;
 
-            (vm.Pictures[i], vm.Pictures[i + 1]) = (vm.Pictures[i + 1], vm.Pictures[i]);
-            pictureList.ItemsSource = vm.Pictures;
+            (vm.MediaItems[i], vm.MediaItems[i + 1]) = (vm.MediaItems[i + 1], vm.MediaItems[i]);
+            pictureList.ItemsSource = vm.MediaItems;
 
             pictureList.SelectedIndex = i + 1;
             pictureList.Focus();
@@ -77,7 +77,7 @@ namespace UI {
         void movePictureUp () {
             if (pictureList.SelectedItem == null)
                 return;
-            if (vm.Pictures.Count == 0)
+            if (vm.MediaItems.Count == 0)
                 return;
             if (pictureList.SelectedIndex == 0)
                 return;
@@ -86,30 +86,30 @@ namespace UI {
             // Necessary to cause the picture thumbnail to update
             pictureList.ItemsSource = null;
 
-            (vm.Pictures[i], vm.Pictures[i - 1]) = (vm.Pictures[i - 1], vm.Pictures[i]);
-            pictureList.ItemsSource = vm.Pictures;
+            (vm.MediaItems[i], vm.MediaItems[i - 1]) = (vm.MediaItems[i - 1], vm.MediaItems[i]);
+            pictureList.ItemsSource = vm.MediaItems;
 
             pictureList.SelectedIndex = i - 1;
             pictureList.Focus();
         }
 
         void playSlideshow () {
-            if (vm.Pictures.Count == 0 || pictureList.Items.Count == 0) {
-                vm.HasPictures = false;
+            if (vm.MediaItems.Count == 0 || pictureList.Items.Count == 0) {
+                vm.MediaListHasContents = false;
                 return;
             }
             if (pictureList.SelectedValue == null)
                 pictureList.SelectedIndex = 0;
             vm.CurrentPictureIndex = pictureList.SelectedIndex;
             slideshow = new();
-            SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.PlayingPictureSlideshow = false; });
-            vm.CurrentPicture = vm.Pictures[pictureList.SelectedIndex].Bitmap;
-            vm.PlayingPictureSlideshow = true;
+            SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.MediaDisplayMode = false; });
+            vm.CurrentPicture = vm.MediaItems[pictureList.SelectedIndex].Bitmap;
+            vm.MediaDisplayMode = true;
         }
 
         void stopSlideshow () {
             slideshow?.Close();
-            vm.PlayingPictureSlideshow = false;
+            vm.MediaDisplayMode = false;
         }
 
         // Keyboard access key events
@@ -121,7 +121,7 @@ namespace UI {
 
         private void AddPicture_Click (object sender, RoutedEventArgs e) { addPictureUsingFileDialog(); }
         private void AddPicture_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addPictureUsingFileDialog(); }
-        private void PictureList_SelectionChanged (object sender, SelectionChangedEventArgs e) { vm.PictureSelected = 0 < e.AddedItems.Count; }
+        private void PictureList_SelectionChanged (object sender, SelectionChangedEventArgs e) { vm.MediaItemSelected = 0 < e.AddedItems.Count; }
 
         private void PictureList_Drop (object sender, DragEventArgs e) {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -141,7 +141,7 @@ namespace UI {
         }
 
         private void PictureList_MouseDown (object sender, MouseButtonEventArgs e) {
-            vm.PictureSelected = false;
+            vm.MediaItemSelected = false;
             pictureList.SelectedIndex = -1;
         }
 
@@ -169,13 +169,13 @@ namespace UI {
         private void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { slideshow?.Close(); }
 
         private void Picture_Click (object sender, RoutedEventArgs e) {
-            if (!vm.PictureMode)
-                vm.PictureMode = true;
+            if (!vm.MediaListMode)
+                vm.MediaListMode = true;
         }
 
         private void Video_Click (object sender, RoutedEventArgs e) {
-            if (vm.PictureMode)
-                vm.PictureMode = false;
+            if (vm.MediaListMode)
+                vm.MediaListMode = false;
         }
 
         private void Menu_Click (object sender, RoutedEventArgs e) {
