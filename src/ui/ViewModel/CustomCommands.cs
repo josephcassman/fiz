@@ -10,30 +10,24 @@ namespace UI.ViewModel {
 		);
 
 		public static readonly RoutedUICommand Left = new(
-			"PreviousPicture",
-			"PreviousPicture",
+			"Left",
+			"Left",
 			typeof(CustomCommands),
-			new InputGestureCollection() {
-				new KeyGesture(Key.Left)
-			}
+			new InputGestureCollection() { new KeyGesture(Key.Left) }
 		);
 
 		public static readonly RoutedUICommand Right = new(
-			"NextPicture",
-			"NextPicture",
+			"Right",
+			"Right",
 			typeof(CustomCommands),
-			new InputGestureCollection() {
-				new KeyGesture(Key.Right)
-			}
+			new InputGestureCollection() { new KeyGesture(Key.Right) }
 		);
 
 		public static readonly RoutedUICommand Space = new(
 			"Space",
 			"Space",
 			typeof(CustomCommands),
-			new InputGestureCollection() {
-				new KeyGesture(Key.Space)
-			}
+			new InputGestureCollection() { new KeyGesture(Key.Space) }
 		);
 	}
 }
