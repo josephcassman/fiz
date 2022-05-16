@@ -9,9 +9,9 @@ namespace UI {
         public MediaWindow () {
             InitializeComponent();
             DataContext = vm;
-            Loaded += MediaWindow_Loaded;
-            MouseMove += MediaWindow_MouseMove;
-            SizeChanged += MediaWindow_SizeChanged;
+            Loaded += Window_Loaded;
+            MouseMove += Window_MouseMove;
+            SizeChanged += Window_SizeChanged;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -112,7 +112,19 @@ namespace UI {
             Close();
         }
 
-        void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
+        void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+            if (navigation.Opacity == 0.0)
+                return;
+            toggleMaximize();
+        }
+
+        void Maximize_Click (object sender, RoutedEventArgs e) {
+            if (navigation.Opacity == 0.0)
+                return;
+            toggleMaximize();
+        }
+
+        void Window_Loaded (object sender, RoutedEventArgs e) {
             if (navigationHidden) {
                 navigationTopBackground.Visibility = Visibility.Hidden;
                 navigationBottomBackground.Visibility = Visibility.Hidden;
@@ -122,18 +134,18 @@ namespace UI {
             hideNavigation();
         }
 
-        void MediaWindow_MouseDown (object sender, MouseButtonEventArgs e) {
+        void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
 
-        void MediaWindow_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
             toggleMaximize();
         }
 
-        void MediaWindow_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
+        void Window_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
 
-        void MediaWindow_SizeChanged (object sender, SizeChangedEventArgs e) {
+        void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
             video.Width = e.NewSize.Width;
@@ -141,16 +153,6 @@ namespace UI {
             navigationBottomBackground.Width = e.NewSize.Width - 20;
             navigation.Height = e.NewSize.Height;
             navigation.Width = e.NewSize.Width;
-        }
-
-        void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
-            if (navigation.Opacity == 0.0) return;
-            toggleMaximize();
-        }
-
-        void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (navigation.Opacity == 0.0) return;
-            toggleMaximize();
         }
     }
 }
