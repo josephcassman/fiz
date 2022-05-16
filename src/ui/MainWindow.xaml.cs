@@ -131,8 +131,8 @@ namespace UI {
 
         // Keyboard access key events
 
-        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
-        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
+        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.SkipBackwardVideo(); }
+        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.SkipForwardVideo(); }
         void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.PlayPauseVideo(); }
         void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.Close(); }
 
