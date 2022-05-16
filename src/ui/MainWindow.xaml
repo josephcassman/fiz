@@ -145,6 +145,16 @@
                 &#xEDE3;
             </Button>
         </Border>
+        <Border Canvas.Top="16"
+                Canvas.Right="55">
+            <Button Style="{StaticResource MenuIconButton}"
+                    FontSize="17"
+                    Margin="0"
+                    Foreground="#555555"
+                    Click="Minimize_Click">
+                &#xE921;
+            </Button>
+        </Border>
         <Border Canvas.Top="10"
                 Canvas.Right="10">
             <Button Style="{StaticResource MenuIconButton}"
