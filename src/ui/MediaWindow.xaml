@@ -13,8 +13,8 @@
         AllowsTransparency="True"
         Height="450"
         Width="800"
-        MouseDown="MediaWindow_MouseDown"
-        MouseDoubleClick="MediaWindow_MouseDoubleClick">
+        MouseDown="Window_MouseDown"
+        MouseDoubleClick="Window_MouseDoubleClick">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static vm:CustomCommands.Escape}" Executed="KeyboardEscape_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
