@@ -53,9 +53,8 @@ namespace UI {
         }
 
         void toggleMaximize () {
-            if (WindowState == WindowState.Maximized) {
+            if (WindowState == WindowState.Maximized)
                 SystemCommands.RestoreWindow(this);
-            }
             else
                 SystemCommands.MaximizeWindow(this);
         }
