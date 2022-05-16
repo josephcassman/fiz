@@ -179,6 +179,7 @@ namespace UI {
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
         void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { media?.Close(); }
+        void Minimize_Click (object sender, RoutedEventArgs e) { WindowState = WindowState.Minimized; }
 
         void Picture_Click (object sender, RoutedEventArgs e) {
             if (!vm.MediaListMode)
