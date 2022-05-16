@@ -19,5 +19,14 @@ namespace UI.ViewModel {
 				new KeyGesture(Key.Right)
 			}
 		);
+
+		public static readonly RoutedUICommand Space = new(
+			"Space",
+			"Space",
+			typeof(CustomCommands),
+			new InputGestureCollection() {
+				new KeyGesture(Key.Space)
+			}
+		);
 	}
 }
