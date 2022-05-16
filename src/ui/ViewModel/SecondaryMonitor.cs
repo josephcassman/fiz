@@ -33,10 +33,10 @@ namespace UI.ViewModel {
                     window.Show();
                 }
                 else {
-                    window.Top = SystemParameters.PrimaryScreenHeight * 0.05;
-                    window.Left = SystemParameters.PrimaryScreenWidth * 0.05;
-                    window.Height = SystemParameters.WorkArea.Height * 0.9;
-                    window.Width = SystemParameters.PrimaryScreenWidth * 0.9;
+                    window.Top = SystemParameters.PrimaryScreenHeight * 0.2;
+                    window.Left = SystemParameters.PrimaryScreenWidth * 0.2;
+                    window.Height = SystemParameters.WorkArea.Height * 0.6;
+                    window.Width = SystemParameters.PrimaryScreenWidth * 0.6;
                     window.Show();
                 }
             }
