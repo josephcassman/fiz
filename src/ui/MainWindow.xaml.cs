@@ -32,18 +32,16 @@ namespace UI {
             ".wav",
         };
 
-        readonly string[] NoResults = new string[] { "Document" };
+        readonly string[] NoResults = new string[] { "" };
 
         void addPictureUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog dialog = new() {
-                FileName = "Document",
+                FileName = "",
                 Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
                 Multiselect = true,
             };
             dialog.ShowDialog();
 
-            // SafeFileNames = ["Document"] when the dialog is cancelled or closed without
-            // selecting a file
             if (Enumerable.SequenceEqual(dialog.SafeFileNames, NoResults))
                 return;
 
