@@ -111,14 +111,14 @@ namespace UI {
 
         // Keyboard access key events
         
-        private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
-        private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
-        private void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
-        private void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { Close(); }
+        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
+        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
+        void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
+        void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { Close(); }
 
         // Media
 
-        private void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
+        void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
             if (chromeHidden) {
                 titleBar.Visibility = Visibility.Hidden;
                 maximizeBorder.Visibility = Visibility.Hidden;
@@ -131,11 +131,11 @@ namespace UI {
             hideChrome();
         }
 
-        private void MediaWindow_MouseMove (object sender, MouseEventArgs e) {
+        void MediaWindow_MouseMove (object sender, MouseEventArgs e) {
             showHideChrome();
         }
 
-        private void MediaWindow_SizeChanged (object sender, SizeChangedEventArgs e) {
+        void MediaWindow_SizeChanged (object sender, SizeChangedEventArgs e) {
             titleBar.Width = e.NewSize.Width;
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
@@ -145,26 +145,26 @@ namespace UI {
 
         // Manage window
 
-        private void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { Close(); }
-        private void Close_Click (object sender, RoutedEventArgs e) { Close(); }
+        void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { Close(); }
+        void Close_Click (object sender, RoutedEventArgs e) { Close(); }
 
-        private void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+        void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (chromeHidden) return;
             toggleMaximize();
         }
 
-        private void Maximize_Click (object sender, RoutedEventArgs e) {
+        void Maximize_Click (object sender, RoutedEventArgs e) {
             if (chromeHidden) return;
             toggleMaximize();
         }
 
-        private void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
             showHideChrome();
         }
 
-        private void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
             if (chromeHidden) return;
             toggleMaximize();
         }

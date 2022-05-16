@@ -12,7 +12,7 @@ namespace UI.ViewModel {
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
-        private int _currentMediaItemIndex = -1;
+        int _currentMediaItemIndex = -1;
         public int CurrentMediaItemIndex {
             get => _currentMediaItemIndex;
             set {
@@ -28,19 +28,19 @@ namespace UI.ViewModel {
             }
         }
 
-        private bool _isPictureOnDisplay = true;
+        bool _isPictureOnDisplay = true;
         public bool IsPictureOnDisplay {
             get => _isPictureOnDisplay;
             set => Set(ref _isPictureOnDisplay, value);
         }
 
-        private BitmapImage _currentPicture = new();
+        BitmapImage _currentPicture = new();
         public BitmapImage CurrentPicture {
             get => _currentPicture;
             set => Set(ref _currentPicture, value);
         }
 
-        private Uri _currentVideo = new("about:blank");
+        Uri _currentVideo = new("about:blank");
         public Uri CurrentVideo {
             get => _currentVideo;
             set => Set(ref _currentVideo, value);
@@ -63,31 +63,31 @@ namespace UI.ViewModel {
             MediaListHasContents = true;
         }
 
-        private bool _mediaListHasContents = false;
+        bool _mediaListHasContents = false;
         public bool MediaListHasContents {
             get => _mediaListHasContents;
             set => Set(ref _mediaListHasContents, value);
         }
 
-        private bool _mediaListMode = true;
+        bool _mediaListMode = true;
         public bool MediaListMode {
             get => _mediaListMode;
             set => Set(ref _mediaListMode, value);
         }
 
-        private bool _mediaItemSelected = false;
+        bool _mediaItemSelected = false;
         public bool MediaItemSelected {
             get => _mediaItemSelected;
             set => Set(ref _mediaItemSelected, value);
         }
 
-        private bool _mediaDisplayMode = false;
+        bool _mediaDisplayMode = false;
         public bool MediaDisplayMode {
             get => _mediaDisplayMode;
             set => Set(ref _mediaDisplayMode, value);
         }
 
-        private bool _showMediaOnSecondMonitor = true;
+        bool _showMediaOnSecondMonitor = true;
         public bool ShowMediaOnSecondMonitor {
             get => _showMediaOnSecondMonitor;
             set {
@@ -96,7 +96,7 @@ namespace UI.ViewModel {
             }
         }
 
-        private bool _showMediaFullscreen = true;
+        bool _showMediaFullscreen = true;
         public bool ShowMediaFullscreen {
             get => _showMediaFullscreen;
             set {
