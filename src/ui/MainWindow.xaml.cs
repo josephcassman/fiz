@@ -18,7 +18,7 @@ namespace UI {
         }
 
         public MainViewModel vm => App.ViewModel;
-        MediaWindow? slideshow;
+        MediaWindow? media;
 
         public static readonly HashSet<string> PictureExtensions = new() {
             ".jpg",
@@ -93,8 +93,8 @@ namespace UI {
             if (mediaList.SelectedValue == null)
                 mediaList.SelectedIndex = 0;
             vm.CurrentMediaItemIndex = mediaList.SelectedIndex;
-            slideshow = new();
-            SecondMonitor.ShowMediaWindow(slideshow, vm, (s, e) => { vm.MediaDisplayMode = false; });
+            media = new();
+            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayMode = false; });
             vm.MediaDisplayMode = true;
         }
 
@@ -125,16 +125,16 @@ namespace UI {
         }
 
         void stopSlideshow () {
-            slideshow?.Close();
+            media?.Close();
             vm.MediaDisplayMode = false;
         }
 
         // Keyboard access key events
 
-        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.SkipBackwardVideo(); }
-        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.SkipForwardVideo(); }
-        void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.PlayPauseVideo(); }
-        void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.Close(); }
+        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { media?.SkipBackwardVideo(); }
+        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { media?.SkipForwardVideo(); }
+        void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { media?.PlayPauseVideo(); }
+        void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { media?.Close(); }
 
         // Manage picture list
 
@@ -178,7 +178,7 @@ namespace UI {
         // Manage window
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
-        void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { slideshow?.Close(); }
+        void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { media?.Close(); }
 
         void Picture_Click (object sender, RoutedEventArgs e) {
             if (!vm.MediaListMode)
