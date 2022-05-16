@@ -110,6 +110,26 @@
                     Opacity="0.8"
                     Name="titleBar" />
 
+        <TextBlock Canvas.Left="220"
+                   Canvas.Bottom="20"
+                   FontSize="30"
+                   Opacity="0"
+                   Panel.ZIndex="3"
+                   Foreground="WhiteSmoke"
+                   FontFamily="Segoe MDL2 Assets"
+                   Text="&#xEB9D;"
+                   Name="skipForward" />
+
+        <TextBlock Canvas.Left="220"
+                   Canvas.Bottom="20"
+                   FontSize="30"
+                   Opacity="0"
+                   Panel.ZIndex="3"
+                   Foreground="WhiteSmoke"
+                   FontFamily="Segoe MDL2 Assets"
+                   Text="&#xEB9E;"
+                   Name="skipBackward" />
+
         <Image Panel.ZIndex="1"
                Width="850"
                Height="450"

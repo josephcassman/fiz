@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using UI.ViewModel;
@@ -109,10 +110,50 @@ namespace UI {
             videoPaused = !videoPaused;
         }
 
+        public void SkipBackwardVideo () {
+            if (vm.IsPictureOnDisplay) return;
+
+            video.Pause();
+            var a = video.Position;
+            video.Position = a.Subtract(new TimeSpan(0, 0, 10));
+            video.Play();
+
+            DoubleAnimation a0 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
+            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new CubicEase() };
+            Storyboard board = new();
+            board.Children.Add(a0);
+            board.Children.Add(a1);
+            Storyboard.SetTargetName(a0, skipBackward?.Name);
+            Storyboard.SetTargetName(a1, skipBackward?.Name);
+            Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
+            board.Begin(this);
+        }
+
+        public void SkipForwardVideo () {
+            if (vm.IsPictureOnDisplay) return;
+
+            video.Pause();
+            var a = video.Position;
+            video.Position = a.Add(new TimeSpan(0, 0, 10));
+            video.Play();
+
+            DoubleAnimation a0 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
+            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new CubicEase() };
+            Storyboard board = new();
+            board.Children.Add(a0);
+            board.Children.Add(a1);
+            Storyboard.SetTargetName(a0, skipForward?.Name);
+            Storyboard.SetTargetName(a1, skipForward?.Name);
+            Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
+            board.Begin(this);
+        }
+
         // Keyboard access key events
         
-        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
-        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
+        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { SkipBackwardVideo(); }
+        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { SkipForwardVideo(); }
         void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
         void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { Close(); }
 
@@ -140,6 +181,8 @@ namespace UI {
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
             video.Width = e.NewSize.Width;
+            Canvas.SetLeft(skipBackward, e.NewSize.Width / 2 - 5);
+            Canvas.SetLeft(skipForward, e.NewSize.Width / 2 - 5);
             showHideChrome();
         }
 
