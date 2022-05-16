@@ -2,6 +2,13 @@
 
 namespace UI.ViewModel {
     public static class CustomCommands {
+		public static readonly RoutedUICommand Escape = new(
+			"Escape",
+			"Escape",
+			typeof(CustomCommands),
+			new InputGestureCollection() { new KeyGesture(Key.Escape) }
+		);
+
 		public static readonly RoutedUICommand Left = new(
 			"PreviousPicture",
 			"PreviousPicture",

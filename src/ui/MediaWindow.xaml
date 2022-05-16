@@ -16,6 +16,7 @@
         MouseDown="Window_MouseDown"
         MouseDoubleClick="Window_MouseDoubleClick">
     <Window.CommandBindings>
+        <CommandBinding Command="{x:Static vm:CustomCommands.Escape}" Executed="KeyboardEscape_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Space}" Executed="KeyboardSpace_Executed" />
