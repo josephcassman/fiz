@@ -63,6 +63,12 @@ namespace UI.ViewModel {
             MediaListHasContents = true;
         }
 
+        bool _videoPaused = true;
+        public bool VideoPaused {
+            get => _videoPaused;
+            set => Set(ref _videoPaused, value);
+        }
+
         bool _mediaListHasContents = false;
         public bool MediaListHasContents {
             get => _mediaListHasContents;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using UI.ViewModel;
@@ -17,78 +16,40 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
 
-        bool chromeHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
-        bool videoPaused = false;
+        bool navigationHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
         bool videoStarted = false;
 
-        void hideChrome () {
-            if (chromeHidden) return;
+        void hideNavigation () {
+            static DoubleAnimation animation () => new() {
+                From = 1.0,
+                To = 0.0,
+                Duration = new(new TimeSpan(0, 0, 3)),
+                EasingFunction = new CubicEase()
+            };
 
-            DoubleAnimation a0 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new CubicEase() };
-            Storyboard makeTransparentTitleBar = new();
-            makeTransparentTitleBar.Children.Add(a0);
-            Storyboard.SetTargetName(a0, titleBar?.Name);
+            if (navigationHidden) return;
+
+            DoubleAnimation a0 = animation();
+            Storyboard topBackgroundTransparent = new();
+            topBackgroundTransparent.Children.Add(a0);
+            Storyboard.SetTargetName(a0, navigationTopBackground.Name);
             Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
 
-            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
-            Storyboard makeTransparentMaximizeButton = new();
-            makeTransparentMaximizeButton.Children.Add(a1);
-            Storyboard.SetTargetName(a1, maximizeBorder?.Name);
+            DoubleAnimation a1 = animation();
+            Storyboard bottomBackgroundTransparent = new();
+            bottomBackgroundTransparent.Children.Add(a1);
+            Storyboard.SetTargetName(a1, navigationBottomBackground.Name);
             Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
 
-            DoubleAnimation a2 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 3)), EasingFunction = new QuadraticEase() };
-            Storyboard makeTransparentCloseButton = new();
-            makeTransparentCloseButton.Children.Add(a2);
-            Storyboard.SetTargetName(a2, closeBorder?.Name);
+            DoubleAnimation a2 = animation();
+            Storyboard navigationTransparent = new();
+            navigationTransparent.Children.Add(a2);
+            Storyboard.SetTargetName(a2, navigation.Name);
             Storyboard.SetTargetProperty(a2, new PropertyPath(OpacityProperty));
 
-            makeTransparentTitleBar.Begin(this);
-            makeTransparentMaximizeButton.Begin(this);
-            makeTransparentCloseButton.Begin(this);
-
-            ObjectAnimationUsingKeyFrames makeInvisible = new();
-            makeInvisible.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 5)));
-
-            titleBar?.BeginAnimation(VisibilityProperty, makeInvisible);
-            maximizeBorder?.BeginAnimation(VisibilityProperty, makeInvisible);
-            closeBorder?.BeginAnimation(VisibilityProperty, makeInvisible);
-        }
-
-        void showChrome () {
-            titleBar.Visibility = Visibility.Visible;
-
-            maximizeBorder.Visibility = Visibility.Visible;
-            maximize.Visibility = Visibility.Visible;
-
-            closeBorder.Visibility = Visibility.Visible;
-            close.Visibility = Visibility.Visible;
-
-            DoubleAnimation a3 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            Storyboard makeOpaqueTitleBar = new();
-            makeOpaqueTitleBar.Children.Add(a3);
-            Storyboard.SetTargetName(a3, titleBar?.Name);
-            Storyboard.SetTargetProperty(a3, new PropertyPath(OpacityProperty));
-
-            DoubleAnimation a4 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            Storyboard makeOpaqueMaximizeButton = new();
-            makeOpaqueMaximizeButton.Children.Add(a4);
-            Storyboard.SetTargetName(a4, maximizeBorder?.Name);
-            Storyboard.SetTargetProperty(a4, new PropertyPath(OpacityProperty));
-
-            DoubleAnimation a5 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            Storyboard makeOpaqueCloseButton = new();
-            makeOpaqueCloseButton.Children.Add(a5);
-            Storyboard.SetTargetName(a5, closeBorder?.Name);
-            Storyboard.SetTargetProperty(a5, new PropertyPath(OpacityProperty));
-
-            makeOpaqueTitleBar.Begin(this);
-            makeOpaqueMaximizeButton.Begin(this);
-            makeOpaqueCloseButton.Begin(this);
-        }
-
-        void showHideChrome () {
-            showChrome();
-            hideChrome();
+            topBackgroundTransparent.Begin(this);
+            bottomBackgroundTransparent.Begin(this);
+            navigationTransparent.Begin(this);
         }
 
         void toggleMaximize () {
@@ -103,11 +64,12 @@ namespace UI {
             if (!videoStarted) {
                 video.Play();
                 videoStarted = true;
+                vm.VideoPaused = false;
                 return;
             }
-            if (videoPaused) video.Play();
+            if (vm.VideoPaused) video.Play();
             else video.Pause();
-            videoPaused = !videoPaused;
+            vm.VideoPaused = !vm.VideoPaused;
         }
 
         public void SkipBackwardVideo () {
@@ -118,16 +80,7 @@ namespace UI {
             video.Position = a.Subtract(new TimeSpan(0, 0, 10));
             video.Play();
 
-            DoubleAnimation a0 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new CubicEase() };
-            Storyboard board = new();
-            board.Children.Add(a0);
-            board.Children.Add(a1);
-            Storyboard.SetTargetName(a0, skipBackward?.Name);
-            Storyboard.SetTargetName(a1, skipBackward?.Name);
-            Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
-            board.Begin(this);
+            hideNavigation();
         }
 
         public void SkipForwardVideo () {
@@ -135,19 +88,10 @@ namespace UI {
 
             video.Pause();
             var a = video.Position;
-            video.Position = a.Add(new TimeSpan(0, 0, 10));
+            video.Position = a.Add(new TimeSpan(0, 0, 30));
             video.Play();
 
-            DoubleAnimation a0 = new() { From = 0.0, To = 1.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new BackEase() };
-            DoubleAnimation a1 = new() { From = 1.0, To = 0.0, Duration = new(new TimeSpan(0, 0, 1)), EasingFunction = new CubicEase() };
-            Storyboard board = new();
-            board.Children.Add(a0);
-            board.Children.Add(a1);
-            Storyboard.SetTargetName(a0, skipForward?.Name);
-            Storyboard.SetTargetName(a1, skipForward?.Name);
-            Storyboard.SetTargetProperty(a0, new PropertyPath(OpacityProperty));
-            Storyboard.SetTargetProperty(a1, new PropertyPath(OpacityProperty));
-            board.Begin(this);
+            hideNavigation();
         }
 
         // Keyboard access key events
@@ -157,58 +101,56 @@ namespace UI {
         void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
         void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { Close(); }
 
-        // Media
+        // Manage window
+
+        void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+            if (navigation.Opacity == 0.0) return;
+            Close();
+        }
+
+        void Close_Click (object sender, RoutedEventArgs e) {
+            if (navigation.Opacity == 0.0) return;
+            Close();
+        }
 
         void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
-            if (chromeHidden) {
-                titleBar.Visibility = Visibility.Hidden;
-                maximizeBorder.Visibility = Visibility.Hidden;
-                maximize.Visibility = Visibility.Hidden;
-                closeBorder.Visibility = Visibility.Hidden;
-                close.Visibility = Visibility.Hidden;
+            if (navigationHidden) {
+                navigationTopBackground.Visibility = Visibility.Hidden;
+                navigationBottomBackground.Visibility = Visibility.Hidden;
+                navigation.Visibility = Visibility.Hidden;
                 return;
             }
-
-            hideChrome();
+            hideNavigation();
         }
 
-        void MediaWindow_MouseMove (object sender, MouseEventArgs e) {
-            showHideChrome();
+        void MediaWindow_MouseDown (object sender, MouseButtonEventArgs e) {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
         }
+
+        void MediaWindow_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            toggleMaximize();
+        }
+
+        void MediaWindow_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
 
         void MediaWindow_SizeChanged (object sender, SizeChangedEventArgs e) {
-            titleBar.Width = e.NewSize.Width;
             picture.Height = e.NewSize.Height;
             picture.Width = e.NewSize.Width;
             video.Width = e.NewSize.Width;
-            Canvas.SetLeft(skipBackward, e.NewSize.Width / 2 - 5);
-            Canvas.SetLeft(skipForward, e.NewSize.Width / 2 - 5);
-            showHideChrome();
+            navigationTopBackground.Width = e.NewSize.Width;
+            navigationBottomBackground.Width = e.NewSize.Width - 20;
+            navigation.Height = e.NewSize.Height;
+            navigation.Width = e.NewSize.Width;
         }
 
-        // Manage window
-
-        void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { Close(); }
-        void Close_Click (object sender, RoutedEventArgs e) { Close(); }
-
         void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
-            if (chromeHidden) return;
+            if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
 
         void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (chromeHidden) return;
-            toggleMaximize();
-        }
-
-        void Window_MouseDown (object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.ChangedButton == MouseButton.Left)
-                DragMove();
-            showHideChrome();
-        }
-
-        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (chromeHidden) return;
+            if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
     }

@@ -13,8 +13,8 @@
         AllowsTransparency="True"
         Height="450"
         Width="800"
-        MouseDown="Window_MouseDown"
-        MouseDoubleClick="Window_MouseDoubleClick">
+        MouseDown="MediaWindow_MouseDown"
+        MouseDoubleClick="MediaWindow_MouseDoubleClick">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static vm:CustomCommands.Escape}" Executed="KeyboardEscape_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
@@ -67,90 +67,140 @@
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
     <Canvas>
-        <Border Style="{StaticResource IconButtonBorder}"
-                Canvas.Right="55"
-                Canvas.Top="0"
-                Panel.ZIndex="3"
-                MouseLeftButtonDown="MaximizeBorder_MouseLeftButtonDown"
-                Name="maximizeBorder">
-            <Button Style="{StaticResource IconButton}"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Right"
-                    FontSize="20"
-                    Margin="10"
-                    Click="Maximize_Click"
-                    Name="maximize">
-                &#xE922;
-            </Button>
-        </Border>
-        
-        <Border Style="{StaticResource IconButtonBorder}"
-                Canvas.Right="5"
-                Canvas.Top="0"
-                Panel.ZIndex="3"
-                MouseLeftButtonDown="CloseBorder_MouseLeftButtonDown"
-                Name="closeBorder">
-            <Button Style="{StaticResource IconButton}"
-                    FontSize="20"
-                    Margin="10"
-                    Click="Close_Click"
-                    Name="close">
-                &#xE8BB;
-            </Button>
-        </Border>
-
-        <StackPanel Width="850"
-                    Height="50"
-                    Panel.ZIndex="2"
-                    Canvas.Top="0"
-                    Canvas.Left="0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"
-                    Background="#202020"
-                    Opacity="0.8"
-                    Name="titleBar" />
-
-        <TextBlock Canvas.Left="220"
-                   Canvas.Bottom="20"
-                   FontSize="30"
-                   Opacity="0"
-                   Panel.ZIndex="3"
-                   Foreground="WhiteSmoke"
-                   FontFamily="Segoe MDL2 Assets"
-                   Text="&#xEB9D;"
-                   Name="skipForward" />
-
-        <TextBlock Canvas.Left="220"
-                   Canvas.Bottom="20"
-                   FontSize="30"
-                   Opacity="0"
-                   Panel.ZIndex="3"
-                   Foreground="WhiteSmoke"
-                   FontFamily="Segoe MDL2 Assets"
-                   Text="&#xEB9E;"
-                   Name="skipBackward" />
-
-        <Image Panel.ZIndex="1"
+        <Image Canvas.Top="0"
+               Canvas.Left="0"
+               Panel.ZIndex="1"
                Width="850"
                Height="450"
-               Canvas.Top="0"
-               Canvas.Left="0"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="{Binding CurrentPicture}"
                Visibility="{Binding Path=IsPictureOnDisplay, Converter={StaticResource visibilityTrue}}"
                Name="picture" />
-
-        <MediaElement Panel.ZIndex="1"
-                      Width="850"
-                      Canvas.Top="0"
+        <MediaElement Canvas.Top="0"
                       Canvas.Left="0"
+                      Panel.ZIndex="1"
+                      Width="850"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
                       Source="{Binding CurrentVideo}"
                       Visibility="{Binding Path=IsPictureOnDisplay, Converter={StaticResource visibilityFalse}}"
                       Name="video" />
-
+        <StackPanel Canvas.Top="0"
+                    Canvas.Left="0"
+                    Panel.ZIndex="2"
+                    Width="800"
+                    Height="50"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    Background="#202020"
+                    Opacity="0.8"
+                    Name="navigationTopBackground" />
+        <Border Canvas.Left="10"
+                Canvas.Bottom="10"
+                Panel.ZIndex="2"
+                CornerRadius="4"
+                Width="780"
+                Height="70"
+                Background="#202020"
+                BorderThickness="1"
+                BorderBrush="#202020"
+                Opacity="0.8"
+                Name="navigationBottomBackground">
+            <StackPanel VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Background="#202020"
+                        Opacity="0.8" />
+        </Border>
+        <Grid Canvas.Left="0"
+              Canvas.Bottom="0"
+              Panel.ZIndex="3"
+              Width="800"
+              Height="450"
+              Background="Transparent"
+              HorizontalAlignment="Center"
+              Name="navigation">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+                <RowDefinition Height="90" />
+            </Grid.RowDefinitions>
+            <Border Grid.Column="7"
+                    Grid.Row="0"
+                    Style="{StaticResource IconButtonBorder}"
+                    MouseLeftButtonDown="MaximizeBorder_MouseLeftButtonDown"
+                    Name="maximizeBorder">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="20"
+                        Margin="10"
+                        Click="Maximize_Click"
+                        Name="maximize">
+                    &#xE922;
+                </Button>
+            </Border>
+            <Border Grid.Column="8"
+                    Grid.Row="0"
+                    Style="{StaticResource IconButtonBorder}"
+                    MouseLeftButtonDown="CloseBorder_MouseLeftButtonDown"
+                    Name="closeBorder">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="20"
+                        Margin="10"
+                        Click="Close_Click"
+                        Name="close">
+                    &#xE8BB;
+                </Button>
+            </Border>
+            <Border Grid.Column="3"
+                    Grid.Row="2"
+                    Style="{StaticResource IconButtonBorder}">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="40"
+                        Margin="10">
+                    &#xED3C;
+                </Button>
+            </Border>
+            <Border Grid.Column="4"
+                    Grid.Row="2"
+                    Style="{StaticResource IconButtonBorder}"
+                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibilityTrue}}">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="40"
+                        Margin="10">
+                    &#xE768;
+                </Button>
+            </Border>
+            <Border Grid.Column="4"
+                    Grid.Row="2"
+                    Style="{StaticResource IconButtonBorder}"
+                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibilityFalse}}">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="40"
+                        Margin="10">
+                    &#xE769;
+                </Button>
+            </Border>
+            <Border Grid.Column="5"
+                    Grid.Row="2"
+                    Style="{StaticResource IconButtonBorder}">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="40"
+                        Margin="10">
+                    &#xED3D;
+                </Button>
+            </Border>
+        </Grid>
     </Canvas>
 </Window>
