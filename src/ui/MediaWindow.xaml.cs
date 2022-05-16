@@ -17,6 +17,8 @@ namespace UI {
         public MainViewModel vm => App.ViewModel;
 
         bool chromeHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
+        bool videoPaused = false;
+        bool videoStarted = false;
 
         void hideChrome () {
             if (chromeHidden) return;
@@ -96,12 +98,24 @@ namespace UI {
                 SystemCommands.MaximizeWindow(this);
         }
 
+        public void PlayPauseVideo () {
+            if (!videoStarted) {
+                video.Play();
+                videoStarted = true;
+                return;
+            }
+            if (videoPaused) video.Play();
+            else video.Pause();
+            videoPaused = !videoPaused;
+        }
+
         // Keyboard access key events
         
         private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
         private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
+        private void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
 
-        // Slideshow
+        // Media
 
         private void MediaWindow_Loaded (object sender, RoutedEventArgs e) {
             if (chromeHidden) {

@@ -135,6 +135,7 @@ namespace UI {
 
         private void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
         private void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { vm.MoveToNextMediaItem(); }
+        private void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { slideshow?.PlayPauseVideo(); }
 
         // Manage picture list
 

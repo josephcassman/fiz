@@ -18,6 +18,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static vm:CustomCommands.Left}" Executed="KeyboardLeft_Executed" />
         <CommandBinding Command="{x:Static vm:CustomCommands.Right}" Executed="KeyboardRight_Executed" />
+        <CommandBinding Command="{x:Static vm:CustomCommands.Space}" Executed="KeyboardSpace_Executed" />
     </Window.CommandBindings>
     <Window.Resources>
         <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
@@ -125,6 +126,7 @@
                       Canvas.Left="0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
+                      LoadedBehavior="Manual"
                       Source="{Binding CurrentVideo}"
                       Visibility="{Binding Path=IsPictureOnDisplay, Converter={StaticResource visibilityFalse}}"
                       Name="video" />
