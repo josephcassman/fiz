@@ -11,9 +11,9 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
 
-        private void Close_Click (object sender, RoutedEventArgs e) { Close(); }
+        void Close_Click (object sender, RoutedEventArgs e) { Close(); }
 
-        private void Window_MouseDown (object sender, MouseButtonEventArgs e) {
+        void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 try { DragMove(); } catch { }
         }
