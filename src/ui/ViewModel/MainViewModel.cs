@@ -12,26 +12,32 @@ namespace UI.ViewModel {
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
-        int _currentMediaItemIndex = -1;
-        public int CurrentMediaItemIndex {
-            get => _currentMediaItemIndex;
+        public event EventHandler? StopVideo;
+        public event EventHandler? MoveUp;
+        public event EventHandler? MoveDown;
+
+        int _mediaItemsCurrentIndex = -1;
+        public int MediaItemsCurrentIndex {
+            get => _mediaItemsCurrentIndex;
             set {
-                Set(ref _currentMediaItemIndex, value);
-                if (MediaItems[CurrentMediaItemIndex] is PictureItem a) {
+                if (0 <= _mediaItemsCurrentIndex && MediaItems[_mediaItemsCurrentIndex] is VideoItem)
+                    StopVideo?.Invoke(this, new());
+                Set(ref _mediaItemsCurrentIndex, value);
+                if (MediaItems[value] is PictureItem a) {
                     CurrentPicture = a.Media;
-                    IsPictureOnDisplay = true;
+                    PictureDisplayedOnMediaWindow = true;
                 }
                 else {
-                    CurrentVideo = ((VideoItem) MediaItems[CurrentMediaItemIndex]).Media;
-                    IsPictureOnDisplay = false;
+                    CurrentVideo = ((VideoItem) MediaItems[value]).Media;
+                    PictureDisplayedOnMediaWindow = false;
                 }
             }
         }
 
-        bool _isPictureOnDisplay = true;
-        public bool IsPictureOnDisplay {
-            get => _isPictureOnDisplay;
-            set => Set(ref _isPictureOnDisplay, value);
+        bool _pictureDisplayedOnMediaWindow = true;
+        public bool PictureDisplayedOnMediaWindow {
+            get => _pictureDisplayedOnMediaWindow;
+            set => Set(ref _pictureDisplayedOnMediaWindow, value);
         }
 
         BitmapImage _currentPicture = new();
@@ -46,17 +52,8 @@ namespace UI.ViewModel {
             set => Set(ref _currentVideo, value);
         }
 
-        public void MoveToPreviousMediaItem () {
-            if (MediaItems.Count == 0) return;
-            if (CurrentMediaItemIndex == 0) return;
-            --CurrentMediaItemIndex;
-        }
-
-        public void MoveToNextMediaItem () {
-            if (MediaItems.Count == 0) return;
-            if (MediaItems.Count - 1 <= CurrentMediaItemIndex) return;
-            ++CurrentMediaItemIndex;
-        }
+        public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
+        public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
 
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
@@ -87,10 +84,10 @@ namespace UI.ViewModel {
             set => Set(ref _mediaItemSelected, value);
         }
 
-        bool _mediaDisplayMode = false;
-        public bool MediaDisplayMode {
-            get => _mediaDisplayMode;
-            set => Set(ref _mediaDisplayMode, value);
+        bool _mediaDisplayed = false;
+        public bool MediaDisplayed {
+            get => _mediaDisplayed;
+            set => Set(ref _mediaDisplayed, value);
         }
 
         bool _showMediaOnSecondMonitor = true;
