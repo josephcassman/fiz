@@ -5,7 +5,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using UI.ViewModel;
 
 namespace UI {
@@ -37,18 +39,69 @@ namespace UI {
 
         readonly string[] NoResults = new string[] { "" };
 
-        void addPictureUsingFileDialog () {
-            Microsoft.Win32.OpenFileDialog dialog = new() {
-                FileName = "",
-                Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
-                Multiselect = true,
-            };
-            dialog.ShowDialog();
+        void addMediaUsingFileDialog () {
+            if (vm.MediaListMode) {
+                Microsoft.Win32.OpenFileDialog many = new() {
+                    FileName = "",
+                    Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
+                    Multiselect = true,
+                };
+                many.ShowDialog();
 
-            if (Enumerable.SequenceEqual(dialog.SafeFileNames, NoResults))
+                if (Enumerable.SequenceEqual(many.SafeFileNames, NoResults))
+                    return;
+
+                processMediaItems(many.FileNames);
                 return;
+            }
 
-            processMediaItems(dialog.FileNames);
+            Microsoft.Win32.OpenFileDialog one = new() {
+                FileName = "",
+                Filter = "Video |*.mp4;*.wav",
+                Multiselect = false,
+            };
+            one.ShowDialog();
+            if (string.IsNullOrEmpty(one.FileName)) return;
+            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
+            vm.SingleVideo = new();
+
+            singleVideoText.Text = "Loading...";
+
+            // Force the text to update before the thumbnail is generated
+            singleVideoText.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+
+            var uri = new Uri(one.FileName);
+            vm.SingleVideo = new VideoItem {
+                Name = Path.GetFileName(one.FileName),
+                Path = one.FileName,
+                Media = uri,
+                IsPicture = false,
+                Preview = generateVideoThumbnail(uri, 2),
+            };
+
+            singleVideoText.Text = "Drop video file here";
+        }
+
+        // The logic in this function must execute on the UI thread.
+        // Force the UI of any frozen element to update before it is called.
+        RenderTargetBitmap generateVideoThumbnail (Uri a, double seconds) {
+            MediaPlayer player = new() {
+                ScrubbingEnabled = true,
+                Volume = 0,
+            };
+            player.Open(a);
+            player.Position = TimeSpan.FromSeconds(seconds);
+            System.Threading.Thread.Sleep(1000);
+
+            DrawingVisual dv = new();
+            DrawingContext dc = dv.RenderOpen();
+            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
+            dc.Close();
+
+            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
+            bmp.Render(dv);
+            player.Close();
+            return bmp;
         }
 
         void moveNext () {
@@ -142,8 +195,8 @@ namespace UI {
 
         // Manage media list
 
-        void AddMedia_Click (object sender, RoutedEventArgs e) { addPictureUsingFileDialog(); }
-        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addPictureUsingFileDialog(); }
+        void AddMedia_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
+        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
 
         void MediaList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
             if (mediaList.SelectedIndex != -1)

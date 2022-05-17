@@ -5,7 +5,7 @@ namespace UI.ViewModel {
     public abstract class MediaItem {
         public string Name { get; set; } = "";
         public string Path { get; set; } = "";
-        public BitmapImage Preview { get; set; } = new();
+        public BitmapSource Preview { get; set; } = new BitmapImage();
         public bool IsPicture { get; set; } = true;
     }
 
