@@ -8,7 +8,7 @@ namespace UI.ViewModel {
     public class VisibleWhenFalseConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
-            return a ? Visibility.Collapsed : Visibility.Visible;
+            return a ? Visibility.Hidden : Visibility.Visible;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -20,7 +20,7 @@ namespace UI.ViewModel {
     public class VisibleWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
-            return a ? Visibility.Visible: Visibility.Collapsed;
+            return a ? Visibility.Visible: Visibility.Hidden;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
