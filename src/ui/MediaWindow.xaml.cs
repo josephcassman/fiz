@@ -12,12 +12,17 @@ namespace UI {
             Loaded += Window_Loaded;
             MouseMove += Window_MouseMove;
             SizeChanged += Window_SizeChanged;
+
+            vm.StopVideo += (_, _) => {
+                if (vm.PictureDisplayedOnMediaWindow) return;
+                try { video.Stop(); } catch { }
+                vm.VideoPaused = true;
+            };
         }
 
         public MainViewModel vm => App.ViewModel;
 
         bool navigationHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
-        bool videoStarted = false;
 
         void hideNavigation () {
             static DoubleAnimation animation () => new() {
@@ -52,6 +57,16 @@ namespace UI {
             navigationTransparent.Begin(this);
         }
 
+        void playVideo () {
+            video.Play();
+            vm.VideoPaused = false;
+        }
+
+        void pauseVideo () {
+            video.Pause();
+            vm.VideoPaused = true;
+        }
+
         void toggleMaximize () {
             if (WindowState == WindowState.Maximized)
                 SystemCommands.RestoreWindow(this);
@@ -60,45 +75,28 @@ namespace UI {
         }
 
         public void PlayPauseVideo () {
-            if (!videoStarted) {
-                video.Play();
-                videoStarted = true;
-                vm.VideoPaused = false;
-                return;
-            }
-            if (vm.VideoPaused) video.Play();
-            else video.Pause();
-            vm.VideoPaused = !vm.VideoPaused;
+            if (vm.PictureDisplayedOnMediaWindow) return;
+            if (vm.VideoPaused) playVideo();
+            else pauseVideo();
         }
 
         public void SkipBackwardVideo () {
-            if (vm.IsPictureOnDisplay) return;
-
+            if (vm.PictureDisplayedOnMediaWindow) return;
             video.Pause();
             var a = video.Position;
             video.Position = a.Subtract(new TimeSpan(0, 0, 10));
             video.Play();
-
             hideNavigation();
         }
 
         public void SkipForwardVideo () {
-            if (vm.IsPictureOnDisplay) return;
-
+            if (vm.PictureDisplayedOnMediaWindow) return;
             video.Pause();
             var a = video.Position;
             video.Position = a.Add(new TimeSpan(0, 0, 30));
             video.Play();
-
             hideNavigation();
         }
-
-        // Keyboard access key events
-        
-        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { SkipBackwardVideo(); }
-        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { SkipForwardVideo(); }
-        void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { PlayPauseVideo(); }
-        void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { Close(); }
 
         // Manage window
 
@@ -113,14 +111,12 @@ namespace UI {
         }
 
         void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
-            if (navigation.Opacity == 0.0)
-                return;
+            if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
 
         void Maximize_Click (object sender, RoutedEventArgs e) {
-            if (navigation.Opacity == 0.0)
-                return;
+            if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
 
@@ -153,6 +149,32 @@ namespace UI {
             navigationBottomBackground.Width = e.NewSize.Width - 20;
             navigation.Height = e.NewSize.Height;
             navigation.Width = e.NewSize.Width;
+        }
+
+        void Play_Click (object sender, RoutedEventArgs e) { playVideo(); }
+        void Play_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playVideo(); }
+
+        void Pause_Click (object sender, RoutedEventArgs e) { pauseVideo(); }
+        void Pause_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { pauseVideo(); }
+
+        void SkipBackward_Click (object sender, RoutedEventArgs e) { SkipBackwardVideo(); }
+        void SkipBackward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { SkipBackwardVideo(); }
+
+        void SkipForward_Click (object sender, RoutedEventArgs e) { SkipForwardVideo(); }
+        void SkipForward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { SkipForwardVideo(); }
+
+        void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Down: vm.MoveToNextMediaItem(); break;
+                case Key.Escape: Close(); break;
+                case Key.Left: SkipBackwardVideo(); break;
+                case Key.Right: SkipForwardVideo(); break;
+                case Key.Space:
+                    if (vm.PictureDisplayedOnMediaWindow) return;
+                    PlayPauseVideo();
+                    break;
+                case Key.Up: vm.MoveToPreviousMediaItem(); break;
+            }
         }
     }
 }

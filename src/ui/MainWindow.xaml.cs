@@ -15,6 +15,9 @@ namespace UI {
             DataContext = vm;
             mediaList.ItemsSource = vm.MediaItems;
             Closing += MainWindow_Closing;
+
+            vm.MoveDown += (_, _) => moveNext();
+            vm.MoveUp += (_, _) => movePrevious();
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -46,56 +49,60 @@ namespace UI {
                 return;
 
             processMediaItems(dialog.FileNames);
-
-            if (0 < mediaList.Items.Count) {
-                mediaList.SelectedIndex = 0;
-                mediaList.Focus();
-            }
         }
 
-        void movePictureDown () {
-            if (mediaList.SelectedItem == null) return;
+        void moveNext () {
+            if (mediaList.Items.Count == 0) return;
+            if (mediaList.Items.Count - 1 <= mediaList.SelectedIndex) return;
+            vm.MediaItemsCurrentIndex = ++mediaList.SelectedIndex;
+        }
+
+        void movePrevious () {
+            if (mediaList.Items.Count == 0) return;
+            if (mediaList.SelectedIndex == 0) return;
+            vm.MediaItemsCurrentIndex = --mediaList.SelectedIndex;
+        }
+
+        void shiftDown () {
             if (vm.MediaItems.Count == 0) return;
             if (mediaList.Items.Count - 1 <= mediaList.SelectedIndex) return;
+            if (mediaList.SelectedItem == null) mediaList.SelectedIndex = 0;
             var i = mediaList.SelectedIndex;
 
-            // Necessary to cause the picture thumbnail to update
+            // Necessary to cause the thumbnail to update
             mediaList.ItemsSource = null;
 
             (vm.MediaItems[i], vm.MediaItems[i + 1]) = (vm.MediaItems[i + 1], vm.MediaItems[i]);
             mediaList.ItemsSource = vm.MediaItems;
 
             mediaList.SelectedIndex = i + 1;
-            mediaList.Focus();
         }
 
-        void movePictureUp () {
-            if (mediaList.SelectedItem == null) return;
+        void shiftUp () {
             if (vm.MediaItems.Count == 0) return;
             if (mediaList.SelectedIndex == 0) return;
+            if (mediaList.SelectedItem == null) mediaList.SelectedIndex = 0;
             var i = mediaList.SelectedIndex;
 
-            // Necessary to cause the picture thumbnail to update
+            // Necessary to cause the thumbnail to update
             mediaList.ItemsSource = null;
 
             (vm.MediaItems[i], vm.MediaItems[i - 1]) = (vm.MediaItems[i - 1], vm.MediaItems[i]);
             mediaList.ItemsSource = vm.MediaItems;
 
             mediaList.SelectedIndex = i - 1;
-            mediaList.Focus();
         }
 
-        void playSlideshow () {
+        void showMedia () {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) {
                 vm.MediaListHasContents = false;
                 return;
             }
             if (mediaList.SelectedValue == null)
                 mediaList.SelectedIndex = 0;
-            vm.CurrentMediaItemIndex = mediaList.SelectedIndex;
             media = new();
-            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayMode = false; });
-            vm.MediaDisplayMode = true;
+            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayed = false; });
+            vm.MediaDisplayed = true;
         }
 
         void processMediaItems (string[] paths) {
@@ -122,58 +129,56 @@ namespace UI {
                     });
                 }
             }
-        }
-
-        void stopSlideshow () {
-            media?.Close();
-            vm.MediaDisplayMode = false;
-        }
-
-        // Keyboard access key events
-
-        void KeyboardLeft_Executed (object sender, ExecutedRoutedEventArgs e) { media?.SkipBackwardVideo(); }
-        void KeyboardRight_Executed (object sender, ExecutedRoutedEventArgs e) { media?.SkipForwardVideo(); }
-        void KeyboardSpace_Executed (object sender, ExecutedRoutedEventArgs e) { media?.PlayPauseVideo(); }
-        void KeyboardEscape_Executed (object sender, ExecutedRoutedEventArgs e) { media?.Close(); }
-
-        // Manage picture list
-
-        void AddPicture_Click (object sender, RoutedEventArgs e) { addPictureUsingFileDialog(); }
-        void AddPicture_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addPictureUsingFileDialog(); }
-        void PictureList_SelectionChanged (object sender, SelectionChangedEventArgs e) { vm.MediaItemSelected = 0 < e.AddedItems.Count; }
-
-        void PictureList_Drop (object sender, DragEventArgs e) {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-            var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
-            processMediaItems(paths);
-            if (0 < mediaList.Items.Count) {
+            if (0 < paths.Length) {
                 mediaList.SelectedIndex = 0;
                 mediaList.Focus();
             }
         }
 
-        void PictureList_MouseDown (object sender, MouseButtonEventArgs e) {
-            vm.MediaItemSelected = false;
-            mediaList.SelectedIndex = -1;
+        void closeMedia () {
+            media?.Close();
+            vm.MediaDisplayed = false;
         }
 
-        // Navigate picture list
+        // Manage media list
 
-        void MovePictureDown_Click (object sender, RoutedEventArgs e) { movePictureDown(); }
-        void MovePictureDown_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { movePictureDown(); }
-        void MovePictureLeft_Click (object sender, RoutedEventArgs e) { vm.MoveToPreviousMediaItem(); }
-        void MovePictureLeft_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { vm.MoveToPreviousMediaItem(); }
-        void MovePictureRight_Click (object sender, RoutedEventArgs e) { vm.MoveToNextMediaItem(); }
-        void MovePictureRight_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { vm.MoveToNextMediaItem(); }
-        void MovePictureUp_Click (object sender, RoutedEventArgs e) { movePictureUp(); }
-        void MovePictureUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { movePictureUp(); }
+        void AddMedia_Click (object sender, RoutedEventArgs e) { addPictureUsingFileDialog(); }
+        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addPictureUsingFileDialog(); }
 
-        // Navigate slideshow
+        void MediaList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
+            if (mediaList.SelectedIndex != -1)
+                vm.MediaItemsCurrentIndex = mediaList.SelectedIndex;
+        }
 
-        void PlaySlideshow_Click (object sender, RoutedEventArgs e) { playSlideshow(); }
-        void PlaySlideshow_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playSlideshow(); }
-        void StopSlideshow_Click (object sender, RoutedEventArgs e) { stopSlideshow(); }
-        void StopSlideshow_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { stopSlideshow(); }
+        void MediaList_Drop (object sender, DragEventArgs e) {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+            var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            processMediaItems(paths);
+        }
+
+        // Navigate media list
+
+        void down () {
+            if (vm.MediaDisplayed) moveNext();
+            else shiftDown();
+        }
+
+        void up () {
+            if (vm.MediaDisplayed) movePrevious();
+            else shiftUp();
+        }
+
+        void MoveDown_Click (object sender, RoutedEventArgs e) { down(); }
+        void MoveDown_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { down(); }
+        void MoveUp_Click (object sender, RoutedEventArgs e) { up(); }
+        void MoveUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { up(); }
+
+        // Manage media window
+
+        void PlayMedia_Click (object sender, RoutedEventArgs e) { showMedia(); }
+        void PlayMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showMedia(); }
+        void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
+        void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
         // Manage window
 
@@ -181,12 +186,12 @@ namespace UI {
         void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { media?.Close(); }
         void Minimize_Click (object sender, RoutedEventArgs e) { WindowState = WindowState.Minimized; }
 
-        void Picture_Click (object sender, RoutedEventArgs e) {
+        void MediaList_Click (object sender, RoutedEventArgs e) {
             if (!vm.MediaListMode)
                 vm.MediaListMode = true;
         }
 
-        void Video_Click (object sender, RoutedEventArgs e) {
+        void SingleVideo_Click (object sender, RoutedEventArgs e) {
             if (vm.MediaListMode)
                 vm.MediaListMode = false;
         }
@@ -202,6 +207,27 @@ namespace UI {
             if (e.ChangedButton == MouseButton.Left)
                 try { DragMove(); } catch { }
             mediaList.Focus();
+        }
+
+        private void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Down:
+                    if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftDown();
+                    else moveNext();
+                    break;
+                case Key.Escape: media?.Close(); break;
+                case Key.Left: media?.SkipBackwardVideo(); break;
+                case Key.Right: media?.SkipForwardVideo(); break;
+                case Key.Space:
+                    if (mediaList.SelectedValue is PictureItem) return;
+                    media?.PlayPauseVideo();
+                    break;
+                case Key.Up:
+                    if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftUp();
+                    else movePrevious();
+                    break;
+            }
+            e.Handled = true;
         }
     }
 }
