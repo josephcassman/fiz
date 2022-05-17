@@ -52,6 +52,12 @@ namespace UI.ViewModel {
             set => Set(ref _currentVideo, value);
         }
 
+        VideoItem _singleVideo = new();
+        public VideoItem SingleVideo {
+            get => _singleVideo;
+            set => Set(ref _singleVideo, value);
+        }
+
         public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
         public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
 
