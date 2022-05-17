@@ -24,6 +24,8 @@
     <Window.Resources>
         <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
         <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
+        <vm:MediaItemToVisibleWhenTrueConverter x:Key="mediaItemPositiveVisibility" />
+        <vm:MediaItemToHiddenWhenTrueConverter x:Key="mediaItemNegativeVisibility" />
         <Style x:Key="TabButton" TargetType="Button">
             <Setter Property="Height" Value="50" />
             <Setter Property="Padding" Value="10" />
@@ -247,13 +249,44 @@
                          Name="mediaList" />
             </StackPanel>
 
-            <TextBlock Grid.Row="1"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="30"
-                       Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}">
-            video view
-            </TextBlock>
+            <Grid Grid.Row="1"
+                  Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        BorderBrush="#707070"
+                        BorderThickness="3"
+                        Width="350"
+                        Height="350"
+                        Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemNegativeVisibility}}">
+                    <TextBlock Foreground="LightGray"
+                               FontSize="50"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="Drop video file here"
+                               Name="singleVideoText" />
+                </Border>
+
+                <Border Grid.Row="0"
+                        BorderBrush="#707070"
+                        BorderThickness="1"
+                        CornerRadius="2"
+                        Width="350"
+                        Height="350"
+                        Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemPositiveVisibility}}">
+                    <Image HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Source="{Binding SingleVideo.Preview}" />
+                </Border>
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal">
+                </StackPanel>
+            </Grid>
 
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
