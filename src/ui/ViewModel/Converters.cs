@@ -12,8 +12,7 @@ namespace UI.ViewModel {
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
-            var a = (Visibility) value;
-            return a == Visibility.Collapsed;
+            throw new NotImplementedException();
         }
     }
 
@@ -25,8 +24,7 @@ namespace UI.ViewModel {
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
-            var a = (Visibility) value;
-            return a == Visibility.Visible;
+            throw new NotImplementedException();
         }
     }
 
