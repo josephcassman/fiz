@@ -119,9 +119,9 @@
                            Text="&#xE714;"
                            Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityFalse}}" />
                 <Grid Grid.Column="1"
-                      Width="420">
+                      Width="400">
                     <TextBlock FontSize="22"
-                               TextWrapping="WrapWithOverflow"
+                               TextWrapping="Wrap"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Text="{Binding Path=Name}" />
