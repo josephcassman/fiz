@@ -173,6 +173,14 @@ namespace UI {
         void MoveUp_Click (object sender, RoutedEventArgs e) { up(); }
         void MoveUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { up(); }
 
+        void mediaList_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            if (!vm.MediaDisplayed) showMedia();
+            else {
+                if (vm.MediaItems[vm.MediaItemsCurrentIndex] is VideoItem)
+                    media?.PlayPauseVideo();
+            }
+        }
+
         // Manage media window
 
         void PlayMedia_Click (object sender, RoutedEventArgs e) { showMedia(); }

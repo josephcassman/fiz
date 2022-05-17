@@ -241,6 +241,7 @@
                          HorizontalAlignment="Stretch"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                          SelectionChanged="MediaList_SelectionChanged"
+                         MouseDoubleClick="mediaList_MouseDoubleClick"
                          ItemTemplate="{StaticResource MediaListTemplate}"
                          Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
                          Name="mediaList" />
