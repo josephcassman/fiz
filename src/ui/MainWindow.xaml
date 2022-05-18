@@ -310,6 +310,16 @@
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
                                 Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
+                                MouseLeftButtonDown="RemoveMedia_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="30"
+                                    Margin="10"
+                                    Click="RemoveMedia_Click">
+                                &#xE738;
+                            </Button>
+                        </Border>
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
                                 MouseLeftButtonDown="PlayMedia_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="50"
