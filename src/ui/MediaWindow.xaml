@@ -17,8 +17,8 @@
         MouseDown="Window_MouseDown"
         MouseDoubleClick="Window_MouseDoubleClick">
     <Window.Resources>
-        <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
-        <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
+        <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
+        <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
         <Style x:Key="IconButtonBorder" TargetType="Border">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -71,7 +71,7 @@
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="{Binding CurrentPicture}"
-               Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibilityTrue}}"
+               Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
                Name="picture" />
         <MediaElement Canvas.Top="0"
                       Canvas.Left="0"
@@ -81,7 +81,7 @@
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
                       Source="{Binding CurrentVideo}"
-                      Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibilityFalse}}"
+                      Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
                       Name="video" />
         <StackPanel Canvas.Top="0"
                     Canvas.Left="0"
@@ -104,7 +104,7 @@
                 BorderBrush="#202020"
                 Opacity="0.8"
                 Name="navigationBottomBackground"
-                Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibilityFalse}}">
+                Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
             <StackPanel VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Background="#202020"
@@ -157,7 +157,7 @@
             <Grid Grid.Column="0"
                   Grid.ColumnSpan="3"
                   Grid.Row="2"
-                  Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibilityFalse}}">
+                  Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="70" />
@@ -177,7 +177,7 @@
                 </Border>
                 <Border Grid.Column="2"
                         Style="{StaticResource IconButtonBorder}"
-                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibilityTrue}}"
+                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}"
                         MouseLeftButtonDown="Play_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
                             FontSize="40"
@@ -188,7 +188,7 @@
                 </Border>
                 <Border Grid.Column="2"
                         Style="{StaticResource IconButtonBorder}"
-                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibilityFalse}}"
+                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}"
                         MouseLeftButtonDown="Pause_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
                             FontSize="40"

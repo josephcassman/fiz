@@ -5,10 +5,10 @@ using System.Windows.Data;
 
 namespace UI.ViewModel {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class VisibleWhenFalseConverter : IValueConverter {
+    public class BoolToCollapsedConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
-            return a ? Visibility.Hidden : Visibility.Visible;
+            return a ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -17,10 +17,10 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class VisibleWhenTrueConverter : IValueConverter {
+    public class BoolToVisibleConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
-            return a ? Visibility.Visible: Visibility.Hidden;
+            return a ? Visibility.Visible: Visibility.Collapsed;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -32,7 +32,7 @@ namespace UI.ViewModel {
     public class MediaItemToVisibleWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
-            return string.IsNullOrEmpty(a.Name) ? Visibility.Hidden : Visibility.Visible;
+            return string.IsNullOrEmpty(a.Name) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -44,7 +44,7 @@ namespace UI.ViewModel {
     public class MediaItemToHiddenWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
-            return string.IsNullOrEmpty(a.Name) ? Visibility.Visible : Visibility.Hidden;
+            return string.IsNullOrEmpty(a.Name) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
