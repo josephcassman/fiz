@@ -40,6 +40,28 @@ namespace UI {
         readonly string[] NoResults = new string[] { "" };
 
         void addMediaUsingFileDialog () {
+            // The logic in this function must execute on the UI thread.
+            // Force the UI of any frozen element to update before it is called.
+            static RenderTargetBitmap generateVideoThumbnail (Uri a, double seconds) {
+                MediaPlayer player = new() {
+                    ScrubbingEnabled = true,
+                    Volume = 0,
+                };
+                player.Open(a);
+                player.Position = TimeSpan.FromSeconds(seconds);
+                System.Threading.Thread.Sleep(2000);
+
+                DrawingVisual dv = new();
+                DrawingContext dc = dv.RenderOpen();
+                dc.DrawVideo(player, new Rect(0, 0, 330, 330));
+                dc.Close();
+
+                RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
+                bmp.Render(dv);
+                player.Close();
+                return bmp;
+            }
+
             if (vm.MediaListMode) {
                 Microsoft.Win32.OpenFileDialog many = new() {
                     FileName = "",
@@ -82,26 +104,9 @@ namespace UI {
             singleVideoText.Text = "Drop video file here";
         }
 
-        // The logic in this function must execute on the UI thread.
-        // Force the UI of any frozen element to update before it is called.
-        RenderTargetBitmap generateVideoThumbnail (Uri a, double seconds) {
-            MediaPlayer player = new() {
-                ScrubbingEnabled = true,
-                Volume = 0,
-            };
-            player.Open(a);
-            player.Position = TimeSpan.FromSeconds(seconds);
-            System.Threading.Thread.Sleep(2000);
-
-            DrawingVisual dv = new();
-            DrawingContext dc = dv.RenderOpen();
-            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
-            dc.Close();
-
-            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
-            bmp.Render(dv);
-            player.Close();
-            return bmp;
+        void closeMedia () {
+            media?.Close();
+            vm.MediaDisplayed = false;
         }
 
         void moveNext () {
@@ -114,6 +119,51 @@ namespace UI {
             if (mediaList.Items.Count == 0) return;
             if (mediaList.SelectedIndex == 0) return;
             vm.MediaItemsCurrentIndex = --mediaList.SelectedIndex;
+        }
+
+        void processMediaItems (string[] paths) {
+            if (paths == null)
+                return;
+            foreach (var path in paths) {
+                var name = Path.GetFileName(path);
+                var extension = Path.GetExtension(path);
+                var uri = new Uri(path);
+                if (PictureExtensions.Contains(extension)) {
+                    var bmp = new BitmapImage(uri);
+                    vm.AddMediaItem(new PictureItem {
+                        Name = name,
+                        Path = path,
+                        Preview = bmp,
+                        Media = bmp,
+                    });
+                }
+                else if (VideoExtensions.Contains(extension)) {
+                    vm.AddMediaItem(new VideoItem {
+                        Name = name,
+                        Path = path,
+                        Media = uri,
+                        IsPicture = false,
+                    });
+                }
+            }
+            if (0 < paths.Length) {
+                mediaList.SelectedIndex = 0;
+                mediaList.Focus();
+            }
+        }
+
+        void removeMediaItem () {
+            var i = mediaList.SelectedIndex;
+            if (i < 0)
+                return;
+            if (vm.MediaItems.Count <= i)
+                return;
+            vm.RemoveMediaItem(i);
+            if (vm.MediaItems.Count == 0)
+                return;
+            if (vm.MediaItems.Count <= i)
+                i = vm.MediaItems.Count - 1;
+            mediaList.SelectedIndex = i;
         }
 
         void shiftDown () {
@@ -152,51 +202,6 @@ namespace UI {
             media = new();
             SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayed = false; });
             vm.MediaDisplayed = true;
-        }
-
-        void processMediaItems (string[] paths) {
-            if (paths == null) return;
-            foreach (var path in paths) {
-                var name = Path.GetFileName(path);
-                var extension = Path.GetExtension(path);
-                var uri = new Uri(path);
-                if (PictureExtensions.Contains(extension)) {
-                    var bmp = new BitmapImage(uri);
-                    vm.AddMediaItem(new PictureItem {
-                        Name = name,
-                        Path = path,
-                        Preview = bmp,
-                        Media = bmp,
-                    });
-                }
-                else if (VideoExtensions.Contains(extension)) {
-                    vm.AddMediaItem(new VideoItem {
-                        Name = name,
-                        Path = path,
-                        Media = uri,
-                        IsPicture = false,
-                    });
-                }
-            }
-            if (0 < paths.Length) {
-                mediaList.SelectedIndex = 0;
-                mediaList.Focus();
-            }
-        }
-
-        void closeMedia () {
-            media?.Close();
-            vm.MediaDisplayed = false;
-        }
-
-        void removeMediaItem () {
-            var i = mediaList.SelectedIndex;
-            if (i < 0) return;
-            if (vm.MediaItems.Count <= i) return;
-            vm.RemoveMediaItem(i);
-            if (vm.MediaItems.Count == 0) return;
-            if (vm.MediaItems.Count <= i) i = vm.MediaItems.Count - 1;
-            mediaList.SelectedIndex = i;
         }
 
         // Manage media list
