@@ -91,7 +91,7 @@ namespace UI {
             };
             player.Open(a);
             player.Position = TimeSpan.FromSeconds(seconds);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(2000);
 
             DrawingVisual dv = new();
             DrawingContext dc = dv.RenderOpen();
