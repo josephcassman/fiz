@@ -84,12 +84,6 @@ namespace UI.ViewModel {
             set => Set(ref _mediaListMode, value);
         }
 
-        bool _mediaItemSelected = false;
-        public bool MediaItemSelected {
-            get => _mediaItemSelected;
-            set => Set(ref _mediaItemSelected, value);
-        }
-
         bool _mediaDisplayed = false;
         public bool MediaDisplayed {
             get => _mediaDisplayed;
