@@ -148,8 +148,7 @@ namespace UI {
 
         void showMedia () {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
-            if (mediaList.SelectedValue == null)
-                mediaList.SelectedIndex = 0;
+            if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
             media = new();
             SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayed = false; });
             vm.MediaDisplayed = true;
