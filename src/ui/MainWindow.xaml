@@ -22,8 +22,8 @@
         MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
     <Window.Resources>
-        <vm:VisibleWhenFalseConverter x:Key="visibilityFalse" />
-        <vm:VisibleWhenTrueConverter x:Key="visibilityTrue" />
+        <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
+        <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
         <vm:MediaItemToVisibleWhenTrueConverter x:Key="mediaItemPositiveVisibility" />
         <vm:MediaItemToHiddenWhenTrueConverter x:Key="mediaItemNegativeVisibility" />
         <Style x:Key="TabButton" TargetType="Button">
@@ -112,14 +112,14 @@
                 <Image Grid.Column="0"
                        Height="70"
                        Source="{Binding Preview}"
-                       Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityTrue}}" />
+                       Visibility="{Binding Path=IsPicture, Converter={StaticResource visibleWhenTrue}}" />
                 <TextBlock Grid.Column="0"
                            FontFamily="Segoe MDL2 Assets"
                            FontSize="30"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Text="&#xE714;"
-                           Visibility="{Binding Path=IsPicture, Converter={StaticResource visibilityFalse}}" />
+                           Visibility="{Binding Path=IsPicture, Converter={StaticResource collapsedWhenTrue}}" />
                 <Grid Grid.Column="1"
                       Width="400">
                     <TextBlock FontSize="22"
@@ -192,7 +192,7 @@
                         &#xEA37;
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}" />
+                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                             HorizontalAlignment="Center"
@@ -203,7 +203,7 @@
                         &#xE714;
                     </Button>
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}" />
+                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}" />
                 </StackPanel>
 
             </StackPanel>
@@ -213,19 +213,19 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         AllowDrop="True"
-                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}">
+                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
                            Text="Drag and drop"
-                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityFalse}}" />
+                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
                 <TextBlock HorizontalAlignment="Center"
                            FontSize="50"
                            Foreground="LightGray"
                            AllowDrop="True"
                            Text="media here"
-                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityFalse}}" />
+                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
             </StackPanel>
 
             <StackPanel Grid.Row="1"
@@ -234,7 +234,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Margin="4 10 4 0"
-                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityTrue}}">
+                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
                 <ListBox AllowDrop="True"
                          BorderThickness="0"
                          HorizontalContentAlignment="Stretch"
@@ -245,12 +245,12 @@
                          SelectionChanged="MediaList_SelectionChanged"
                          MouseDoubleClick="mediaList_MouseDoubleClick"
                          ItemTemplate="{StaticResource MediaListTemplate}"
-                         Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
+                         Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
                          Name="mediaList" />
             </StackPanel>
 
             <Grid Grid.Row="1"
-                  Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibilityFalse}}">
+                  Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="150" />
@@ -298,7 +298,7 @@
                             HorizontalAlignment="Left">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
-                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibilityFalse}}">
+                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
                         <Border Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="AddMedia_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
@@ -309,7 +309,7 @@
                             </Button>
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
+                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
                                 MouseLeftButtonDown="RemoveMedia_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="30"
@@ -319,7 +319,7 @@
                             </Button>
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}"
+                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
                                 MouseLeftButtonDown="PlayMedia_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="50"
@@ -330,7 +330,7 @@
                         </Border>
                     </StackPanel>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibilityTrue}}"
+                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
                             MouseLeftButtonDown="StopMedia_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="25"
@@ -343,7 +343,7 @@
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibilityTrue}}">
+                            Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}"
                             MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
