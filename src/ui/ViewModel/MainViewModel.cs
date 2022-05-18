@@ -22,13 +22,19 @@ namespace UI.ViewModel {
             MediaListHasContents = true;
         }
 
+        public void RemoveMediaItem (int i) {
+            MediaItems.RemoveAt(i);
+            MediaListHasContents = 0 < MediaItems.Count;
+        }
+
         public ObservableCollection<MediaItem> MediaItems = new();
 
         int _mediaItemsCurrentIndex = -1;
         public int MediaItemsCurrentIndex {
             get => _mediaItemsCurrentIndex;
             set {
-                if (0 <= _mediaItemsCurrentIndex && MediaItems[_mediaItemsCurrentIndex] is VideoItem)
+                if (0 <= _mediaItemsCurrentIndex && _mediaItemsCurrentIndex < MediaItems.Count &&
+                    MediaItems[_mediaItemsCurrentIndex] is VideoItem)
                     StopVideo?.Invoke(this, new());
                 Set(ref _mediaItemsCurrentIndex, value);
                 if (MediaItems[value] is PictureItem a) {

@@ -189,10 +189,22 @@ namespace UI {
             vm.MediaDisplayed = false;
         }
 
+        void removeMediaItem () {
+            var i = mediaList.SelectedIndex;
+            if (i < 0) return;
+            if (vm.MediaItems.Count <= i) return;
+            vm.RemoveMediaItem(i);
+            if (vm.MediaItems.Count == 0) return;
+            if (vm.MediaItems.Count <= i) i = vm.MediaItems.Count - 1;
+            mediaList.SelectedIndex = i;
+        }
+
         // Manage media list
 
         void AddMedia_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
         void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
+        void RemoveMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
+        void RemoveMedia_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
 
         void MediaList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
             if (mediaList.SelectedIndex != -1)
