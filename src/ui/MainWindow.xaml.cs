@@ -134,7 +134,7 @@ namespace UI {
 
         void playPauseVideo () {
             if (vm.MediaDisplayed) media?.PlayPauseVideo();
-            else if (vm.MediaListMode) showMedia();
+            else if (vm.MediaListMode) showMediaListMedia();
             else showSingleVideo();
         }
 
@@ -210,7 +210,7 @@ namespace UI {
             mediaList.SelectedIndex = i - 1;
         }
 
-        void showMedia () {
+        void showMediaListMedia () {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
             if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
             media = new();
@@ -279,7 +279,7 @@ namespace UI {
         }
 
         void MediaList_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (!vm.MediaDisplayed) showMedia();
+            if (!vm.MediaDisplayed) showMediaListMedia();
             else {
                 if (vm.MediaItems[vm.MediaItemsCurrentIndex] is VideoItem)
                     media?.PlayPauseVideo();
@@ -319,26 +319,16 @@ namespace UI {
 
         // Manage media window
 
-        void PauseMedia_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
-        void PauseMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
-        void PlayMedia_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
-        void PlayMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
-        void SkipBackwardMedia_Click (object sender, RoutedEventArgs e) { media?.SkipBackwardVideo(); }
-        void SkipBackwardMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
-        void SkipForwardMedia_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
-        void SkipForwardMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
-
-        void PauseSingleVideo_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
-        void PauseSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
-        void PlaySingleVideo_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
-        void PlaySingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
-        void SkipBackwardSingleVideo_Click (object sender, RoutedEventArgs e) { media?.SkipBackwardVideo(); }
-        void SkipBackwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
-        void SkipForwardSingleVideo_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
-        void SkipForwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
-
-        void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
-        void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
+        void Pause_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
+        void Pause_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
+        void Play_Click (object sender, RoutedEventArgs e) { playPauseVideo(); }
+        void Play_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { playPauseVideo(); }
+        void SkipBackward_Click (object sender, RoutedEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipBackward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipForward_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
+        void SkipForward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
+        void Stop_Click (object sender, RoutedEventArgs e) { closeMedia(); }
+        void Stop_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
         // Manage window
 
