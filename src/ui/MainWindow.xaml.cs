@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,13 +18,17 @@ namespace UI {
             DataContext = vm;
             mediaList.ItemsSource = vm.MediaItems;
             Closing += MainWindow_Closing;
-
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
         }
 
         public MainViewModel vm => App.ViewModel;
         MediaWindow? media;
+        string skipMinutes = "";
+        string skipSeconds = "";
+
+        static readonly Regex DigitPattern = new(@"\d");
 
         public static readonly HashSet<string> PictureExtensions = new() {
             ".jpg",
@@ -39,58 +44,59 @@ namespace UI {
 
         readonly string[] NoResults = new string[] { "" };
 
+        // The logic in this function must execute on the UI thread.
+        // Force the UI of any frozen element to update before it is called.
+        static RenderTargetBitmap generateSingleVideoThumbnail (Uri a, TimeSpan skip) {
+            MediaPlayer player = new() {
+                ScrubbingEnabled = true,
+                Volume = 0,
+            };
+            player.Open(a);
+            player.Position = skip;
+            System.Threading.Thread.Sleep(2000);
+
+            DrawingVisual dv = new();
+            DrawingContext dc = dv.RenderOpen();
+            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
+            dc.Close();
+
+            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
+            bmp.Render(dv);
+            player.Close();
+            return bmp;
+        }
+
         void addMediaUsingFileDialog () {
-            // The logic in this function must execute on the UI thread.
-            // Force the UI of any frozen element to update before it is called.
-            static RenderTargetBitmap generateVideoThumbnail (Uri a, double seconds) {
-                MediaPlayer player = new() {
-                    ScrubbingEnabled = true,
-                    Volume = 0,
-                };
-                player.Open(a);
-                player.Position = TimeSpan.FromSeconds(seconds);
-                System.Threading.Thread.Sleep(2000);
+            Microsoft.Win32.OpenFileDialog many = new() {
+                FileName = "",
+                Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
+                Multiselect = true,
+            };
+            many.ShowDialog();
 
-                DrawingVisual dv = new();
-                DrawingContext dc = dv.RenderOpen();
-                dc.DrawVideo(player, new Rect(0, 0, 330, 330));
-                dc.Close();
-
-                RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
-                bmp.Render(dv);
-                player.Close();
-                return bmp;
-            }
-
-            if (vm.MediaListMode) {
-                Microsoft.Win32.OpenFileDialog many = new() {
-                    FileName = "",
-                    Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
-                    Multiselect = true,
-                };
-                many.ShowDialog();
-
-                if (Enumerable.SequenceEqual(many.SafeFileNames, NoResults))
-                    return;
-
-                processMediaItems(many.FileNames);
+            if (Enumerable.SequenceEqual(many.SafeFileNames, NoResults))
                 return;
-            }
 
+            processMediaItems(many.FileNames);
+        }
+
+        void addSingleVideoUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog one = new() {
                 FileName = "",
                 Filter = "Video |*.mp4;*.wav",
                 Multiselect = false,
             };
             one.ShowDialog();
-            if (string.IsNullOrEmpty(one.FileName)) return;
-            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
+            if (string.IsNullOrEmpty(one.FileName))
+                return;
+            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName)))
+                return;
             vm.SingleVideo = new();
 
             singleVideoText.Text = "Loading...";
 
             // Force the text to update before the thumbnail is generated
-            singleVideoText.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
 
             var uri = new Uri(one.FileName);
             vm.SingleVideo = new VideoItem {
@@ -98,7 +104,7 @@ namespace UI {
                 Path = one.FileName,
                 Media = uri,
                 IsPicture = false,
-                Preview = generateVideoThumbnail(uri, 2),
+                Preview = generateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
             };
 
             singleVideoText.Text = "Drop video file here";
@@ -107,6 +113,11 @@ namespace UI {
         void closeMedia () {
             media?.Close();
             vm.MediaDisplayed = false;
+        }
+
+        void down () {
+            if (vm.MediaDisplayed) moveNext();
+            else shiftDown();
         }
 
         void moveNext () {
@@ -204,29 +215,11 @@ namespace UI {
             vm.MediaDisplayed = true;
         }
 
-        // Manage media list
-
-        void AddMedia_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
-        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
-        void RemoveMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
-        void RemoveMedia_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
-
-        void MediaList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
-            if (mediaList.SelectedIndex != -1)
-                vm.MediaItemsCurrentIndex = mediaList.SelectedIndex;
-        }
-
-        void MediaList_Drop (object sender, DragEventArgs e) {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-            var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
-            processMediaItems(paths);
-        }
-
-        // Navigate media list
-
-        void down () {
-            if (vm.MediaDisplayed) moveNext();
-            else shiftDown();
+        void showSingleVideo () {
+            if (string.IsNullOrEmpty(vm.SingleVideo.Name)) return;
+            media = new();
+            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => { vm.MediaDisplayed = false; });
+            vm.MediaDisplayed = true;
         }
 
         void up () {
@@ -234,12 +227,55 @@ namespace UI {
             else shiftUp();
         }
 
+        void updateSingleVideoThumbnail () {
+            vm.SingleVideoSkipUpdated = false;
+
+            var a = vm.SingleVideo;
+
+            singleVideoText.Text = "Loading...";
+            vm.SingleVideo = new();
+
+            // Force the text to update before the thumbnail is generated
+            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+
+            _ = int.TryParse(minutes.Text, out int min);
+            _ = int.TryParse(seconds.Text, out int sec);
+            TimeSpan skip = new(0, min, sec);
+
+            vm.SingleVideo = new VideoItem {
+                Name = a.Name,
+                Path = a.Path,
+                Media = a.Media,
+                IsPicture = false,
+                Preview = generateSingleVideoThumbnail(a.Media, skip),
+                Skip = skip,
+            };
+
+            singleVideoText.Text = "Drop video file here";
+        }
+
+        // Media setup
+
+        void AddMedia_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
+        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
+        void AddSingleVideo_Click (object sender, RoutedEventArgs e) { addSingleVideoUsingFileDialog(); }
+        void AddSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addSingleVideoUsingFileDialog(); }
         void MoveDown_Click (object sender, RoutedEventArgs e) { down(); }
         void MoveDown_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { down(); }
         void MoveUp_Click (object sender, RoutedEventArgs e) { up(); }
         void MoveUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { up(); }
+        void RefreshSingleVideoThumbnail_Click (object sender, RoutedEventArgs e) { updateSingleVideoThumbnail(); }
+        void RefreshSingleVideoThumbnail_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { updateSingleVideoThumbnail(); }
+        void RemoveMedia_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
+        void RemoveMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
 
-        void mediaList_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+        void MediaList_Drop (object sender, DragEventArgs e) {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+            var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            processMediaItems(paths);
+        }
+
+        void MediaList_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
             if (!vm.MediaDisplayed) showMedia();
             else {
                 if (vm.MediaItems[vm.MediaItemsCurrentIndex] is VideoItem)
@@ -247,10 +283,43 @@ namespace UI {
             }
         }
 
+        void MediaList_SelectionChanged (object sender, SelectionChangedEventArgs e) {
+            if (mediaList.SelectedIndex != -1)
+                vm.MediaItemsCurrentIndex = mediaList.SelectedIndex;
+        }
+
+        void Minutes_KeyDown (object sender, KeyEventArgs e) {
+            e.Handled = !DigitPattern.IsMatch(e.Key.ToString());
+        }
+
+        void Minutes_TextChanged (object sender, TextChangedEventArgs e) {
+            if (minutes.Text != skipMinutes) {
+                skipMinutes = minutes.Text;
+                vm.SingleVideoSkipUpdated = true;
+            }
+            minutes.CaretIndex = minutes.Text.Length;
+        }
+
+        void Seconds_KeyDown (object sender, KeyEventArgs e) {
+            e.Handled = !DigitPattern.IsMatch(e.Key.ToString());
+        }
+
+        void Seconds_TextChanged (object sender, TextChangedEventArgs e) {
+            _ = int.TryParse(seconds.Text, out int a);
+            if (59 < a) seconds.Text = "59";
+            if (seconds.Text != skipSeconds) {
+                skipSeconds = seconds.Text;
+                vm.SingleVideoSkipUpdated = true;
+            }
+            seconds.CaretIndex = seconds.Text.Length;
+        }
+
         // Manage media window
 
         void PlayMedia_Click (object sender, RoutedEventArgs e) { showMedia(); }
         void PlayMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showMedia(); }
+        void PlaySingleVideo_Click (object sender, RoutedEventArgs e) { showSingleVideo(); }
+        void PlaySingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showSingleVideo(); }
         void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
         void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
@@ -258,6 +327,7 @@ namespace UI {
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
         void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { media?.Close(); }
+
         void Minimize_Click (object sender, RoutedEventArgs e) {
             SystemCommands.MinimizeWindow(this);
             if (media != null) SystemCommands.MinimizeWindow(media);
@@ -278,6 +348,13 @@ namespace UI {
                 Owner = this
             };
             menu.Show();
+        }
+
+        void TextBox_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
+            var a = (TextBox) sender;
+            if (!a.IsKeyboardFocusWithin) a.Focus();
+            a?.SelectAll();
+            e.Handled = true;
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
@@ -304,7 +381,8 @@ namespace UI {
                     else movePrevious();
                     break;
             }
-            e.Handled = true;
+            if (!minutes.IsFocused && !seconds.IsFocused)
+                e.Handled = true;
         }
     }
 }

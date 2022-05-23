@@ -15,5 +15,6 @@ namespace UI.ViewModel {
 
     public class VideoItem : MediaItem {
         public Uri Media { get; set; } = new("about:blank");
+        public TimeSpan Skip { get; set; } = TimeSpan.Zero;
     }
 }

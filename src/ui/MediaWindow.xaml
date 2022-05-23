@@ -80,7 +80,6 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
-                      Source="{Binding CurrentVideo}"
                       Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
                       Name="video" />
         <StackPanel Canvas.Top="0"
