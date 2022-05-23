@@ -331,11 +331,13 @@ namespace UI {
         }
 
         void MediaList_Click (object sender, RoutedEventArgs e) {
+            if (vm.MediaDisplayed) return;
             if (!vm.MediaListMode)
                 vm.MediaListMode = true;
         }
 
         void SingleVideo_Click (object sender, RoutedEventArgs e) {
+            if (vm.MediaDisplayed) return;
             if (vm.MediaListMode)
                 vm.MediaListMode = false;
         }
