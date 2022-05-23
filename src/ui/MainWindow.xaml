@@ -376,11 +376,11 @@
                     </StackPanel>
                     <Border Style="{StaticResource IconButtonBorder}"
                         Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                        MouseLeftButtonDown="StopMedia_MouseLeftButtonDown">
+                        MouseLeftButtonDown="Stop_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                             FontSize="25"
                             Margin="15"
-                            Click="StopMedia_Click">
+                            Click="Stop_Click">
                             &#xE71A;
                         </Button>
                     </Border>
@@ -400,43 +400,43 @@
                         <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
                             <Border Style="{StaticResource IconButtonBorder}"
                                     Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
-                                    MouseLeftButtonDown="SkipBackwardMedia_MouseLeftButtonDown">
+                                    MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="35"
                                         Margin="12"
-                                        Click="SkipBackwardMedia_Click">
+                                        Click="SkipBackward_Click">
                                     &#xED3C;
                                 </Button>
                             </Border>
                         </StackPanel>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="PlayMedia_MouseLeftButtonDown"
+                                MouseLeftButtonDown="Play_MouseLeftButtonDown"
                                 Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="60"
                                     Margin="0"
-                                    Click="PlayMedia_Click">
+                                    Click="Play_Click">
                                 &#xEE4A;
                             </Button>
                         </Border>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="PauseMedia_MouseLeftButtonDown"
+                                MouseLeftButtonDown="Pause_MouseLeftButtonDown"
                                 Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="37"
                                     Margin="12"
-                                    Click="PauseMedia_Click">
+                                    Click="Pause_Click">
                                 &#xE769;
                             </Button>
                         </Border>
                         <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
                             <Border Style="{StaticResource IconButtonBorder}"
                                     Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
-                                    MouseLeftButtonDown="SkipForwardMedia_MouseLeftButtonDown">
+                                    MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="35"
                                         Margin="12"
-                                        Click="SkipForwardMedia_Click">
+                                        Click="SkipForward_Click">
                                     &#xED3D;
                                 </Button>
                             </Border>
@@ -491,11 +491,11 @@
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
                             Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="StopMedia_MouseLeftButtonDown">
+                            MouseLeftButtonDown="Stop_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="25"
                                 Margin="15"
-                                Click="StopMedia_Click">
+                                Click="Stop_Click">
                             &#xE71A;
                         </Button>
                     </Border>
@@ -506,41 +506,41 @@
                             Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}"
                             Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="SkipBackwardSingleVideo_MouseLeftButtonDown">
+                            MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="35"
                                 Margin="12"
-                                Click="SkipBackwardSingleVideo_Click">
+                                Click="SkipBackward_Click">
                             &#xED3C;
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown"
+                            MouseLeftButtonDown="Play_MouseLeftButtonDown"
                             Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="60"
                                 Margin="0"
-                                Click="PlaySingleVideo_Click">
+                                Click="Play_Click">
                             &#xEE4A;
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="PauseSingleVideo_MouseLeftButtonDown"
+                            MouseLeftButtonDown="Pause_MouseLeftButtonDown"
                             Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="37"
                                 Margin="12"
-                                Click="PauseSingleVideo_Click">
+                                Click="Pause_Click">
                             &#xE769;
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
                             Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="SkipForwardSingleVideo_MouseLeftButtonDown">
+                            MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="35"
                                 Margin="12"
-                                Click="SkipForwardSingleVideo_Click">
+                                Click="SkipForward_Click">
                             &#xED3D;
                         </Button>
                     </Border>
