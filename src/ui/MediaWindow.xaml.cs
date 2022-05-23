@@ -138,7 +138,7 @@ namespace UI {
                 return;
             }
             hideNavigation();
-            if (!vm.MediaListMode) playVideo();
+            playVideo();
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {

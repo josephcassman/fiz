@@ -410,12 +410,23 @@
                             </Border>
                         </StackPanel>
                         <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="PlayMedia_MouseLeftButtonDown">
+                                MouseLeftButtonDown="PlayMedia_MouseLeftButtonDown"
+                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
                             <Button Style="{StaticResource IconButton}"
-                                    FontSize="50"
-                                    Margin="5"
+                                    FontSize="60"
+                                    Margin="0"
                                     Click="PlayMedia_Click">
                                 &#xEE4A;
+                            </Button>
+                        </Border>
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="PauseMedia_MouseLeftButtonDown"
+                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="37"
+                                    Margin="12"
+                                    Click="PauseMedia_Click">
+                                &#xE769;
                             </Button>
                         </Border>
                         <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
@@ -504,12 +515,23 @@
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown">
+                            MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown"
+                            Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="60"
                                 Margin="0"
                                 Click="PlaySingleVideo_Click">
                             &#xEE4A;
+                        </Button>
+                    </Border>
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="PauseSingleVideo_MouseLeftButtonDown"
+                            Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="37"
+                                Margin="12"
+                                Click="PauseSingleVideo_Click">
+                            &#xE769;
                         </Button>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
