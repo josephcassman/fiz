@@ -423,35 +423,22 @@
             <Grid Grid.Row="2"
                   Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="70" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0"
                             Orientation="Horizontal"
                             HorizontalAlignment="Left">
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Left"
-                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="AddSingleVideo_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="30"
-                                    Margin="15"
-                                    Click="AddSingleVideo_Click">
-                                &#xE948;
-                            </Button>
-                        </Border>
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}"
-                                MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="50"
-                                    Margin="5"
-                                    Click="PlaySingleVideo_Click">
-                                &#xEE4A;
-                            </Button>
-                        </Border>
-                    </StackPanel>
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}"
+                            MouseLeftButtonDown="AddSingleVideo_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="30"
+                                Margin="15"
+                                Click="AddSingleVideo_Click">
+                            &#xE948;
+                        </Button>
+                    </Border>
                     <Border Style="{StaticResource IconButtonBorder}"
                             Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
                             MouseLeftButtonDown="StopMedia_MouseLeftButtonDown">
@@ -460,6 +447,20 @@
                                 Margin="15"
                                 Click="StopMedia_Click">
                             &#xE71A;
+                        </Button>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}"
+                            MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="50"
+                                Margin="5"
+                                Click="PlaySingleVideo_Click">
+                            &#xEE4A;
                         </Button>
                     </Border>
                 </StackPanel>
