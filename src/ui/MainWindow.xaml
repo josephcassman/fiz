@@ -18,7 +18,7 @@
         Top="20"
         WindowStartupLocation="Manual"
         PreviewKeyDown="Window_PreviewKeyDown"
-        Drop="MediaList_Drop"
+        Drop="Media_Drop"
         MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
     <Window.Resources>
@@ -253,6 +253,7 @@
 
             <Grid Grid.Row="1"
                   Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}"
+                  AllowDrop="True"
                   Name="singleVideoGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -263,14 +264,25 @@
                         BorderThickness="3"
                         Width="350"
                         Height="350"
+                        AllowDrop="True"
                         Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemCollapsedWhenTrue}}">
-                    <TextBlock Foreground="LightGray"
-                               FontSize="50"
-                               TextWrapping="Wrap"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="Drop video file here"
-                               Name="singleVideoText" />
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                AllowDrop="True">
+                        <TextBlock Foreground="LightGray"
+                                   FontSize="45"
+                                   AllowDrop="True"
+                                   HorizontalAlignment="Center"
+                                   Text="Drag and drop"
+                                   Name="singleVideoTextOne" />
+                        <TextBlock Foreground="LightGray"
+                                   FontSize="45"
+                                   HorizontalAlignment="Center"
+                                   AllowDrop="True"
+                                   Text="video here"
+                                   Name="singleVideoTextTwo" />
+                    </StackPanel>
                 </Border>
                 <Border Grid.Row="0"
                         BorderBrush="#707070"

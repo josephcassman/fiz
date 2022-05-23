@@ -73,10 +73,7 @@ namespace UI {
                 Multiselect = true,
             };
             many.ShowDialog();
-
-            if (Enumerable.SequenceEqual(many.SafeFileNames, NoResults))
-                return;
-
+            if (Enumerable.SequenceEqual(many.SafeFileNames, NoResults)) return;
             processMediaItems(many.FileNames);
         }
 
@@ -87,27 +84,9 @@ namespace UI {
                 Multiselect = false,
             };
             one.ShowDialog();
-            if (string.IsNullOrEmpty(one.FileName))
-                return;
-            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName)))
-                return;
-            vm.SingleVideo = new();
-
-            singleVideoText.Text = "Loading...";
-
-            // Force the text to update before the thumbnail is generated
-            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
-
-            var uri = new Uri(one.FileName);
-            vm.SingleVideo = new VideoItem {
-                Name = Path.GetFileName(one.FileName),
-                Path = one.FileName,
-                Media = uri,
-                IsPicture = false,
-                Preview = generateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
-            };
-
-            singleVideoText.Text = "Drop video file here";
+            if (string.IsNullOrEmpty(one.FileName)) return;
+            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
+            setSingleVideo(one.FileName);
         }
 
         void closeMedia () {
@@ -139,8 +118,8 @@ namespace UI {
         }
 
         void processMediaItems (string[] paths) {
-            if (paths == null)
-                return;
+            if (paths == null || paths.Length == 0) return;
+            if (!vm.MediaListMode) { setSingleVideo(paths[0]); return; }
             foreach (var path in paths) {
                 var name = Path.GetFileName(path);
                 var extension = Path.GetExtension(path);
@@ -178,6 +157,29 @@ namespace UI {
             if (vm.MediaItems.Count <= i)
                 i = vm.MediaItems.Count - 1;
             mediaList.SelectedIndex = i;
+        }
+
+        void setSingleVideo (string path) {
+            if (!VideoExtensions.Contains(Path.GetExtension(path))) return;
+            vm.SingleVideo = new();
+
+            singleVideoTextOne.Text = "Loading...";
+            singleVideoTextTwo.Text = "";
+
+            // Force the text to update before the thumbnail is generated
+            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+
+            var uri = new Uri(path);
+            vm.SingleVideo = new VideoItem {
+                Name = Path.GetFileName(path),
+                Path = path,
+                Media = uri,
+                IsPicture = false,
+                Preview = generateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
+            };
+
+            singleVideoTextOne.Text = "Drag and drop";
+            singleVideoTextTwo.Text = "video here";
         }
 
         void shiftDown () {
@@ -235,7 +237,9 @@ namespace UI {
 
             var a = vm.SingleVideo;
 
-            singleVideoText.Text = "Loading...";
+            singleVideoTextOne.Text = "Loading...";
+            singleVideoTextTwo.Text = "";
+
             vm.SingleVideo = new();
 
             // Force the text to update before the thumbnail is generated
@@ -254,7 +258,8 @@ namespace UI {
                 Skip = skip,
             };
 
-            singleVideoText.Text = "Drop video file here";
+            singleVideoTextOne.Text = "Drag and drop";
+            singleVideoTextTwo.Text = "video here";
         }
 
         // Media setup
@@ -272,7 +277,7 @@ namespace UI {
         void RemoveMediaFromMediaList_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
         void RemoveMediaFromMediaList_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
 
-        void MediaList_Drop (object sender, DragEventArgs e) {
+        void Media_Drop (object sender, DragEventArgs e) {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             var paths = (string[]) e.Data.GetData(DataFormats.FileDrop);
             processMediaItems(paths);
