@@ -18,6 +18,13 @@ namespace UI {
                 try { video.Stop(); } catch { }
                 vm.VideoPaused = true;
             };
+
+            if (vm.MediaListMode) video.Source = vm.CurrentVideo;
+            else {
+                vm.PictureDisplayedOnMediaWindow = false;
+                video.Source = vm.SingleVideo.Media;
+                video.Position = vm.SingleVideo.Skip;
+            }
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -128,6 +135,7 @@ namespace UI {
                 return;
             }
             hideNavigation();
+            if (!vm.MediaListMode) playVideo();
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
