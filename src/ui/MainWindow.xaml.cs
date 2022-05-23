@@ -315,8 +315,10 @@ namespace UI {
 
         void PlayMedia_Click (object sender, RoutedEventArgs e) { showMedia(); }
         void PlayMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showMedia(); }
-        void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
-        void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
+        void SkipBackwardMedia_Click (object sender, RoutedEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipBackwardMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipForwardMedia_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
+        void SkipForwardMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
 
         void PlaySingleVideo_Click (object sender, RoutedEventArgs e) { showSingleVideo(); }
         void PlaySingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showSingleVideo(); }
@@ -324,6 +326,9 @@ namespace UI {
         void SkipBackwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
         void SkipForwardSingleVideo_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
         void SkipForwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
+
+        void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
+        void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
         // Manage window
 
