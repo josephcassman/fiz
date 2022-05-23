@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>False</UseWindowsForms>
+    <ApplicationIcon>fiz.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,10 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\kjoic\code\fiz\src\ui\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="fiz.ico" />
   </ItemGroup>
 
   <ItemGroup>
