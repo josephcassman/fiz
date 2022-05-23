@@ -41,7 +41,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(MediaItem), typeof(Visibility))]
-    public class MediaItemToHiddenWhenTrueConverter : IValueConverter {
+    public class MediaItemToCollapsedWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
             return string.IsNullOrEmpty(a.Name) ? Visibility.Visible : Visibility.Collapsed;

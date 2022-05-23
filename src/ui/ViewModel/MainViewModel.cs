@@ -62,6 +62,12 @@ namespace UI.ViewModel {
             set => Set(ref _mediaListMode, value);
         }
 
+        bool _singleVideoSkipUpdated = false;
+        public bool SingleVideoSkipUpdated {
+            get => _singleVideoSkipUpdated;
+            set => Set(ref _singleVideoSkipUpdated, value);
+        }
+
         // Media window state
 
         BitmapImage _currentPicture = new();
