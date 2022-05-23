@@ -315,10 +315,15 @@ namespace UI {
 
         void PlayMedia_Click (object sender, RoutedEventArgs e) { showMedia(); }
         void PlayMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showMedia(); }
-        void PlaySingleVideo_Click (object sender, RoutedEventArgs e) { showSingleVideo(); }
-        void PlaySingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showSingleVideo(); }
         void StopMedia_Click (object sender, RoutedEventArgs e) { closeMedia(); }
         void StopMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
+
+        void PlaySingleVideo_Click (object sender, RoutedEventArgs e) { showSingleVideo(); }
+        void PlaySingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showSingleVideo(); }
+        void SkipBackwardSingleVideo_Click (object sender, RoutedEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipBackwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
+        void SkipForwardSingleVideo_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
+        void SkipForwardSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
 
         // Manage window
 
