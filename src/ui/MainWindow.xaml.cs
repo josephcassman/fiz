@@ -363,7 +363,7 @@ namespace UI {
             mediaList.Focus();
         }
 
-        private void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
+        void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
             switch (e.Key) {
                 case Key.Down:
                     if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftDown();
