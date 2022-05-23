@@ -165,13 +165,10 @@ namespace UI {
 
         void removeMediaItem () {
             var i = mediaList.SelectedIndex;
-            if (i < 0)
-                return;
-            if (vm.MediaItems.Count <= i)
-                return;
+            if (i < 0) return;
+            if (vm.MediaItems.Count <= i) return;
             vm.RemoveMediaItem(i);
-            if (vm.MediaItems.Count == 0)
-                return;
+            if (vm.MediaItems.Count == 0) return;
             if (vm.MediaItems.Count <= i)
                 i = vm.MediaItems.Count - 1;
             mediaList.SelectedIndex = i;
