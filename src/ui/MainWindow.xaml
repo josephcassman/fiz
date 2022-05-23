@@ -23,6 +23,7 @@
         Title="Fiz" Height="700" Width="500">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
+        <vm:BoolToOpaqueConverter x:Key="boolToOpaque" />
         <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
         <vm:MediaItemToCollapsedWhenTrueConverter x:Key="mediaItemCollapsedWhenTrue" />
         <vm:MediaItemToVisibleWhenTrueConverter x:Key="mediaItemVisibleWhenTrue" />
@@ -183,7 +184,8 @@
             <StackPanel Grid.Row="0"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom">
+                        VerticalAlignment="Bottom"
+                        Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource boolToOpaque}}">
                 <StackPanel Orientation="Vertical"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
