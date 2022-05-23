@@ -452,15 +452,35 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
                     <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}"
+                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                            MouseLeftButtonDown="SkipBackwardSingleVideo_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="35"
+                                Margin="12"
+                                Click="SkipBackwardSingleVideo_Click">
+                            &#xED3C;
+                        </Button>
+                    </Border>
+                    <Border Style="{StaticResource IconButtonBorder}"
                             MouseLeftButtonDown="PlaySingleVideo_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="50"
-                                Margin="5"
+                                FontSize="60"
+                                Margin="0"
                                 Click="PlaySingleVideo_Click">
                             &#xEE4A;
+                        </Button>
+                    </Border>
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                            MouseLeftButtonDown="SkipForwardSingleVideo_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="35"
+                                Margin="12"
+                                Click="SkipForwardSingleVideo_Click">
+                            &#xED3D;
                         </Button>
                     </Border>
                 </StackPanel>
