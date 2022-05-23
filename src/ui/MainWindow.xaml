@@ -353,23 +353,23 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left">
                     <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="AddMedia_MouseLeftButtonDown"
+                            MouseLeftButtonDown="AddMediaToMediaList_MouseLeftButtonDown"
                             Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="30"
                                 Margin="15"
-                                Click="AddMedia_Click">
+                                Click="AddMediaToMediaList_Click">
                             &#xE948;
                         </Button>
                     </Border>
                     <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
                         <Border Style="{StaticResource IconButtonBorder}"
                                 Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
-                                MouseLeftButtonDown="RemoveMedia_MouseLeftButtonDown">
+                                MouseLeftButtonDown="RemoveMediaFromMediaList_MouseLeftButtonDown">
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="30"
                                     Margin="15"
-                                    Click="RemoveMedia_Click">
+                                    Click="RemoveMediaFromMediaList_Click">
                                 &#xE738;
                             </Button>
                         </Border>

@@ -259,8 +259,8 @@ namespace UI {
 
         // Media setup
 
-        void AddMedia_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
-        void AddMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
+        void AddMediaToMediaList_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
+        void AddMediaToMediaList_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
         void AddSingleVideo_Click (object sender, RoutedEventArgs e) { addSingleVideoUsingFileDialog(); }
         void AddSingleVideo_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addSingleVideoUsingFileDialog(); }
         void MoveDown_Click (object sender, RoutedEventArgs e) { down(); }
@@ -269,8 +269,8 @@ namespace UI {
         void MoveUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { up(); }
         void RefreshSingleVideoThumbnail_Click (object sender, RoutedEventArgs e) { updateSingleVideoThumbnail(); }
         void RefreshSingleVideoThumbnail_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { updateSingleVideoThumbnail(); }
-        void RemoveMedia_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
-        void RemoveMedia_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
+        void RemoveMediaFromMediaList_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
+        void RemoveMediaFromMediaList_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
 
         void MediaList_Drop (object sender, DragEventArgs e) {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
