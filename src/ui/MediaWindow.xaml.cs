@@ -107,6 +107,9 @@ namespace UI {
 
         // Manage window
 
+        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) { toggleMaximize(); }
+        void Window_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
+
         void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (navigation.Opacity == 0.0) return;
             Close();
@@ -142,12 +145,6 @@ namespace UI {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
-
-        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            toggleMaximize();
-        }
-
-        void Window_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
 
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
             picture.Height = e.NewSize.Height;
