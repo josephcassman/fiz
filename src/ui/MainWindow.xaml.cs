@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,7 +16,8 @@ namespace UI {
             InitializeComponent();
             DataContext = vm;
             mediaList.ItemsSource = vm.MediaItems;
-            Closing += MainWindow_Closing;
+            Closing += Window_Closing;
+            Loaded += Window_Loaded;
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
@@ -29,18 +29,6 @@ namespace UI {
         string skipSeconds = "";
 
         static readonly Regex DigitPattern = new(@"\d");
-
-        public static readonly HashSet<string> PictureExtensions = new() {
-            ".jpg",
-            ".jpeg",
-            ".png",
-            ".gif",
-        };
-
-        public static readonly HashSet<string> VideoExtensions = new() {
-            ".mp4",
-            ".wav",
-        };
 
         readonly string[] NoResults = new string[] { "" };
 
@@ -85,7 +73,7 @@ namespace UI {
             };
             one.ShowDialog();
             if (string.IsNullOrEmpty(one.FileName)) return;
-            if (!VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
+            if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
             setSingleVideo(one.FileName);
         }
 
@@ -124,7 +112,7 @@ namespace UI {
                 var name = Path.GetFileName(path);
                 var extension = Path.GetExtension(path);
                 var uri = new Uri(path);
-                if (PictureExtensions.Contains(extension)) {
+                if (MainViewModel.PictureExtensions.Contains(extension)) {
                     var bmp = new BitmapImage(uri);
                     vm.AddMediaItem(new PictureItem {
                         Name = name,
@@ -133,7 +121,7 @@ namespace UI {
                         Media = bmp,
                     });
                 }
-                else if (VideoExtensions.Contains(extension)) {
+                else if (MainViewModel.VideoExtensions.Contains(extension)) {
                     vm.AddMediaItem(new VideoItem {
                         Name = name,
                         Path = path,
@@ -160,7 +148,7 @@ namespace UI {
         }
 
         void setSingleVideo (string path) {
-            if (!VideoExtensions.Contains(Path.GetExtension(path))) return;
+            if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
             vm.SingleVideo = new();
 
             singleVideoTextOne.Text = "Loading...";
@@ -344,7 +332,6 @@ namespace UI {
         // Manage window
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
-        void MainWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) { media?.Close(); }
 
         void Minimize_Click (object sender, RoutedEventArgs e) {
             SystemCommands.MinimizeWindow(this);
@@ -375,6 +362,18 @@ namespace UI {
             if (!a.IsKeyboardFocusWithin) a.Focus();
             a?.SelectAll();
             e.Handled = true;
+        }
+
+        void Window_Closing (object? sender, System.ComponentModel.CancelEventArgs e) {
+            media?.Close();
+            vm.BackupMediaItems();
+        }
+
+        void Window_Loaded (object sender, RoutedEventArgs e) {
+            if (0 < mediaList.Items.Count) {
+                mediaList.SelectedIndex = 0;
+                mediaList.Focus();
+            }
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
