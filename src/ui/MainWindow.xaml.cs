@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,9 +26,12 @@ namespace UI {
         string skipMinutes = "";
         string skipSeconds = "";
 
-        static readonly Regex DigitPattern = new(@"\d");
-
         readonly string[] NoResults = new string[] { "" };
+
+        static bool isDigitKeyPress (KeyEventArgs a) =>
+            a.KeyboardDevice.Modifiers == 0 &&
+            Key.D0 <= a.Key &&
+            a.Key <= Key.D9;
 
         void addMediaUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog many = new() {
@@ -273,9 +275,8 @@ namespace UI {
                 vm.MediaItemsCurrentIndex = mediaList.SelectedIndex;
         }
 
-        void Minutes_KeyDown (object sender, KeyEventArgs e) {
-            e.Handled = !DigitPattern.IsMatch(e.Key.ToString());
-        }
+        void Minutes_KeyDown (object sender, KeyEventArgs e) { e.Handled = !isDigitKeyPress(e); }
+        void Seconds_KeyDown (object sender, KeyEventArgs e) { e.Handled = !isDigitKeyPress(e); }
 
         void Minutes_TextChanged (object sender, TextChangedEventArgs e) {
             if (minutes.Text != skipMinutes) {
@@ -283,10 +284,6 @@ namespace UI {
                 vm.SingleVideoSkipUpdated = true;
             }
             minutes.CaretIndex = minutes.Text.Length;
-        }
-
-        void Seconds_KeyDown (object sender, KeyEventArgs e) {
-            e.Handled = !DigitPattern.IsMatch(e.Key.ToString());
         }
 
         void Seconds_TextChanged (object sender, TextChangedEventArgs e) {
