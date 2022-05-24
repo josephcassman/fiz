@@ -460,31 +460,29 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
                                 HorizontalAlignment="Right"
-                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                        <StackPanel Orientation="Horizontal"
-                                    Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
-                                <Button Style="{StaticResource IconButton}"
-                                        FontSize="25"
-                                        Margin="15"
-                                        ToolTip="Down"
-                                        Click="MoveDown_Click">
-                                    &#xE70D;
-                                </Button>
-                            </Border>
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
-                                <Button Style="{StaticResource IconButton}"
-                                        FontSize="25"
-                                        Margin="15"
-                                        ToolTip="Up"
-                                        Click="MoveUp_Click">
-                                    &#xE70E;
-                                </Button>
-                            </Border>
-                        </StackPanel>
+                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="25"
+                                    Margin="15"
+                                    ToolTip="Down"
+                                    Click="MoveDown_Click">
+                                &#xE70D;
+                            </Button>
+                        </Border>
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="25"
+                                    Margin="15"
+                                    ToolTip="Up"
+                                    Click="MoveUp_Click">
+                                &#xE70E;
+                            </Button>
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Grid>
