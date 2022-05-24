@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UI.ViewModel;
@@ -31,28 +30,6 @@ namespace UI {
         static readonly Regex DigitPattern = new(@"\d");
 
         readonly string[] NoResults = new string[] { "" };
-
-        // The logic in this function must execute on the UI thread.
-        // Force the UI of any frozen element to update before it is called.
-        static RenderTargetBitmap generateSingleVideoThumbnail (Uri a, TimeSpan skip) {
-            MediaPlayer player = new() {
-                ScrubbingEnabled = true,
-                Volume = 0,
-            };
-            player.Open(a);
-            player.Position = skip;
-            System.Threading.Thread.Sleep(2000);
-
-            DrawingVisual dv = new();
-            DrawingContext dc = dv.RenderOpen();
-            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
-            dc.Close();
-
-            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
-            bmp.Render(dv);
-            player.Close();
-            return bmp;
-        }
 
         void addMediaUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog many = new() {
@@ -163,7 +140,7 @@ namespace UI {
                 Path = path,
                 Media = uri,
                 IsPicture = false,
-                Preview = generateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
+                Preview = MainViewModel.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
             };
 
             singleVideoTextOne.Text = "Drag and drop";
@@ -248,7 +225,7 @@ namespace UI {
                 Path = a.Path,
                 Media = a.Media,
                 IsPicture = false,
-                Preview = generateSingleVideoThumbnail(a.Media, skip),
+                Preview = MainViewModel.GenerateSingleVideoThumbnail(a.Media, skip),
                 Skip = skip,
             };
 

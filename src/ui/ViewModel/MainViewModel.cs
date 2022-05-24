@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
@@ -10,7 +12,8 @@ namespace UI.ViewModel {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
             ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
-            foreach (var path in SettingsStorage.MediaListPaths) {
+            var a = SettingsStorage.MediaListPaths;
+            foreach (var path in a) {
                 if (!File.Exists(path)) SettingsStorage.DeleteMediaListPath(path);
                 else {
                     var name = Path.GetFileName(path);
@@ -36,6 +39,20 @@ namespace UI.ViewModel {
                     else SettingsStorage.DeleteMediaListPath(path);
                 }
             }
+            var b = SettingsStorage.SingleVideoPath;
+            if (File.Exists(b)) {
+                Uri uri = new(b);
+                SingleVideo = new VideoItem {
+                    Name = Path.GetFileName(b),
+                    Path = b,
+                    Media = uri,
+                    IsPicture = false,
+                    Preview = MainViewModel.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
+                };
+            }
+            if (0 < a.Count) MediaListMode = true;
+            else if (!string.IsNullOrEmpty(SingleVideo.Path)) MediaListMode = false;
+            else MediaListMode = true;
         }
 
         public static readonly HashSet<string> PictureExtensions = new() {
@@ -49,6 +66,27 @@ namespace UI.ViewModel {
             ".mp4",
             ".wav",
         };
+
+        // Must run on the UI thread
+        public static RenderTargetBitmap GenerateSingleVideoThumbnail (Uri a, TimeSpan skip) {
+            MediaPlayer player = new() {
+                ScrubbingEnabled = true,
+                Volume = 0,
+            };
+            player.Open(a);
+            player.Position = skip;
+            System.Threading.Thread.Sleep(2000);
+
+            DrawingVisual dv = new();
+            DrawingContext dc = dv.RenderOpen();
+            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
+            dc.Close();
+
+            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
+            bmp.Render(dv);
+            player.Close();
+            return bmp;
+        }
 
         public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
         public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
@@ -66,6 +104,7 @@ namespace UI.ViewModel {
             SettingsStorage.ClearMediaListPaths();
             foreach (MediaItem a in MediaItems)
                 SettingsStorage.SaveMediaListPath(a.Path);
+            SettingsStorage.SingleVideoPath = SingleVideo.Path;
         }
 
         public void RemoveMediaItem (int i) {

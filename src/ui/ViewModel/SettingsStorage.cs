@@ -91,6 +91,17 @@ namespace UI.ViewModel {
             }
         }
 
+        public static string SingleVideoPath {
+            get {
+                using var con = Connection;
+                return readSetting(con, "SingleVideoPath");
+            }
+            set {
+                using var con = Connection;
+                writeSetting(con, "SingleVideoPath", value);
+            }
+        }
+
         static SqliteConnection Connection {
             get {
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fiz.db");
