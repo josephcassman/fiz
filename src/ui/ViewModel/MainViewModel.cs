@@ -91,9 +91,10 @@ namespace UI.ViewModel {
         public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
         public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
 
-        public event EventHandler? StopVideo;
-        public event EventHandler? MoveUp;
         public event EventHandler? MoveDown;
+        public event EventHandler? MoveUp;
+        public event EventHandler? StartVideo;
+        public event EventHandler? StopVideo;
 
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
@@ -129,6 +130,7 @@ namespace UI.ViewModel {
                 else {
                     CurrentVideo = ((VideoItem) MediaItems[value]).Media;
                     PictureDisplayedOnMediaWindow = false;
+                    StartVideo?.Invoke(this, new());
                 }
             }
         }

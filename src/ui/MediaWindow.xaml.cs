@@ -13,18 +13,18 @@ namespace UI {
             MouseMove += Window_MouseMove;
             SizeChanged += Window_SizeChanged;
 
+            vm.StartVideo += (_, _) => {
+                setVideo();
+                playVideo();
+            };
+
             vm.StopVideo += (_, _) => {
                 if (vm.PictureDisplayedOnMediaWindow) return;
                 try { video.Stop(); } catch { }
                 vm.VideoPaused = true;
             };
 
-            if (vm.MediaListMode) video.Source = vm.CurrentVideo;
-            else {
-                vm.PictureDisplayedOnMediaWindow = false;
-                video.Source = vm.SingleVideo.Media;
-                video.Position = vm.SingleVideo.Skip;
-            }
+            setVideo();
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -72,6 +72,15 @@ namespace UI {
         void pauseVideo () {
             video.Pause();
             vm.VideoPaused = true;
+        }
+
+        void setVideo () {
+            if (vm.MediaListMode) video.Source = vm.CurrentVideo;
+            else {
+                vm.PictureDisplayedOnMediaWindow = false;
+                video.Source = vm.SingleVideo.Media;
+                video.Position = vm.SingleVideo.Skip;
+            }
         }
 
         void toggleMaximize () {
