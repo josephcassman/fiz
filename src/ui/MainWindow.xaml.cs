@@ -257,7 +257,7 @@ namespace UI {
         void MediaList_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
             if (!vm.MediaDisplayed) showMediaListMedia();
             else {
-                if (vm.MediaItems[vm.MediaItemsCurrentIndex] is VideoItem)
+                if (vm.CurrentMediaItem is VideoItem)
                     media?.PlayPauseVideo();
             }
         }
