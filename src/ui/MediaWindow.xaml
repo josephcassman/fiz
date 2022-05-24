@@ -70,7 +70,6 @@
                Height="450"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{Binding CurrentPicture}"
                Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
                Name="picture" />
         <MediaElement Canvas.Top="0"

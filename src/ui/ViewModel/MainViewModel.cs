@@ -93,8 +93,7 @@ namespace UI.ViewModel {
 
         public event EventHandler? MoveDown;
         public event EventHandler? MoveUp;
-        public event EventHandler? StartVideo;
-        public event EventHandler? StopVideo;
+        public event EventHandler? SetMedia;
 
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
@@ -115,23 +114,14 @@ namespace UI.ViewModel {
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
+        public MediaItem CurrentMediaItem => MediaItems[MediaItemsCurrentIndex];
+
         int _mediaItemsCurrentIndex = -1;
         public int MediaItemsCurrentIndex {
             get => _mediaItemsCurrentIndex;
             set {
-                if (0 <= _mediaItemsCurrentIndex && _mediaItemsCurrentIndex < MediaItems.Count &&
-                    MediaItems[_mediaItemsCurrentIndex] is VideoItem)
-                    StopVideo?.Invoke(this, new());
                 Set(ref _mediaItemsCurrentIndex, value);
-                if (MediaItems[value] is PictureItem a) {
-                    CurrentPicture = a.Media;
-                    PictureDisplayedOnMediaWindow = true;
-                }
-                else {
-                    CurrentVideo = ((VideoItem) MediaItems[value]).Media;
-                    PictureDisplayedOnMediaWindow = false;
-                    StartVideo?.Invoke(this, new());
-                }
+                SetMedia?.Invoke(this, new());
             }
         }
 
@@ -156,18 +146,6 @@ namespace UI.ViewModel {
         }
 
         // Media window state
-
-        BitmapImage _currentPicture = new();
-        public BitmapImage CurrentPicture {
-            get => _currentPicture;
-            set => Set(ref _currentPicture, value);
-        }
-
-        Uri _currentVideo = new("about:blank");
-        public Uri CurrentVideo {
-            get => _currentVideo;
-            set => Set(ref _currentVideo, value);
-        }
 
         bool _mediaDisplayed = false;
         public bool MediaDisplayed {
