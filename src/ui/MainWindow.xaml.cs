@@ -376,6 +376,16 @@ namespace UI {
                     if (vm.MediaDisplayed) movePrevious();
                     else shiftUp();
                     break;
+                case Key.Tab:
+                    if (minutes.IsFocused) {
+                        seconds.Focus();
+                        seconds.SelectAll();
+                    }
+                    else {
+                        minutes.Focus();
+                        minutes.SelectAll();
+                    }
+                    break;
             }
             if (!minutes.IsFocused && !seconds.IsFocused)
                 e.Handled = true;
