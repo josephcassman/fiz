@@ -1,8 +1,21 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace UI.ViewModel {
-    public static class SecondMonitor {
+    public static class WindowManager {
+        public static void LetUIUpdate () {
+            DispatcherFrame frame = new();
+            DispatcherOperationCallback callback = new(delegate (object parameter) {
+                frame.Continue = false;
+                return null;
+            });
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, callback, null);
+            Dispatcher.PushFrame(frame);
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
+        }
+
         public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {
             window.Closing += closing;
             window.WindowStartupLocation = WindowStartupLocation.Manual;
