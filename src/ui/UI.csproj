@@ -18,11 +18,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="fiz.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="fiz.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="C:\Users\kjoic\code\fiz\src\ui\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="fiz.png" />
   </ItemGroup>
 
 </Project>
