@@ -84,7 +84,11 @@ namespace UI {
 
         void processMediaItems (string[] paths) {
             if (paths == null || paths.Length == 0) return;
-            if (!vm.MediaListMode) { setSingleVideo(paths[0]); return; }
+            if (!vm.MediaListMode) {
+                if (paths[0] == vm.SingleVideo.Path) return;
+                setSingleVideo(paths[0]);
+                return;
+            }
             foreach (var path in paths) {
                 var name = Path.GetFileName(path);
                 var extension = Path.GetExtension(path);
