@@ -133,8 +133,8 @@ namespace UI {
             singleVideoTextOne.Text = "Loading...";
             singleVideoTextTwo.Text = "";
 
-            // Force the text to update before the thumbnail is generated
-            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
+            WindowManager.LetUIUpdate();
 
             var uri = new Uri(path);
             vm.SingleVideo = new VideoItem {
@@ -183,7 +183,7 @@ namespace UI {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
             if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
             media = new();
-            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => {
+            WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
             });
@@ -193,7 +193,7 @@ namespace UI {
         void showSingleVideo () {
             if (string.IsNullOrEmpty(vm.SingleVideo.Name)) return;
             media = new();
-            SecondMonitor.ShowMediaWindow(media, vm, (s, e) => {
+            WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
             });
@@ -215,8 +215,8 @@ namespace UI {
 
             vm.SingleVideo = new();
 
-            // Force the text to update before the thumbnail is generated
-            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.ApplicationIdle);
+            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
+            WindowManager.LetUIUpdate();
 
             _ = int.TryParse(minutes.Text, out int min);
             _ = int.TryParse(seconds.Text, out int sec);
