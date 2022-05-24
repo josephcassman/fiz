@@ -13,18 +13,7 @@ namespace UI {
             MouseMove += Window_MouseMove;
             SizeChanged += Window_SizeChanged;
 
-            vm.StartVideo += (_, _) => {
-                setVideo();
-                playVideo();
-            };
-
-            vm.StopVideo += (_, _) => {
-                if (vm.PictureDisplayedOnMediaWindow) return;
-                try { video.Stop(); } catch { }
-                vm.VideoPaused = true;
-            };
-
-            setVideo();
+            vm.SetMedia += (_, _) => { setMedia(); };
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -74,12 +63,25 @@ namespace UI {
             vm.VideoPaused = true;
         }
 
-        void setVideo () {
-            if (vm.MediaListMode) video.Source = vm.CurrentVideo;
+        void setMedia () {
+            try { video.Stop(); } catch { }
+            vm.VideoPaused = true;
+            if (vm.MediaListMode) {
+                if (vm.CurrentMediaItem is PictureItem a) {
+                    picture.Source = a.Media;
+                    vm.PictureDisplayedOnMediaWindow = true;
+                }
+                else {
+                    video.Source = ((VideoItem) vm.CurrentMediaItem).Media;
+                    vm.PictureDisplayedOnMediaWindow = false;
+                    playVideo();
+                }
+            }
             else {
                 vm.PictureDisplayedOnMediaWindow = false;
                 video.Source = vm.SingleVideo.Media;
                 video.Position = vm.SingleVideo.Skip;
+                playVideo();
             }
         }
 
@@ -147,7 +149,7 @@ namespace UI {
                 return;
             }
             hideNavigation();
-            playVideo();
+            setMedia();
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
