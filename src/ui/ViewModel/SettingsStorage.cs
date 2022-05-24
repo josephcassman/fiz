@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace UI.ViewModel {
@@ -8,9 +9,60 @@ namespace UI.ViewModel {
             var sql = @"
             CREATE TABLE IF NOT EXISTS Settings (
                 Name TEXT PRIMARY KEY,
-                Value TEXT NOT NULL) WITHOUT ROWID;";
+                Value TEXT NOT NULL) WITHOUT ROWID;
+
+            CREATE TABLE IF NOT EXISTS MediaList (
+                Path TEXT PRIMARY KEY) WITHOUT ROWID;";
             using var con = Connection;
             var cmd = new SqliteCommand(sql, con);
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static List<string> MediaListPaths {
+            get {
+                using var con = Connection;
+                var sql = $@"
+                SELECT Path
+                  FROM MediaList;";
+                var cmd = new SqliteCommand(sql, con);
+                List<string> r = new();
+                try {
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        r.Add(reader.GetString(0));
+                }
+                catch { }
+                return r;
+            }
+        }
+
+        public static void ClearMediaListPaths () {
+            using var con = Connection;
+            var sql = @"DELETE FROM MediaList;";
+            var cmd = new SqliteCommand(sql, con);
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static void DeleteMediaListPath (string path) {
+            using var con = Connection;
+            var sql = @"
+            DELETE FROM MediaList (Path)
+            VALUES (@Path);";
+            var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static void SaveMediaListPath (string path) {
+            using var con = Connection;
+            var sql = @"
+            INSERT OR REPLACE INTO MediaList (Path)
+            VALUES (@Path);";
+            var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
             try { cmd.ExecuteNonQuery(); }
             catch { }
         }
@@ -18,30 +70,30 @@ namespace UI.ViewModel {
         public static bool ShowMediaOnSecondMonitor {
             get {
                 using var con = Connection;
-                var a = readValue(con, "ShowMediaOnSecondMonitor");
+                var a = readSetting(con, "ShowMediaOnSecondMonitor");
                 return a == null || a == "1";
             }
             set {
                 using var con = Connection;
-                writeValue(con, "ShowMediaOnSecondMonitor", value ? "1" : "0");
+                writeSetting(con, "ShowMediaOnSecondMonitor", value ? "1" : "0");
             }
         }
 
         public static bool ShowMediaFullscreen {
             get {
                 using var con = Connection;
-                var a = readValue(con, "ShowMediaFullscreen");
+                var a = readSetting(con, "ShowMediaFullscreen");
                 return a == null || a == "1";
             }
             set {
                 using var con = Connection;
-                writeValue(con, "ShowMediaFullscreen", value ? "1" : "0");
+                writeSetting(con, "ShowMediaFullscreen", value ? "1" : "0");
             }
         }
 
         static SqliteConnection Connection {
             get {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fiz.db");
                 var cs = new SqliteConnectionStringBuilder() { DataSource = path }.ToString();
                 var r = new SqliteConnection(cs);
                 r.Open();
@@ -49,7 +101,7 @@ namespace UI.ViewModel {
             }
         }
 
-        static string? readValue (SqliteConnection con, string name) {
+        static string? readSetting (SqliteConnection con, string name) {
             var sql = $@"
             SELECT Value
               FROM Settings
@@ -66,7 +118,7 @@ namespace UI.ViewModel {
             return r;
         }
 
-        static void writeValue (SqliteConnection con, string name, string value) {
+        static void writeSetting (SqliteConnection con, string name, string value) {
             var sql = @"
                 INSERT OR REPLACE INTO Settings (Name, Value)
                 VALUES (@Name, @Value);";
