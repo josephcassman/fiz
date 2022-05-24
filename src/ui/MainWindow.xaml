@@ -423,17 +423,21 @@
                                 </Button>
                             </Border>
                         </StackPanel>
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="Play_MouseLeftButtonDown"
-                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="60"
-                                    Margin="0"
-                                    ToolTip="Space"
-                                    Click="Play_Click">
-                                &#xEE4A;
-                            </Button>
-                        </Border>
+
+                        <StackPanel Visibility="{Binding Path=ShowMediaListPlayButton, Converter={StaticResource visibleWhenTrue}}">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="Play_MouseLeftButtonDown"
+                                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="60"
+                                        Margin="0"
+                                        ToolTip="Space"
+                                        Click="Play_Click">
+                                    &#xEE4A;
+                                </Button>
+                            </Border>
+                        </StackPanel>
+
                         <Border Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="Pause_MouseLeftButtonDown"
                                 Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
