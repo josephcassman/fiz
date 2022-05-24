@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
@@ -8,7 +10,45 @@ namespace UI.ViewModel {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
             ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
+            foreach (var path in SettingsStorage.MediaListPaths) {
+                if (!File.Exists(path)) SettingsStorage.DeleteMediaListPath(path);
+                else {
+                    var name = Path.GetFileName(path);
+                    var extension = Path.GetExtension(path);
+                    var uri = new Uri(path);
+                    if (PictureExtensions.Contains(extension)) {
+                        var bmp = new BitmapImage(uri);
+                        AddMediaItem(new PictureItem {
+                            Name = name,
+                            Path = path,
+                            Preview = bmp,
+                            Media = bmp,
+                        });
+                    }
+                    else if (VideoExtensions.Contains(extension)) {
+                        AddMediaItem(new VideoItem {
+                            Name = name,
+                            Path = path,
+                            Media = uri,
+                            IsPicture = false,
+                        });
+                    }
+                    else SettingsStorage.DeleteMediaListPath(path);
+                }
+            }
         }
+
+        public static readonly HashSet<string> PictureExtensions = new() {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+        };
+
+        public static readonly HashSet<string> VideoExtensions = new() {
+            ".mp4",
+            ".wav",
+        };
 
         public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
         public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
@@ -20,6 +60,12 @@ namespace UI.ViewModel {
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
             MediaListHasContents = true;
+        }
+
+        public void BackupMediaItems () {
+            SettingsStorage.ClearMediaListPaths();
+            foreach (MediaItem a in MediaItems)
+                SettingsStorage.SaveMediaListPath(a.Path);
         }
 
         public void RemoveMediaItem (int i) {
