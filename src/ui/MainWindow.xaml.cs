@@ -67,13 +67,13 @@ namespace UI {
         void moveNext () {
             if (mediaList.Items.Count == 0) return;
             if (mediaList.Items.Count - 1 <= mediaList.SelectedIndex) return;
-            vm.MediaItemsCurrentIndex = ++mediaList.SelectedIndex;
+            ++mediaList.SelectedIndex;
         }
 
         void movePrevious () {
             if (mediaList.Items.Count == 0) return;
             if (mediaList.SelectedIndex == 0) return;
-            vm.MediaItemsCurrentIndex = --mediaList.SelectedIndex;
+            --mediaList.SelectedIndex;
         }
 
         void playPauseVideo () {
