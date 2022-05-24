@@ -362,8 +362,8 @@ namespace UI {
         void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
             switch (e.Key) {
                 case Key.Down:
-                    if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftDown();
-                    else moveNext();
+                    if (vm.MediaDisplayed) moveNext();
+                    else shiftDown();
                     break;
                 case Key.Escape: media?.Close(); break;
                 case Key.Left: media?.SkipBackwardVideo(); break;
@@ -373,8 +373,8 @@ namespace UI {
                     media?.PlayPauseVideo();
                     break;
                 case Key.Up:
-                    if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftUp();
-                    else movePrevious();
+                    if (vm.MediaDisplayed) movePrevious();
+                    else shiftUp();
                     break;
             }
             if (!minutes.IsFocused && !seconds.IsFocused)

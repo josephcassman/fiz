@@ -392,6 +392,7 @@
                         <Button Style="{StaticResource IconButton}"
                             FontSize="25"
                             Margin="15"
+                            ToolTip="Escape"
                             Click="Stop_Click">
                             &#xE71A;
                         </Button>
@@ -416,6 +417,7 @@
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="35"
                                         Margin="12"
+                                        ToolTip="Left Arrow"
                                         Click="SkipBackward_Click">
                                     &#xED3C;
                                 </Button>
@@ -427,6 +429,7 @@
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="60"
                                     Margin="0"
+                                    ToolTip="Space"
                                     Click="Play_Click">
                                 &#xEE4A;
                             </Button>
@@ -437,6 +440,7 @@
                             <Button Style="{StaticResource IconButton}"
                                     FontSize="37"
                                     Margin="12"
+                                    ToolTip="Space"
                                     Click="Pause_Click">
                                 &#xE769;
                             </Button>
@@ -448,6 +452,7 @@
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="35"
                                         Margin="12"
+                                        ToolTip="Right Arrow"
                                         Click="SkipForward_Click">
                                     &#xED3D;
                                 </Button>
@@ -464,6 +469,7 @@
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="25"
                                         Margin="15"
+                                        ToolTip="Down"
                                         Click="MoveDown_Click">
                                     &#xE70D;
                                 </Button>
@@ -473,6 +479,7 @@
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="25"
                                         Margin="15"
+                                        ToolTip="Up"
                                         Click="MoveUp_Click">
                                     &#xE70E;
                                 </Button>
@@ -507,6 +514,7 @@
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="25"
                                 Margin="15"
+                                ToolTip="Escape"
                                 Click="Stop_Click">
                             &#xE71A;
                         </Button>
@@ -522,6 +530,7 @@
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="35"
                                 Margin="12"
+                                ToolTip="Left Arrow"
                                 Click="SkipBackward_Click">
                             &#xED3C;
                         </Button>
@@ -532,6 +541,7 @@
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="60"
                                 Margin="0"
+                                ToolTip="Space"
                                 Click="Play_Click">
                             &#xEE4A;
                         </Button>
@@ -542,6 +552,7 @@
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="37"
                                 Margin="12"
+                                ToolTip="Space"
                                 Click="Pause_Click">
                             &#xE769;
                         </Button>
@@ -552,6 +563,7 @@
                         <Button Style="{StaticResource IconButton}"
                                 FontSize="35"
                                 Margin="12"
+                                ToolTip="Right Arrow"
                                 Click="SkipForward_Click">
                             &#xED3D;
                         </Button>
