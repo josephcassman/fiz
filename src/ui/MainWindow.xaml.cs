@@ -127,6 +127,8 @@ namespace UI {
         void setSingleVideo (string path) {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
             vm.SingleVideo = new();
+            minutes.Text = "";
+            seconds.Text = "";
 
             singleVideoTextOne.Text = "Loading...";
             singleVideoTextTwo.Text = "";
