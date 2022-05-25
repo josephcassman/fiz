@@ -8,6 +8,8 @@
     <UseWindowsForms>False</UseWindowsForms>
     <ApplicationIcon>fiz.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <StartupObject>src.App</StartupObject>
+    <AssemblyName>Fiz</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
