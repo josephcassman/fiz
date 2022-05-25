@@ -295,10 +295,15 @@
                            VerticalAlignment="Stretch"
                            Source="{Binding SingleVideo.Preview}" />
                 </Border>
-                <Canvas Grid.Row="1"
-                        Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                    <StackPanel Canvas.Left="134"
-                                Canvas.Top="0"
+                <Grid Grid.Row="1"
+                      VerticalAlignment="Top"
+                      Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
@@ -337,9 +342,7 @@
                                    VerticalAlignment="Center"
                                    Text="s" />
                     </StackPanel>
-                    <Border Canvas.Top="1"
-                            Canvas.Right="15"
-                            Panel.ZIndex="2"
+                    <Border Grid.Column="2"
                             Style="{StaticResource IconButtonBorder}"
                             Visibility="{Binding Path=SingleVideoSkipUpdated, Converter={StaticResource visibleWhenTrue}}"
                             MouseLeftButtonDown="RefreshSingleVideoThumbnail_MouseLeftButtonDown">
@@ -351,7 +354,7 @@
                             &#xE72C;
                         </Button>
                     </Border>
-                </Canvas>
+                </Grid>
             </Grid>
 
             <Grid Grid.Row="2"
