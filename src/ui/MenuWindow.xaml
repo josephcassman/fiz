@@ -77,7 +77,11 @@
                       Grid.Column="1"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}" />
+                      IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        FontSize="20"
@@ -90,7 +94,11 @@
                       Grid.Column="1"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      IsChecked="{Binding Path=ShowMediaFullscreen, Mode=TwoWay}" />
+                      IsChecked="{Binding Path=ShowMediaFullscreen, Mode=TwoWay}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
         </Grid>
     </Canvas>
 </Window>
