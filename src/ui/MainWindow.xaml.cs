@@ -332,7 +332,9 @@ namespace UI {
 
         void Menu_Click (object sender, RoutedEventArgs e) {
             var menu = new MenuWindow {
-                Owner = this
+                Owner = this,
+                Top = Top + 15,
+                Left = Left + 15,
             };
             menu.Show();
         }
