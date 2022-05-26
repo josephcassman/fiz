@@ -86,10 +86,16 @@ namespace UI {
         }
 
         void toggleMaximize () {
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized) {
                 SystemCommands.RestoreWindow(this);
-            else
+                restoreBorder.Visibility = Visibility.Collapsed;
+                maximizeBorder.Visibility = Visibility.Visible;
+            }
+            else {
                 SystemCommands.MaximizeWindow(this);
+                maximizeBorder.Visibility = Visibility.Collapsed;
+                restoreBorder.Visibility = Visibility.Visible;
+            }
         }
 
         public void PlayPauseVideo () {
@@ -131,12 +137,12 @@ namespace UI {
             Close();
         }
 
-        void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+        void MaximizeRestoreBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
 
-        void Maximize_Click (object sender, RoutedEventArgs e) {
+        void MaximizeRestore_Click (object sender, RoutedEventArgs e) {
             if (navigation.Opacity == 0.0) return;
             toggleMaximize();
         }
