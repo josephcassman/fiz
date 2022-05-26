@@ -17,8 +17,6 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
 
-        bool navigationHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
-
         void fadeOutNavigation () {
             static DoubleAnimation animation () => new() {
                 From = 1.0,
@@ -26,8 +24,6 @@ namespace UI {
                 Duration = new(new TimeSpan(0, 0, 3)),
                 EasingFunction = new CubicEase(),
             };
-
-            if (navigationHidden) return;
 
             DoubleAnimation a0 = animation();
             Storyboard topBackgroundTransparent = new();
@@ -144,12 +140,6 @@ namespace UI {
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
             setMedia();
-            if (navigationHidden) {
-                navigationTopBackground.Visibility = Visibility.Hidden;
-                navigationBottomBackground.Visibility = Visibility.Hidden;
-                navigation.Visibility = Visibility.Hidden;
-                return;
-            }
             fadeOutNavigation();
         }
 
@@ -166,6 +156,7 @@ namespace UI {
             navigationBottomBackground.Width = e.NewSize.Width - 20;
             navigation.Height = e.NewSize.Height;
             navigation.Width = e.NewSize.Width;
+            fadeOutNavigation();
         }
 
         void Play_Click (object sender, RoutedEventArgs e) { playVideo(); }
