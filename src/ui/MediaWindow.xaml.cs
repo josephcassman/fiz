@@ -12,7 +12,6 @@ namespace UI {
             Loaded += Window_Loaded;
             MouseMove += Window_MouseMove;
             SizeChanged += Window_SizeChanged;
-
             vm.SetMedia += (_, _) => { setMedia(); };
         }
 
