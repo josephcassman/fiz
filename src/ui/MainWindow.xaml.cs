@@ -148,7 +148,7 @@ namespace UI {
                 Path = path,
                 Media = uri,
                 IsPicture = false,
-                Preview = MainViewModel.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
+                Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
             };
 
             singleVideoTextOne.Text = "Drag and drop";
@@ -233,7 +233,7 @@ namespace UI {
                 Path = a.Path,
                 Media = a.Media,
                 IsPicture = false,
-                Preview = MainViewModel.GenerateSingleVideoThumbnail(a.Media, skip),
+                Preview = WindowManager.GenerateSingleVideoThumbnail(a.Media, skip),
                 Skip = skip,
             };
 

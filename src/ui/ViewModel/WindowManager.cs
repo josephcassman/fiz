@@ -1,10 +1,33 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace UI.ViewModel {
     public static class WindowManager {
+        // Must run on the UI thread
+        public static RenderTargetBitmap GenerateSingleVideoThumbnail (Uri a, TimeSpan skip) {
+            MediaPlayer player = new() {
+                ScrubbingEnabled = true,
+                Volume = 0,
+            };
+            player.Open(a);
+            player.Position = skip;
+            System.Threading.Thread.Sleep(2000);
+
+            DrawingVisual dv = new();
+            DrawingContext dc = dv.RenderOpen();
+            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
+            dc.Close();
+
+            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
+            bmp.Render(dv);
+            player.Close();
+            return bmp;
+        }
+
         public static void LetUIUpdate () {
             DispatcherFrame frame = new();
             DispatcherOperationCallback callback = new(delegate (object parameter) {

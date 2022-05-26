@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
@@ -47,7 +45,7 @@ namespace UI.ViewModel {
                     Path = b,
                     Media = uri,
                     IsPicture = false,
-                    Preview = MainViewModel.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
+                    Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
                 };
             }
             if (0 < a.Count) MediaListMode = true;
@@ -66,27 +64,6 @@ namespace UI.ViewModel {
             ".mp4",
             ".wav",
         };
-
-        // Must run on the UI thread
-        public static RenderTargetBitmap GenerateSingleVideoThumbnail (Uri a, TimeSpan skip) {
-            MediaPlayer player = new() {
-                ScrubbingEnabled = true,
-                Volume = 0,
-            };
-            player.Open(a);
-            player.Position = skip;
-            System.Threading.Thread.Sleep(2000);
-
-            DrawingVisual dv = new();
-            DrawingContext dc = dv.RenderOpen();
-            dc.DrawVideo(player, new Rect(0, 0, 330, 330));
-            dc.Close();
-
-            RenderTargetBitmap bmp = new(330, 330, 96, 96, PixelFormats.Pbgra32);
-            bmp.Render(dv);
-            player.Close();
-            return bmp;
-        }
 
         public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
         public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
