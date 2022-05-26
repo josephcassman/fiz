@@ -25,7 +25,7 @@ namespace UI {
                 From = 1.0,
                 To = 0.0,
                 Duration = new(new TimeSpan(0, 0, 3)),
-                EasingFunction = new CubicEase()
+                EasingFunction = new CubicEase(),
             };
 
             if (navigationHidden) return;
