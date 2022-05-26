@@ -130,7 +130,7 @@ namespace UI.ViewModel {
             get => _mediaDisplayed;
             set {
                 Set(ref _mediaDisplayed, value);
-                ShowMediaListPlayButton = !MediaDisplayed || !value;
+                ShowMediaListPlayButton = !(value && PictureDisplayedOnMediaWindow);
             }
         }
 
@@ -139,7 +139,7 @@ namespace UI.ViewModel {
             get => _pictureDisplayedOnMediaWindow;
             set {
                 Set(ref _pictureDisplayedOnMediaWindow, value);
-                ShowMediaListPlayButton = !MediaDisplayed || !value;
+                ShowMediaListPlayButton = !(MediaDisplayed && value);
             }
         }
 
