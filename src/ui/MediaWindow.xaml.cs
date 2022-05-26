@@ -66,18 +66,14 @@ namespace UI {
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
-                if (vm.CurrentMediaItem is PictureItem a) {
+                if (vm.CurrentMediaItem is PictureItem a)
                     picture.Source = a.Media;
-                    vm.PictureDisplayedOnMediaWindow = true;
-                }
                 else {
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Media;
-                    vm.PictureDisplayedOnMediaWindow = false;
                     playVideo();
                 }
             }
             else {
-                vm.PictureDisplayedOnMediaWindow = false;
                 video.Source = vm.SingleVideo.Media;
                 video.Position = vm.SingleVideo.Skip;
                 playVideo();
