@@ -129,14 +129,26 @@
             <Border Grid.Column="1"
                     Grid.Row="0"
                     Style="{StaticResource IconButtonBorder}"
-                    MouseLeftButtonDown="MaximizeBorder_MouseLeftButtonDown"
+                    MouseLeftButtonDown="MaximizeRestoreBorder_MouseLeftButtonDown"
                     Name="maximizeBorder">
                 <Button Style="{StaticResource IconButton}"
                         FontSize="20"
                         Margin="10"
-                        Click="Maximize_Click"
-                        Name="maximize">
+                        Click="MaximizeRestore_Click">
                     &#xE922;
+                </Button>
+            </Border>
+            <Border Grid.Column="1"
+                    Grid.Row="0"
+                    Style="{StaticResource IconButtonBorder}"
+                    MouseLeftButtonDown="MaximizeRestoreBorder_MouseLeftButtonDown"
+                    Visibility="Collapsed"
+                    Name="restoreBorder">
+                <Button Style="{StaticResource IconButton}"
+                        FontSize="20"
+                        Margin="10"
+                        Click="MaximizeRestore_Click">
+                    &#xE923;
                 </Button>
             </Border>
             <Border Grid.Column="2"
