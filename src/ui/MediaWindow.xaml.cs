@@ -147,6 +147,7 @@ namespace UI {
         }
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
+            setMedia();
             if (navigationHidden) {
                 navigationTopBackground.Visibility = Visibility.Hidden;
                 navigationBottomBackground.Visibility = Visibility.Hidden;
@@ -154,7 +155,6 @@ namespace UI {
                 return;
             }
             fadeOutNavigation();
-            setMedia();
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
