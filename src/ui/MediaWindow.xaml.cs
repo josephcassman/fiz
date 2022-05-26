@@ -76,19 +76,6 @@ namespace UI {
             }
         }
 
-        void toggleMaximize () {
-            if (WindowState == WindowState.Maximized) {
-                SystemCommands.RestoreWindow(this);
-                restoreBorder.Visibility = Visibility.Collapsed;
-                maximizeBorder.Visibility = Visibility.Visible;
-            }
-            else {
-                SystemCommands.MaximizeWindow(this);
-                maximizeBorder.Visibility = Visibility.Collapsed;
-                restoreBorder.Visibility = Visibility.Visible;
-            }
-        }
-
         public void PlayPauseVideo () {
             if (vm.PictureDisplayedOnMediaWindow) return;
             if (vm.VideoPaused) playVideo();
@@ -115,7 +102,13 @@ namespace UI {
 
         // Manage window
 
-        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) { toggleMaximize(); }
+        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            if (WindowState == WindowState.Maximized)
+                SystemCommands.RestoreWindow(this);
+            else
+                SystemCommands.MaximizeWindow(this);
+        }
+
         void Window_MouseMove (object sender, MouseEventArgs e) { fadeOutNavigation(); }
 
         void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
@@ -128,14 +121,24 @@ namespace UI {
             Close();
         }
 
-        void MaximizeRestoreBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+        void MaximizeBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (navigation.Opacity == 0.0) return;
-            toggleMaximize();
+            SystemCommands.MaximizeWindow(this);
         }
 
-        void MaximizeRestore_Click (object sender, RoutedEventArgs e) {
+        void Maximize_Click (object sender, RoutedEventArgs e) {
             if (navigation.Opacity == 0.0) return;
-            toggleMaximize();
+            SystemCommands.MaximizeWindow(this);
+        }
+
+        void RestoreBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+            if (navigation.Opacity == 0.0) return;
+            SystemCommands.RestoreWindow(this);
+        }
+
+        void Restore_Click (object sender, RoutedEventArgs e) {
+            if (navigation.Opacity == 0.0) return;
+            SystemCommands.RestoreWindow(this);
         }
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
@@ -157,6 +160,15 @@ namespace UI {
             navigation.Height = e.NewSize.Height;
             navigation.Width = e.NewSize.Width;
             fadeOutNavigation();
+
+            if (WindowState == WindowState.Maximized) {
+                maximizeBorder.Visibility = Visibility.Collapsed;
+                restoreBorder.Visibility = Visibility.Visible;
+            }
+            else {
+                restoreBorder.Visibility = Visibility.Collapsed;
+                maximizeBorder.Visibility = Visibility.Visible;
+            }
         }
 
         void Play_Click (object sender, RoutedEventArgs e) { playVideo(); }
