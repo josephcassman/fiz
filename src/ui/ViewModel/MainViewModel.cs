@@ -98,6 +98,7 @@ namespace UI.ViewModel {
             get => _mediaItemsCurrentIndex;
             set {
                 Set(ref _mediaItemsCurrentIndex, value);
+                PictureDisplayedOnMediaWindow = MediaItems[value] is PictureItem;
                 SetMedia?.Invoke(this, new());
             }
         }
