@@ -20,7 +20,7 @@ namespace UI {
 
         bool navigationHidden => vm.ShowMediaFullscreen && vm.ShowMediaOnSecondMonitor;
 
-        void hideNavigation () {
+        void fadeOutNavigation () {
             static DoubleAnimation animation () => new() {
                 From = 1.0,
                 To = 0.0,
@@ -110,7 +110,7 @@ namespace UI {
             var a = video.Position;
             video.Position = a.Subtract(new TimeSpan(0, 0, 10));
             video.Play();
-            hideNavigation();
+            fadeOutNavigation();
         }
 
         public void SkipForwardVideo () {
@@ -119,13 +119,13 @@ namespace UI {
             var a = video.Position;
             video.Position = a.Add(new TimeSpan(0, 0, 30));
             video.Play();
-            hideNavigation();
+            fadeOutNavigation();
         }
 
         // Manage window
 
         void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) { toggleMaximize(); }
-        void Window_MouseMove (object sender, MouseEventArgs e) { hideNavigation(); }
+        void Window_MouseMove (object sender, MouseEventArgs e) { fadeOutNavigation(); }
 
         void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (navigation.Opacity == 0.0) return;
@@ -154,7 +154,7 @@ namespace UI {
                 navigation.Visibility = Visibility.Hidden;
                 return;
             }
-            hideNavigation();
+            fadeOutNavigation();
             setMedia();
         }
 
