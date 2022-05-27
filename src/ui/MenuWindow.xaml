@@ -12,7 +12,7 @@
         AllowsTransparency="True"
         mc:Ignorable="d"
         MouseDown="Window_MouseDown"
-        Title="MenuWindow" Height="600" Width="500">
+        Title="MenuWindow" Height="580" Width="500">
     <Window.Resources>
         <Style x:Key="MenuIconButton" TargetType="Button">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -58,10 +58,10 @@
                 &#xE8BB;
             </Button>
         </Border>
-        <Grid Canvas.Top="65"
+        <Grid Canvas.Top="55"
               Canvas.Left="25"
               Width="445"
-              Height="100">
+              Height="110">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -105,8 +105,7 @@
                 </CheckBox.LayoutTransform>
             </CheckBox>
         </Grid>
-
-        <Border Canvas.Top="220"
+        <Border Canvas.Top="200"
                 Canvas.Left="10"
                 Width="470"
                 Height="360"
