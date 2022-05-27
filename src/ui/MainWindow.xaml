@@ -174,7 +174,8 @@
               Height="700"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
-              AllowDrop="True">
+              AllowDrop="True"
+              Name="mainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
                 <RowDefinition Height="*" />

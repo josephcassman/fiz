@@ -331,10 +331,16 @@ namespace UI {
         }
 
         void Menu_Click (object sender, RoutedEventArgs e) {
+            IsEnabled = false;
+            mainGrid.Opacity = 0.15;
             var menu = new MenuWindow {
                 Owner = this,
                 Top = Top + 15,
                 Left = Left + 15,
+            };
+            menu.Closed += (_, _) => {
+                mainGrid.Opacity = 1.0;
+                IsEnabled = true;
             };
             menu.Show();
         }
