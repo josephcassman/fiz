@@ -62,7 +62,8 @@
                       CornerRadius="0"
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
-    <Canvas>
+    <Canvas MouseLeftButtonDown="Video_Click"
+            MouseRightButtonDown="Video_Click">
         <Image Canvas.Top="0"
                Canvas.Left="0"
                Panel.ZIndex="1"
