@@ -178,7 +178,7 @@
               Name="mainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70" />
-                <RowDefinition Height="*" />
+                <RowDefinition />
                 <RowDefinition Height="70" />
             </Grid.RowDefinitions>
 
@@ -240,10 +240,12 @@
                 <ListBox AllowDrop="True"
                          BorderThickness="0"
                          HorizontalContentAlignment="Stretch"
+                         Height="550"
                          VerticalAlignment="Stretch"
                          VerticalContentAlignment="Top"
                          HorizontalAlignment="Stretch"
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                          SelectionChanged="MediaList_SelectionChanged"
                          MouseDoubleClick="MediaList_MouseDoubleClick"
                          ItemTemplate="{StaticResource MediaListTemplate}"
