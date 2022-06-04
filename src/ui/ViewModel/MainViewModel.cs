@@ -128,25 +128,13 @@ namespace UI.ViewModel {
         bool _mediaDisplayed = false;
         public bool MediaDisplayed {
             get => _mediaDisplayed;
-            set {
-                Set(ref _mediaDisplayed, value);
-                ShowMediaListPlayButton = !(value && PictureDisplayedOnMediaWindow);
-            }
+            set { Set(ref _mediaDisplayed, value); }
         }
 
         bool _pictureDisplayedOnMediaWindow = true;
         public bool PictureDisplayedOnMediaWindow {
             get => _pictureDisplayedOnMediaWindow;
-            set {
-                Set(ref _pictureDisplayedOnMediaWindow, value);
-                ShowMediaListPlayButton = !(MediaDisplayed && value);
-            }
-        }
-
-        bool _showMediaListPlayButton = true;
-        public bool ShowMediaListPlayButton {
-            get => _showMediaListPlayButton;
-            set => Set(ref _showMediaListPlayButton, value);
+            set { Set(ref _pictureDisplayedOnMediaWindow, value); }
         }
 
         VideoItem _singleVideo = new();

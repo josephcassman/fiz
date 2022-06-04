@@ -208,7 +208,6 @@
                     <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}" />
                 </StackPanel>
-
             </StackPanel>
 
             <StackPanel Grid.Row="1"
@@ -358,91 +357,60 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="2"
-                  Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="135" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left">
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="AddMediaToMediaList_MouseLeftButtonDown"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+            <StackPanel Grid.Row="2"
+                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
+                <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="125" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0"
+                            Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="Stop_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
+                                FontSize="25"
                                 Margin="15"
-                                Click="AddMediaToMediaList_Click">
-                            &#xE948;
-                        </Button>
-                    </Border>
-                    <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
-                                MouseLeftButtonDown="RemoveMediaFromMediaList_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="30"
-                                    Margin="15"
-                                    Click="RemoveMediaFromMediaList_Click">
-                                &#xE738;
-                            </Button>
-                        </Border>
-                    </StackPanel>
-                    <Border Style="{StaticResource IconButtonBorder}"
-                        Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                        MouseLeftButtonDown="Stop_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                            FontSize="25"
-                            Margin="15"
-                            ToolTip="Escape"
-                            Click="Stop_Click">
+                                ToolTip="Escape"
+                                Click="Stop_Click">
                             &#xE71A;
                         </Button>
                     </Border>
-                </StackPanel>
-
-                <Grid Grid.Column="1"
-                      HorizontalAlignment="Stretch"
-                      Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="140" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
-                        <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
-                                    MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
-                                <Button Style="{StaticResource IconButton}"
-                                        FontSize="35"
-                                        Margin="12"
-                                        ToolTip="Left Arrow"
-                                        Click="SkipBackward_Click">
-                                    &#xED3C;
-                                </Button>
-                            </Border>
-                        </StackPanel>
-
-                        <StackPanel Visibility="{Binding Path=ShowMediaListPlayButton, Converter={StaticResource visibleWhenTrue}}">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="Play_MouseLeftButtonDown"
-                                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
-                                <Button Style="{StaticResource IconButton}"
-                                        FontSize="60"
-                                        Margin="0"
-                                        ToolTip="Space"
-                                        Click="Play_Click">
-                                    &#xEE4A;
-                                </Button>
-                            </Border>
-                        </StackPanel>
-
-                        <Border Style="{StaticResource IconButtonBorder}"
+                    <Grid Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="1"
+                                Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="35"
+                                    Margin="12"
+                                    ToolTip="Left Arrow"
+                                    Click="SkipBackward_Click">
+                                &#xED3C;
+                            </Button>
+                        </Border>
+                        <Border Grid.Column="2"
+                                Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="Play_MouseLeftButtonDown"
+                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="60"
+                                    Margin="0"
+                                    ToolTip="Space"
+                                    Click="Play_Click">
+                                &#xEE4A;
+                            </Button>
+                        </Border>
+                        <Border Grid.Column="2"
+                                Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="Pause_MouseLeftButtonDown"
                                 Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
                             <Button Style="{StaticResource IconButton}"
@@ -453,23 +421,20 @@
                                 &#xE769;
                             </Button>
                         </Border>
-                        <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
-                                    MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
-                                <Button Style="{StaticResource IconButton}"
-                                        FontSize="35"
-                                        Margin="12"
-                                        ToolTip="Right Arrow"
-                                        Click="SkipForward_Click">
-                                    &#xED3D;
-                                </Button>
-                            </Border>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1"
+                        <Border Grid.Column="3"
+                                Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="35"
+                                    Margin="12"
+                                    ToolTip="Right Arrow"
+                                    Click="SkipForward_Click">
+                                &#xED3D;
+                            </Button>
+                        </Border>
+                    </Grid>
+                    <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
-                                HorizontalAlignment="Right"
                                 Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
                         <Border Style="{StaticResource IconButtonBorder}"
                                 MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
@@ -493,7 +458,84 @@
                         </Border>
                     </StackPanel>
                 </Grid>
-            </Grid>
+                <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Left">
+                        <Border Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="AddMediaToMediaList_MouseLeftButtonDown"
+                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="30"
+                                    Margin="15"
+                                    Click="AddMediaToMediaList_Click">
+                                &#xE948;
+                            </Button>
+                        </Border>
+                        <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
+                                    MouseLeftButtonDown="RemoveMediaFromMediaList_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="30"
+                                        Margin="15"
+                                        Click="RemoveMediaFromMediaList_Click">
+                                    &#xE738;
+                                </Button>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="140" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="Play_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="60"
+                                        Margin="0"
+                                        ToolTip="Down"
+                                        Click="Play_Click">
+                                    &#xEE4A;
+                                </Button>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="25"
+                                        Margin="15"
+                                        ToolTip="Down"
+                                        Click="MoveDown_Click">
+                                    &#xE70D;
+                                </Button>
+                            </Border>
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="25"
+                                        Margin="15"
+                                        ToolTip="Up"
+                                        Click="MoveUp_Click">
+                                    &#xE70E;
+                                </Button>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </StackPanel>
 
             <Grid Grid.Row="2"
                   Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}">
