@@ -19,6 +19,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -32,6 +33,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Foreground" Value="#B1B1B1" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -53,7 +55,6 @@
             <Button Style="{StaticResource MenuIconButton}"
                     FontSize="17"
                     Margin="0"
-                    Foreground="WhiteSmoke"
                     Click="Close_Click">
                 &#xE8BB;
             </Button>
