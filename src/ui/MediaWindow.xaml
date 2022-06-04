@@ -85,7 +85,7 @@
                     Canvas.Left="0"
                     Panel.ZIndex="2"
                     Width="800"
-                    Height="50"
+                    Height="100"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
                     Background="#202020"
@@ -96,7 +96,7 @@
                 Panel.ZIndex="2"
                 CornerRadius="4"
                 Width="780"
-                Height="70"
+                Height="100"
                 Background="#202020"
                 BorderThickness="1"
                 BorderBrush="#202020"
@@ -118,13 +118,13 @@
               Name="navigation">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="70" />
-                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
+                <RowDefinition Height="100" />
                 <RowDefinition />
-                <RowDefinition Height="90" />
+                <RowDefinition Height="120" />
             </Grid.RowDefinitions>
             <Border Grid.Column="1"
                     Grid.Row="0"
@@ -132,8 +132,8 @@
                     MouseLeftButtonDown="MaximizeBorder_MouseLeftButtonDown"
                     Name="maximizeBorder">
                 <Button Style="{StaticResource IconButton}"
-                        FontSize="20"
-                        Margin="10"
+                        FontSize="40"
+                        Margin="20"
                         Click="Maximize_Click">
                     &#xE922;
                 </Button>
@@ -143,22 +143,24 @@
                     Style="{StaticResource IconButtonBorder}"
                     MouseLeftButtonDown="RestoreBorder_MouseLeftButtonDown"
                     Visibility="Collapsed"
+                    Margin="0,5,0,0"
                     Name="restoreBorder">
                 <Button Style="{StaticResource IconButton}"
-                        FontSize="20"
-                        Margin="10"
+                        FontSize="40"
+                        Margin="15"
                         Click="Restore_Click">
                     &#xE923;
                 </Button>
             </Border>
             <Border Grid.Column="2"
                     Grid.Row="0"
+                    Margin="0,5,0,0"
                     Style="{StaticResource IconButtonBorder}"
                     MouseLeftButtonDown="CloseBorder_MouseLeftButtonDown"
                     Name="closeBorder">
                 <Button Style="{StaticResource IconButton}"
-                        FontSize="20"
-                        Margin="10"
+                        FontSize="40"
+                        Margin="15"
                         Click="Close_Click"
                         Name="close">
                     &#xE8BB;
@@ -170,17 +172,17 @@
                   Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="1"
                         Style="{StaticResource IconButtonBorder}"
                         MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
-                            FontSize="40"
-                            Margin="10"
+                            FontSize="50"
+                            Margin="20"
                             Click="SkipBackward_Click">
                         &#xED3C;
                     </Button>
@@ -190,8 +192,8 @@
                         Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}"
                         MouseLeftButtonDown="Play_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
-                            FontSize="40"
-                            Margin="10"
+                            FontSize="50"
+                            Margin="20"
                             Click="Play_Click">
                         &#xE768;
                     </Button>
@@ -201,8 +203,8 @@
                         Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}"
                         MouseLeftButtonDown="Pause_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
-                            FontSize="40"
-                            Margin="10"
+                            FontSize="50"
+                            Margin="20"
                             Click="Pause_Click">
                         &#xE769;
                     </Button>
@@ -211,8 +213,8 @@
                         Style="{StaticResource IconButtonBorder}"
                         MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
                     <Button Style="{StaticResource IconButton}"
-                            FontSize="40"
-                            Margin="10"
+                            FontSize="50"
+                            Margin="20"
                             Click="SkipForward_Click">
                         &#xED3D;
                     </Button>
