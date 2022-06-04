@@ -183,6 +183,8 @@ namespace UI {
         void SkipForward_Click (object sender, RoutedEventArgs e) { SkipForwardVideo(); }
         void SkipForward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { SkipForwardVideo(); }
 
+        void Video_Click (object sender, MouseButtonEventArgs e) { PlayPauseVideo(); }
+
         void Window_PreviewKeyDown (object sender, KeyEventArgs e) {
             switch (e.Key) {
                 case Key.Down: vm.MoveToNextMediaItem(); break;
