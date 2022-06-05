@@ -72,12 +72,13 @@ namespace UI {
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
-                if (vm.CurrentMediaItem is PictureItem a)
-                    mediaListPicture.Source = a.Media;
-                else {
+                if (vm.CurrentMediaItem.IsPicture)
+                    mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Media;
+                else if (vm.CurrentMediaItem.IsVideo) {
                     mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Media;
                     playVideo();
                 }
+                else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Media;
             }
             else {
                 singleVideo.Source = vm.SingleVideo.Media;
@@ -87,14 +88,14 @@ namespace UI {
         }
 
         public void PlayPauseVideo () {
-            if (vm.PictureDisplayedOnMediaWindow) return;
+            if (!vm.VideoDisplayedOnMediaWindow) return;
             if (vm.InternetMode) return;
             if (vm.VideoPaused) playVideo();
             else pauseVideo();
         }
 
         public void SkipBackwardVideo () {
-            if (vm.PictureDisplayedOnMediaWindow) return;
+            if (!vm.VideoDisplayedOnMediaWindow) return;
             if (vm.InternetMode) return;
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
@@ -104,7 +105,7 @@ namespace UI {
         }
 
         public void SkipForwardVideo () {
-            if (vm.PictureDisplayedOnMediaWindow) return;
+            if (!vm.VideoDisplayedOnMediaWindow) return;
             if (vm.InternetMode) return;
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
@@ -168,6 +169,8 @@ namespace UI {
             mediaListPicture.Height = e.NewSize.Height;
             mediaListPicture.Width = e.NewSize.Width;
             mediaListVideo.Width = e.NewSize.Width;
+            mediaListWeb.Height = e.NewSize.Height;
+            mediaListWeb.Width = e.NewSize.Width;
             singleVideo.Width = e.NewSize.Width;
             web.Height = e.NewSize.Height;
             web.Width = e.NewSize.Width;
@@ -208,7 +211,7 @@ namespace UI {
                 case Key.Left: SkipBackwardVideo(); break;
                 case Key.Right: SkipForwardVideo(); break;
                 case Key.Space:
-                    if (vm.PictureDisplayedOnMediaWindow) return;
+                    if (!vm.VideoDisplayedOnMediaWindow) return;
                     PlayPauseVideo();
                     break;
                 case Key.Up: vm.MoveToPreviousMediaItem(); break;
