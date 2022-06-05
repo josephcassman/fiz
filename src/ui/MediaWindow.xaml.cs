@@ -63,7 +63,11 @@ namespace UI {
         }
 
         void setMedia () {
-            if (vm.InternetMode) return;
+            if (vm.InternetMode) {
+                try { web.Source = vm.WebpageUrl; } catch { }
+                return;
+            }
+
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
@@ -165,6 +169,8 @@ namespace UI {
             mediaListPicture.Width = e.NewSize.Width;
             mediaListVideo.Width = e.NewSize.Width;
             singleVideo.Width = e.NewSize.Width;
+            web.Height = e.NewSize.Height;
+            web.Width = e.NewSize.Width;
             navigationTopBackground.Width = e.NewSize.Width;
             navigationBottomBackground.Width = e.NewSize.Width - 20;
             navigation.Height = e.NewSize.Height;

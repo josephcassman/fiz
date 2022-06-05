@@ -81,11 +81,19 @@ namespace UI {
         void navigateUrl () {
             if (web == null || web.CoreWebView2 == null) return;
             var a = url.Text ?? "";
-            try { web.CoreWebView2.Navigate(a); goto done; } catch { }
-            try { web.CoreWebView2.Navigate("https://" + a); goto done; } catch { }
-            try { web.CoreWebView2.Navigate("https://www." + a); goto done; } catch { }
-            try { web.CoreWebView2.Navigate("http://" + a); goto done; } catch { }
-            try { web.CoreWebView2.Navigate("http://www." + a); goto done; } catch { }
+            var b = new string[] {
+                a,
+                "https://" + a,
+                "https://www." + a,
+                "http://" + a,
+                "http://www." + a,
+            };
+            try { web.CoreWebView2.Navigate(b[0]); vm.WebpageUrl = new(b[0]); goto done; } catch { }
+            try { web.CoreWebView2.Navigate(b[1]); vm.WebpageUrl = new(b[1]); goto done; } catch { }
+            try { web.CoreWebView2.Navigate(b[2]); vm.WebpageUrl = new(b[2]); goto done; } catch { }
+            try { web.CoreWebView2.Navigate(b[3]); vm.WebpageUrl = new(b[3]); goto done; } catch { }
+            try { web.CoreWebView2.Navigate(b[4]); vm.WebpageUrl = new(b[4]); goto done; } catch { }
+            vm.WebpageUrl = new("about:blank");
             vm.InternetNavigationFailed = true;
             return;
         done: vm.InternetNavigationFailed = false;
@@ -219,6 +227,14 @@ namespace UI {
             vm.MediaDisplayed = true;
         }
 
+        void showWebpage () {
+            media = new();
+            WindowManager.ShowMediaWindow(media, vm, (s, e) => {
+                vm.MediaDisplayed = false;
+            });
+            vm.MediaDisplayed = true;
+        }
+
         void up () {
             if (vm.MediaDisplayed) movePrevious();
             else shiftUp();
@@ -324,6 +340,8 @@ namespace UI {
         void SkipBackward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipBackwardVideo(); }
         void SkipForward_Click (object sender, RoutedEventArgs e) { media?.SkipForwardVideo(); }
         void SkipForward_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { media?.SkipForwardVideo(); }
+        void ShowWebpage_Click (object sender, RoutedEventArgs e) { showWebpage(); }
+        void ShowWebpage_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { showWebpage(); }
         void Stop_Click (object sender, RoutedEventArgs e) { closeMedia(); }
         void Stop_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
