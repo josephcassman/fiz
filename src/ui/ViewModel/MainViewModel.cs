@@ -76,7 +76,7 @@ namespace UI.ViewModel {
 
         public event EventHandler? MoveDown;
         public event EventHandler? MoveUp;
-        public event EventHandler? SetMedia;
+        public event EventHandler? SetMediaListMedia;
 
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
@@ -105,7 +105,7 @@ namespace UI.ViewModel {
             set {
                 Set(ref _mediaItemsCurrentIndex, value);
                 PictureDisplayedOnMediaWindow = MediaItems[value] is PictureItem;
-                SetMedia?.Invoke(this, new());
+                SetMediaListMedia?.Invoke(this, new());
             }
         }
 
