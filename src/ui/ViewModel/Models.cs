@@ -6,15 +6,30 @@ namespace UI.ViewModel {
         public string Name { get; set; } = "";
         public string Path { get; set; } = "";
         public BitmapSource Preview { get; set; } = new BitmapImage();
-        public bool IsPicture { get; set; } = true;
+        public abstract bool IsPdf { get; }
+        public abstract bool IsPicture { get; }
+        public abstract bool IsVideo { get; }
+    }
+
+    public class PdfItem : MediaItem {
+        public Uri Media { get; set; } = new("about:blank");
+        public override bool IsPdf => true;
+        public override bool IsPicture => false;
+        public override bool IsVideo => false;
     }
 
     public class PictureItem : MediaItem {
         public BitmapImage Media { get; set; } = new();
+        public override bool IsPdf => false;
+        public override bool IsPicture => true;
+        public override bool IsVideo => false;
     }
 
     public class VideoItem : MediaItem {
         public Uri Media { get; set; } = new("about:blank");
         public TimeSpan Skip { get; set; } = TimeSpan.Zero;
+        public override bool IsPdf => false;
+        public override bool IsPicture => false;
+        public override bool IsVideo => true;
     }
 }

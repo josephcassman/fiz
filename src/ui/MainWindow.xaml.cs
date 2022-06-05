@@ -36,7 +36,7 @@ namespace UI {
         void addMediaUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog many = new() {
                 FileName = "",
-                Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav",
+                Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav;*.pdf",
                 Multiselect = true,
             };
             many.ShowDialog();
@@ -130,7 +130,13 @@ namespace UI {
                         Name = name,
                         Path = path,
                         Media = uri,
-                        IsPicture = false,
+                    });
+                }
+                else if (extension == ".pdf") {
+                    vm.AddMediaItem(new PdfItem {
+                        Name = name,
+                        Path = path,
+                        Media = uri,
                     });
                 }
             }
@@ -168,7 +174,6 @@ namespace UI {
                 Name = Path.GetFileName(path),
                 Path = path,
                 Media = uri,
-                IsPicture = false,
                 Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
             };
 
@@ -261,7 +266,6 @@ namespace UI {
                 Name = a.Name,
                 Path = a.Path,
                 Media = a.Media,
-                IsPicture = false,
                 Preview = WindowManager.GenerateSingleVideoThumbnail(a.Media, skip),
                 Skip = skip,
             };
