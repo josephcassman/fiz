@@ -78,6 +78,19 @@ namespace UI {
             --mediaList.SelectedIndex;
         }
 
+        void navigateUrl () {
+            if (web == null || web.CoreWebView2 == null) return;
+            var a = url.Text ?? "";
+            try { web.CoreWebView2.Navigate(a); goto done; } catch { }
+            try { web.CoreWebView2.Navigate("https://" + a); goto done; } catch { }
+            try { web.CoreWebView2.Navigate("https://www." + a); goto done; } catch { }
+            try { web.CoreWebView2.Navigate("http://" + a); goto done; } catch { }
+            try { web.CoreWebView2.Navigate("http://www." + a); goto done; } catch { }
+            vm.InternetNavigationFailed = true;
+            return;
+        done: vm.InternetNavigationFailed = false;
+        }
+
         void playPauseVideo () {
             if (vm.MediaDisplayed) media?.PlayPauseVideo();
             else if (vm.MediaListMode) showMediaListMedia();
@@ -241,6 +254,11 @@ namespace UI {
             singleVideoTextTwo.Text = "video here";
         }
 
+        // Internet
+
+        void NavigateUrl_Click (object sender, RoutedEventArgs e) { navigateUrl(); }
+        void NavigateUrl_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { navigateUrl(); }
+
         // Media setup
 
         void AddMediaToMediaList_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
@@ -318,16 +336,19 @@ namespace UI {
             if (media != null) SystemCommands.MinimizeWindow(media);
         }
 
-        void MediaList_Click (object sender, RoutedEventArgs e) {
+        void InternetMode_Click (object sender, RoutedEventArgs e) {
             if (vm.MediaDisplayed) return;
-            if (!vm.MediaListMode)
-                vm.MediaListMode = true;
+            vm.MainWindowMode = MainWindowMode.Internet;
         }
 
-        void SingleVideo_Click (object sender, RoutedEventArgs e) {
+        void MediaListMode_Click (object sender, RoutedEventArgs e) {
             if (vm.MediaDisplayed) return;
-            if (vm.MediaListMode)
-                vm.MediaListMode = false;
+            vm.MainWindowMode = MainWindowMode.MediaList;
+        }
+
+        void SingleVideoMode_Click (object sender, RoutedEventArgs e) {
+            if (vm.MediaDisplayed) return;
+            vm.MainWindowMode = MainWindowMode.SingleVideo;
         }
 
         void Menu_Click (object sender, RoutedEventArgs e) {
@@ -398,8 +419,15 @@ namespace UI {
                     }
                     break;
             }
-            if (!minutes.IsFocused && !seconds.IsFocused)
+            if (!minutes.IsFocused && !seconds.IsFocused && !url.IsFocused)
                 e.Handled = true;
+        }
+
+        void Url_KeyDown (object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                navigateUrl();
+                e.Handled = true;
+            }
         }
     }
 }
