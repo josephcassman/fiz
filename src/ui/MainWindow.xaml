@@ -297,7 +297,7 @@
                         BorderBrush="#707070"
                         BorderThickness="3"
                         Width="350"
-                        Height="350"
+                        Height="240"
                         AllowDrop="True"
                         Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemCollapsedWhenTrue}}">
                     <StackPanel Orientation="Vertical"
