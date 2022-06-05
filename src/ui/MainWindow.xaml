@@ -409,9 +409,9 @@
                 <wv2:WebView2 Grid.Column="0"
                               Grid.ColumnSpan="2"
                               Grid.Row="1"
-                              Name="web"
                               Source="about:blank"
-                              Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource collapsedWhenTrue}}" />
+                              Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource collapsedWhenTrue}}"
+                              Name="web" />
                 <StackPanel Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Grid.Row="1"
@@ -615,7 +615,7 @@
             </StackPanel>
 
             <Grid Grid.Row="2"
-                  Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}">
+                  Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
                     <ColumnDefinition />
@@ -695,6 +695,43 @@
                     </Border>
                 </StackPanel>
             </Grid>
+
+            <Grid Grid.Row="2"
+                  Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0"
+                        Style="{StaticResource IconButtonBorder}"
+                        Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                        MouseLeftButtonDown="Stop_MouseLeftButtonDown">
+                    <Button Style="{StaticResource IconButton}"
+                            FontSize="25"
+                            Margin="15"
+                            ToolTip="Escape"
+                            Click="Stop_Click">
+                        &#xE71A;
+                    </Button>
+                </Border>
+                <StackPanel Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                    <Border Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="ShowWebpage_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="60"
+                                Margin="0"
+                                ToolTip="Space"
+                                Click="ShowWebpage_Click">
+                            &#xEE4A;
+                        </Button>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
         </Grid>
     </Canvas>
 </Window>

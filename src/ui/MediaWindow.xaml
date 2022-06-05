@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:UI"
         xmlns:vm="clr-namespace:UI.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
@@ -94,6 +95,15 @@
                       LoadedBehavior="Manual"
                       Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
                       Name="singleVideo" />
+
+        <wv2:WebView2 Canvas.Top="0"
+                      Canvas.Left="0"
+                      Panel.ZIndex="1"
+                      Height="450"
+                      Width="850"
+                      Source="about:blank"
+                      Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}"
+                      Name="web" />
 
         <StackPanel Canvas.Top="0"
                     Canvas.Left="0"

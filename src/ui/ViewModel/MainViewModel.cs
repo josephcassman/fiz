@@ -78,6 +78,8 @@ namespace UI.ViewModel {
         public event EventHandler? MoveUp;
         public event EventHandler? SetMediaListMedia;
 
+        public Uri WebpageUrl = new("about:blank");
+
         public void AddMediaItem (MediaItem a) {
             MediaItems.Add(a);
             MediaListHasContents = true;
