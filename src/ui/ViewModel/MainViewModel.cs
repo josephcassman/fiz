@@ -5,6 +5,12 @@ using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
+    public enum MainWindowMode {
+        MediaList,
+        SingleVideo,
+        Internet,
+    }
+
     public class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
@@ -48,9 +54,9 @@ namespace UI.ViewModel {
                     Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
                 };
             }
-            if (0 < a.Count) MediaListMode = true;
-            else if (!string.IsNullOrEmpty(SingleVideo.Path)) MediaListMode = false;
-            else MediaListMode = true;
+            if (0 < a.Count) MainWindowMode = MainWindowMode.MediaList;
+            else if (!string.IsNullOrEmpty(SingleVideo.Path)) MainWindowMode = MainWindowMode.SingleVideo;
+            else MainWindowMode = MainWindowMode.MediaList;
         }
 
         public static readonly HashSet<string> PictureExtensions = new() {
@@ -105,16 +111,59 @@ namespace UI.ViewModel {
 
         // Main window state
 
+        bool _internetMode = false;
+        public bool InternetMode {
+            get => _internetMode;
+            set => Set(ref _internetMode, value);
+        }
+
+        bool _internetNavigationFailed = false;
+        public bool InternetNavigationFailed {
+            get => _internetNavigationFailed;
+            set => Set(ref _internetNavigationFailed, value);
+        }
+
+        MainWindowMode _mainWindowMode = MainWindowMode.MediaList;
+        public MainWindowMode MainWindowMode {
+            get => _mainWindowMode;
+            set {
+                switch (value) {
+                    case MainWindowMode.MediaList:
+                        SingleVideoMode = false;
+                        InternetMode = false;
+                        MediaListMode = true;
+                        break;
+                    case MainWindowMode.SingleVideo:
+                        MediaListMode = false;
+                        InternetMode = false;
+                        SingleVideoMode = true;
+                        break;
+                    case MainWindowMode.Internet:
+                        MediaListMode = false;
+                        SingleVideoMode = false;
+                        InternetMode = true;
+                        break;
+                    default: throw new NotImplementedException();
+                }
+            }
+        }
+
         bool _mediaListHasContents = false;
         public bool MediaListHasContents {
             get => _mediaListHasContents;
             set => Set(ref _mediaListHasContents, value);
         }
 
-        bool _mediaListMode = true;
+        bool _mediaListMode = false;
         public bool MediaListMode {
             get => _mediaListMode;
             set => Set(ref _mediaListMode, value);
+        }
+
+        bool _singleVideoMode = false;
+        public bool SingleVideoMode {
+            get => _singleVideoMode;
+            set => Set(ref _singleVideoMode, value);
         }
 
         bool _singleVideoSkipUpdated = false;

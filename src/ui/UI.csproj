@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.5" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1210.39" />
   </ItemGroup>
 
   <ItemGroup>
