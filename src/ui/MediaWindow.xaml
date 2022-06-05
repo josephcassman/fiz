@@ -64,15 +64,27 @@
     </WindowChrome.WindowChrome>
     <Canvas MouseLeftButtonDown="Video_Click"
             MouseRightButtonDown="Video_Click">
-        <Image Canvas.Top="0"
-               Canvas.Left="0"
-               Panel.ZIndex="1"
-               Width="850"
-               Height="450"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
-               Name="picture" />
+        <StackPanel Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
+            <Image Canvas.Top="0"
+                   Canvas.Left="0"
+                   Panel.ZIndex="1"
+                   Width="850"
+                   Height="450"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
+                   Name="mediaListPicture" />
+            <MediaElement Canvas.Top="0"
+                          Canvas.Left="0"
+                          Panel.ZIndex="1"
+                          Width="850"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          LoadedBehavior="Manual"
+                          Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
+                          Name="mediaListVideo" />
+        </StackPanel>
+
         <MediaElement Canvas.Top="0"
                       Canvas.Left="0"
                       Panel.ZIndex="1"
@@ -80,8 +92,9 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
-                      Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
-                      Name="video" />
+                      Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
+                      Name="singleVideo" />
+
         <StackPanel Canvas.Top="0"
                     Canvas.Left="0"
                     Panel.ZIndex="2"
@@ -92,6 +105,7 @@
                     Background="#202020"
                     Opacity="0.8"
                     Name="navigationTopBackground" />
+
         <Border Canvas.Left="10"
                 Canvas.Bottom="10"
                 Panel.ZIndex="2"
@@ -109,6 +123,7 @@
                         Background="#202020"
                         Opacity="0.8" />
         </Border>
+
         <Grid Canvas.Left="0"
               Canvas.Bottom="0"
               Panel.ZIndex="3"

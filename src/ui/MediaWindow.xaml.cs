@@ -12,7 +12,7 @@ namespace UI {
             Loaded += Window_Loaded;
             MouseMove += Window_MouseMove;
             SizeChanged += Window_SizeChanged;
-            vm.SetMedia += (_, _) => { setMedia(); };
+            vm.SetMediaListMedia += (_, _) => { setMedia(); };
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -49,53 +49,62 @@ namespace UI {
         }
 
         void playVideo () {
+            if (vm.InternetMode) return;
+            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Play();
             vm.VideoPaused = false;
         }
 
         void pauseVideo () {
+            if (vm.InternetMode) return;
+            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             vm.VideoPaused = true;
         }
 
         void setMedia () {
+            if (vm.InternetMode) return;
+            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem is PictureItem a)
-                    picture.Source = a.Media;
+                    mediaListPicture.Source = a.Media;
                 else {
-                    video.Source = ((VideoItem) vm.CurrentMediaItem).Media;
+                    mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Media;
                     playVideo();
                 }
             }
             else {
-                video.Source = vm.SingleVideo.Media;
-                video.Position = vm.SingleVideo.Skip;
+                singleVideo.Source = vm.SingleVideo.Media;
+                singleVideo.Position = vm.SingleVideo.Skip;
                 playVideo();
             }
         }
 
         public void PlayPauseVideo () {
             if (vm.PictureDisplayedOnMediaWindow) return;
+            if (vm.InternetMode) return;
             if (vm.VideoPaused) playVideo();
             else pauseVideo();
         }
 
         public void SkipBackwardVideo () {
             if (vm.PictureDisplayedOnMediaWindow) return;
+            if (vm.InternetMode) return;
+            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
-            var a = video.Position;
-            video.Position = a.Subtract(new TimeSpan(0, 0, 10));
+            video.Position = video.Position.Subtract(new TimeSpan(0, 0, 10));
             video.Play();
             fadeOutNavigation();
         }
 
         public void SkipForwardVideo () {
             if (vm.PictureDisplayedOnMediaWindow) return;
+            if (vm.InternetMode) return;
+            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
-            var a = video.Position;
-            video.Position = a.Add(new TimeSpan(0, 0, 30));
+            video.Position = video.Position.Add(new TimeSpan(0, 0, 30));
             video.Play();
             fadeOutNavigation();
         }
@@ -152,9 +161,10 @@ namespace UI {
         }
 
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
-            picture.Height = e.NewSize.Height;
-            picture.Width = e.NewSize.Width;
-            video.Width = e.NewSize.Width;
+            mediaListPicture.Height = e.NewSize.Height;
+            mediaListPicture.Width = e.NewSize.Width;
+            mediaListVideo.Width = e.NewSize.Width;
+            singleVideo.Width = e.NewSize.Width;
             navigationTopBackground.Width = e.NewSize.Width;
             navigationBottomBackground.Width = e.NewSize.Width - 20;
             navigation.Height = e.NewSize.Height;
