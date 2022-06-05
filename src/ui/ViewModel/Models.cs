@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Web;
 using System.Windows.Media.Imaging;
 
 namespace UI.ViewModel {
     public abstract class MediaItem {
         public string Name { get; set; } = "";
+        public string DecodedName => HttpUtility.UrlDecode(Name);
         public string Path { get; set; } = "";
         public abstract bool IsPdf { get; }
         public abstract bool IsPicture { get; }
