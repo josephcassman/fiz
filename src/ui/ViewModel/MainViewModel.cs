@@ -37,7 +37,13 @@ namespace UI.ViewModel {
                             Name = name,
                             Path = path,
                             Media = uri,
-                            IsPicture = false,
+                        });
+                    }
+                    else if (extension == ".pdf") {
+                        AddMediaItem(new PdfItem {
+                            Name = name,
+                            Path = path,
+                            Media = uri,
                         });
                     }
                     else SettingsStorage.DeleteMediaListPath(path);
@@ -50,7 +56,6 @@ namespace UI.ViewModel {
                     Name = Path.GetFileName(b),
                     Path = b,
                     Media = uri,
-                    IsPicture = false,
                     Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
                 };
             }
@@ -106,7 +111,11 @@ namespace UI.ViewModel {
             get => _mediaItemsCurrentIndex;
             set {
                 Set(ref _mediaItemsCurrentIndex, value);
-                PictureDisplayedOnMediaWindow = MediaItems[value] is PictureItem;
+
+                PdfDisplayedOnMediaWindow = MediaItems[value].IsPdf;
+                PictureDisplayedOnMediaWindow = MediaItems[value].IsPicture;
+                VideoDisplayedOnMediaWindow = MediaItems[value].IsVideo;
+
                 SetMediaListMedia?.Invoke(this, new());
             }
         }
@@ -182,7 +191,13 @@ namespace UI.ViewModel {
             set { Set(ref _mediaDisplayed, value); }
         }
 
-        bool _pictureDisplayedOnMediaWindow = true;
+        bool _pdfDisplayedOnMediaWindow = false;
+        public bool PdfDisplayedOnMediaWindow {
+            get => _pdfDisplayedOnMediaWindow;
+            set { Set(ref _pdfDisplayedOnMediaWindow, value); }
+        }
+
+        bool _pictureDisplayedOnMediaWindow = false;
         public bool PictureDisplayedOnMediaWindow {
             get => _pictureDisplayedOnMediaWindow;
             set { Set(ref _pictureDisplayedOnMediaWindow, value); }
@@ -192,6 +207,12 @@ namespace UI.ViewModel {
         public VideoItem SingleVideo {
             get => _singleVideo;
             set => Set(ref _singleVideo, value);
+        }
+
+        bool _videoDisplayedOnMediaWindow = false;
+        public bool VideoDisplayedOnMediaWindow {
+            get => _videoDisplayedOnMediaWindow;
+            set { Set(ref _videoDisplayedOnMediaWindow, value); }
         }
 
         bool _videoPaused = true;
