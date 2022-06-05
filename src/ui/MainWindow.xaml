@@ -282,10 +282,18 @@
                   AllowDrop="True"
                   Name="singleVideoGrid">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
                     <RowDefinition />
-                    <RowDefinition Height="150" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0"
+                <TextBlock Grid.Row="0"
+                           FontSize="25"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Margin="70,0,0,2"
+                           Text="{Binding Path=SingleVideo.Name}" />
+                <Border Grid.Row="1"
                         BorderBrush="#707070"
                         BorderThickness="3"
                         Width="350"
@@ -310,74 +318,87 @@
                                    Name="singleVideoTextTwo" />
                     </StackPanel>
                 </Border>
-                <Border Grid.Row="0"
-                        BorderBrush="#707070"
-                        BorderThickness="1"
+                <Border Grid.Row="1"
                         CornerRadius="2"
-                        Width="350"
-                        Height="350"
+                        BorderThickness="0"
+                        Background="Black"
+                        Width="400"
+                        Height="250"
                         Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                    <Image HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
-                           Source="{Binding SingleVideo.Preview}" />
+                    <MediaElement Panel.ZIndex="1"
+                                  Width="400"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  LoadedBehavior="Manual"
+                                  Volume="0"
+                                  Name="singleVideoPreview" />
                 </Border>
-                <Grid Grid.Row="1"
+                <TextBlock Grid.Row="2"
+                           FontSize="20"
+                           FontFamily="Consolas"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,50,0"
+                           Name="singleVideoTotalLength" />
+                <Grid Grid.Row="3"
+                      Height="80"
                       VerticalAlignment="Top"
                       Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="1"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                Height="50">
-                        <TextBlock FontSize="25"
-                                   VerticalAlignment="Center"
-                                   Text="Start at" />
-                        <TextBox Height="35"
-                                 Width="55"
-                                 VerticalAlignment="Center"
-                                 HorizontalContentAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 Margin="15,0,2,0"
-                                 FontFamily="Consolas"
-                                 FontSize="20"
-                                 MaxLength="3"
-                                 TextChanged="Minutes_TextChanged"
-                                 KeyDown="Minutes_KeyDown"
-                                 Name="minutes" />
-                        <TextBlock FontSize="25"
-                                   VerticalAlignment="Center"
-                                   Text="m" />
-                        <TextBox Height="35"
-                                 Width="40"
-                                 VerticalAlignment="Center"
-                                 HorizontalContentAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 Margin="15,0,2,0"
-                                 FontFamily="Consolas"
-                                 FontSize="20"
-                                 MaxLength="2"
-                                 TextChanged="Seconds_TextChanged"
-                                 KeyDown="Seconds_KeyDown"
-                                 Name="seconds" />
-                        <TextBlock FontSize="25"
-                                   VerticalAlignment="Center"
-                                   Text="s" />
-                    </StackPanel>
+                    <Border Grid.Column="1"
+                            Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="SkipBackwardLongSingleVideoPreview_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="40"
+                                Margin="10"
+                                Click="SkipBackwardLongSingleVideoPreview_Click">
+                            &#xE760;
+                        </Button>
+                    </Border>
                     <Border Grid.Column="2"
                             Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=SingleVideoSkipUpdated, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="RefreshSingleVideoThumbnail_MouseLeftButtonDown">
+                            MouseLeftButtonDown="SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown">
                         <Button Style="{StaticResource IconButton}"
-                                Foreground="#555555"
-                                        FontSize="22"
-                                        Margin="10"
-                                        Click="RefreshSingleVideoThumbnail_Click">
-                            &#xE72C;
+                                FontSize="30"
+                                Margin="15"
+                                Click="SkipBackwardShortSingleVideoPreview_Click">
+                            &#xE973;
+                        </Button>
+                    </Border>
+                    <TextBlock Grid.Column="3"
+                               FontSize="40"
+                               FontFamily="Consolas"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,2"
+                               Text="00:00"
+                               Name="singleVideoPreviewPosition" />
+                    <Border Grid.Column="4"
+                            Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="SkipForwardShortSingleVideoPreview_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="30"
+                                Margin="15"
+                                Click="SkipForwardShortSingleVideoPreview_Click">
+                            &#xE974;
+                        </Button>
+                    </Border>
+                    <Border Grid.Column="5"
+                            Style="{StaticResource IconButtonBorder}"
+                            MouseLeftButtonDown="SkipForwardLongSingleVideoPreview_MouseLeftButtonDown">
+                        <Button Style="{StaticResource IconButton}"
+                                FontSize="40"
+                                Margin="10"
+                                Click="SkipForwardLongSingleVideoPreview_Click">
+                            &#xE761;
                         </Button>
                     </Border>
                 </Grid>

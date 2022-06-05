@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using UI.ViewModel;
 
 namespace UI {
@@ -23,8 +22,6 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
         MediaWindow? media;
-        string skipMinutes = "";
-        string skipSeconds = "";
 
         readonly string[] NoResults = new string[] { "" };
 
@@ -100,6 +97,7 @@ namespace UI {
         }
 
         void playPauseVideo () {
+            if (vm.InternetMode) return;
             if (vm.MediaDisplayed) media?.PlayPauseVideo();
             else if (vm.MediaListMode) showMediaListMedia();
             else showSingleVideo();
@@ -107,7 +105,8 @@ namespace UI {
 
         void processMediaItems (string[] paths) {
             if (paths == null || paths.Length == 0) return;
-            if (!vm.MediaListMode) {
+            if (vm.InternetMode) return;
+            if (vm.SingleVideoMode) {
                 if (paths[0] == vm.SingleVideo.Path) return;
                 setSingleVideo(paths[0]);
                 return;
@@ -159,26 +158,28 @@ namespace UI {
 
         void setSingleVideo (string path) {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
+
             vm.SingleVideo = new();
-            minutes.Text = "";
-            seconds.Text = "";
 
-            singleVideoTextOne.Text = "Loading...";
-            singleVideoTextTwo.Text = "";
-
-            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
-            WindowManager.LetUIUpdate();
-
-            var uri = new Uri(path);
+            Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
                 Name = Path.GetFileName(path),
                 Path = path,
                 Media = uri,
-                Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
             };
 
-            singleVideoTextOne.Text = "Drag and drop";
-            singleVideoTextTwo.Text = "video here";
+            try { singleVideoPreview.Stop(); } catch { }
+            singleVideoPreviewPosition.Text = "00:00";
+            singleVideoPreview.Source = vm.SingleVideo.Media;
+            singleVideoPreview.Position = TimeSpan.Zero;
+            singleVideoPreview.MediaOpened += (_, _) => singleVideoPreview.Pause();
+            singleVideoPreview.Play();
+            singleVideoPreview.Loaded += (_, _) => singleVideoPreview.Pause();
+            singleVideoPreview.MediaOpened += (_, _) => {
+                var a = singleVideoPreview.NaturalDuration.TimeSpan;
+                singleVideoTotalLength.Text = a.ToString(@"mm\:ss");
+                vm.SingleVideo.TotalLength = a;
+            };
         }
 
         void shiftDown () {
@@ -240,38 +241,31 @@ namespace UI {
             vm.MediaDisplayed = true;
         }
 
+        void skipBackwardSingleVideoPreview (int seconds) {
+            var a = singleVideoPreview.Position.Subtract(new TimeSpan(0, 0, seconds));
+            if (a < TimeSpan.Zero) a = TimeSpan.Zero;
+            vm.SingleVideo.Skip = a;
+            singleVideoPreview.Position = a;
+            singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
+            singleVideoPreview.Play();
+            System.Threading.Thread.Sleep(120);
+            singleVideoPreview.Pause();
+        }
+
+        void skipForwardSingleVideoPreview (int seconds) {
+            var a = singleVideoPreview.Position.Add(new TimeSpan(0, 0, seconds));
+            if (vm.SingleVideo.TotalLength <= a) a = vm.SingleVideo.TotalLength;
+            vm.SingleVideo.Skip = a;
+            singleVideoPreview.Position = a;
+            singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
+            singleVideoPreview.Play();
+            System.Threading.Thread.Sleep(120);
+            singleVideoPreview.Pause();
+        }
+
         void up () {
             if (vm.MediaDisplayed) movePrevious();
             else shiftUp();
-        }
-
-        void updateSingleVideoThumbnail () {
-            vm.SingleVideoSkipUpdated = false;
-
-            var a = vm.SingleVideo;
-
-            singleVideoTextOne.Text = "Loading...";
-            singleVideoTextTwo.Text = "";
-
-            vm.SingleVideo = new();
-
-            singleVideoGrid.Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
-            WindowManager.LetUIUpdate();
-
-            _ = int.TryParse(minutes.Text, out int min);
-            _ = int.TryParse(seconds.Text, out int sec);
-            TimeSpan skip = new(0, min, sec);
-
-            vm.SingleVideo = new VideoItem {
-                Name = a.Name,
-                Path = a.Path,
-                Media = a.Media,
-                Preview = WindowManager.GenerateSingleVideoThumbnail(a.Media, skip),
-                Skip = skip,
-            };
-
-            singleVideoTextOne.Text = "Drag and drop";
-            singleVideoTextTwo.Text = "video here";
         }
 
         // Internet
@@ -279,7 +273,7 @@ namespace UI {
         void NavigateUrl_Click (object sender, RoutedEventArgs e) { navigateUrl(); }
         void NavigateUrl_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { navigateUrl(); }
 
-        // Media setup
+        // Media list setup
 
         void AddMediaToMediaList_Click (object sender, RoutedEventArgs e) { addMediaUsingFileDialog(); }
         void AddMediaToMediaList_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { addMediaUsingFileDialog(); }
@@ -289,8 +283,6 @@ namespace UI {
         void MoveDown_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { down(); }
         void MoveUp_Click (object sender, RoutedEventArgs e) { up(); }
         void MoveUp_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { up(); }
-        void RefreshSingleVideoThumbnail_Click (object sender, RoutedEventArgs e) { updateSingleVideoThumbnail(); }
-        void RefreshSingleVideoThumbnail_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { updateSingleVideoThumbnail(); }
         void RemoveMediaFromMediaList_Click (object sender, RoutedEventArgs e) { removeMediaItem(); }
         void RemoveMediaFromMediaList_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { removeMediaItem(); }
 
@@ -316,23 +308,17 @@ namespace UI {
         void Minutes_KeyDown (object sender, KeyEventArgs e) { e.Handled = !isDigitKeyPress(e); }
         void Seconds_KeyDown (object sender, KeyEventArgs e) { e.Handled = !isDigitKeyPress(e); }
 
-        void Minutes_TextChanged (object sender, TextChangedEventArgs e) {
-            if (minutes.Text != skipMinutes) {
-                skipMinutes = minutes.Text;
-                vm.SingleVideoSkipUpdated = true;
-            }
-            minutes.CaretIndex = minutes.Text.Length;
-        }
+        // Single video setup
 
-        void Seconds_TextChanged (object sender, TextChangedEventArgs e) {
-            _ = int.TryParse(seconds.Text, out int a);
-            if (59 < a) seconds.Text = "59";
-            if (seconds.Text != skipSeconds) {
-                skipSeconds = seconds.Text;
-                vm.SingleVideoSkipUpdated = true;
-            }
-            seconds.CaretIndex = seconds.Text.Length;
-        }
+        void SkipBackwardLongSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipBackwardSingleVideoPreview(20); }
+        void SkipBackwardLongSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipBackwardSingleVideoPreview(20); }
+        void SkipBackwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipBackwardSingleVideoPreview(5); }
+        void SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipBackwardSingleVideoPreview(5); }
+
+        void SkipForwardLongSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipForwardSingleVideoPreview(20); }
+        void SkipForwardLongSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipForwardSingleVideoPreview(20); }
+        void SkipForwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipForwardSingleVideoPreview(5); }
+        void SkipForwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipForwardSingleVideoPreview(5); }
 
         // Manage media window
 
@@ -401,9 +387,15 @@ namespace UI {
         }
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
-            if (0 < mediaList.Items.Count) {
-                mediaList.SelectedIndex = 0;
-                mediaList.Focus();
+            if (vm.MediaListMode) {
+                if (0 < mediaList.Items.Count) {
+                    mediaList.SelectedIndex = 0;
+                    mediaList.Focus();
+                }
+            }
+            else if (vm.SingleVideoMode) {
+                if (!string.IsNullOrEmpty(vm.SingleVideo.Name))
+                    setSingleVideo(vm.SingleVideo.Media.AbsolutePath);
             }
         }
 
@@ -430,18 +422,8 @@ namespace UI {
                     if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftUp();
                     else movePrevious();
                     break;
-                case Key.Tab:
-                    if (minutes.IsFocused) {
-                        seconds.Focus();
-                        seconds.SelectAll();
-                    }
-                    else {
-                        minutes.Focus();
-                        minutes.SelectAll();
-                    }
-                    break;
             }
-            if (!minutes.IsFocused && !seconds.IsFocused && !url.IsFocused)
+            if (!url.IsFocused)
                 e.Handled = true;
         }
 

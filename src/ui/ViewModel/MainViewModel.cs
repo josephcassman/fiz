@@ -56,7 +56,6 @@ namespace UI.ViewModel {
                     Name = Path.GetFileName(b),
                     Path = b,
                     Media = uri,
-                    Preview = WindowManager.GenerateSingleVideoThumbnail(uri, TimeSpan.FromSeconds(2)),
                 };
             }
             if (0 < a.Count) MainWindowMode = MainWindowMode.MediaList;
