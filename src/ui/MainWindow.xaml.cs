@@ -234,6 +234,7 @@ namespace UI {
                 vm.VideoPaused = true;
             });
             vm.MediaDisplayed = true;
+            vm.VideoDisplayedOnMediaWindow = true;
         }
 
         void showWebpage () {
