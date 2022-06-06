@@ -684,7 +684,8 @@
                                 </Button>
                             </Border>
                         </StackPanel>
-                        <StackPanel Grid.Column="1"
+                        <StackPanel Grid.Column="0"
+                                    Grid.ColumnSpan="2"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
