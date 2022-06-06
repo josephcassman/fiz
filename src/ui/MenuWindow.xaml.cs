@@ -7,6 +7,7 @@ namespace UI {
         public MenuWindow () {
             InitializeComponent();
             DataContext = vm;
+            MouseDown += Window_MouseDown;
         }
 
         public MainViewModel vm => App.ViewModel;
