@@ -102,6 +102,54 @@ namespace UI.ViewModel {
             }
         }
 
+        public static bool StartLocationLowerLeft {
+            get {
+                using var con = Connection;
+                var a = readSetting(con, "StartLocationLowerLeft");
+                return a == null || a == "1";
+            }
+            set {
+                using var con = Connection;
+                writeSetting(con, "StartLocationLowerLeft", value ? "1" : "0");
+            }
+        }
+
+        public static bool StartLocationUpperLeft {
+            get {
+                using var con = Connection;
+                var a = readSetting(con, "StartLocationUpperLeft");
+                return a == null || a == "1";
+            }
+            set {
+                using var con = Connection;
+                writeSetting(con, "StartLocationUpperLeft", value ? "1" : "0");
+            }
+        }
+
+        public static bool StartLocationUpperRight {
+            get {
+                using var con = Connection;
+                var a = readSetting(con, "StartLocationUpperRight");
+                return a == null || a == "1";
+            }
+            set {
+                using var con = Connection;
+                writeSetting(con, "StartLocationUpperRight", value ? "1" : "0");
+            }
+        }
+
+        public static bool StartLocationLowerRight {
+            get {
+                using var con = Connection;
+                var a = readSetting(con, "StartLocationLowerRight");
+                return a == null || a == "1";
+            }
+            set {
+                using var con = Connection;
+                writeSetting(con, "StartLocationLowerRight", value ? "1" : "0");
+            }
+        }
+
         static SqliteConnection Connection {
             get {
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fiz.db");

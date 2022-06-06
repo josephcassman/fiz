@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
+        xmlns:vm="clr-namespace:UI.ViewModel"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         ResizeMode="NoResize"
         WindowStyle="None"
         BorderBrush="Transparent"
@@ -11,7 +13,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="580" Width="500">
+        Title="MenuWindow" Height="680" Width="464">
     <Window.Resources>
         <Style x:Key="MenuIconButton" TargetType="Button">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -38,7 +40,7 @@
         </Style>
         <Style x:Key="KeyboardCommandDescription" TargetType="TextBlock">
             <Setter Property="Foreground" Value="WhiteSmoke" />
-            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
@@ -72,17 +74,18 @@
                         &#xE8BB;
                     </Button>
                 </Border>
-                <Grid Canvas.Top="55"
-                      Canvas.Left="25"
-                      Width="445"
-                      Height="110">
+
+                <Grid Canvas.Top="25"
+                      Canvas.Left="15"
+                      Width="395"
+                      Height="80">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="50" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
@@ -119,10 +122,124 @@
                         </CheckBox.LayoutTransform>
                     </CheckBox>
                 </Grid>
-                <Border Canvas.Top="200"
-                        Canvas.Left="10"
-                        Width="470"
-                        Height="360"
+
+                <Grid Canvas.Top="120"
+                      Canvas.Left="15"
+                      Width="400"
+                      Height="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="WhiteSmoke"
+                               Text="Program start position" />
+                    <Border Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="1"
+                            BorderBrush="WhiteSmoke"
+                            BorderThickness="1">
+                        <Grid Margin="15,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="WhiteSmoke"
+                                       Text="Lower-left" />
+                            <CheckBox Grid.Row="0"
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=StartLocationLowerLeft, Mode=TwoWay}"
+                                      Checked="StartLocationLowerLeft_Checked">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="WhiteSmoke"
+                                       Text="Upper-left" />
+                            <CheckBox Grid.Row="1"
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=StartLocationUpperLeft, Mode=TwoWay}"
+                                      Checked="StartLocationUpperLeft_Checked">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                            <TextBlock Grid.Row="2"
+                                       Grid.Column="0"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="WhiteSmoke"
+                                       Text="Upper-right" />
+                            <CheckBox Grid.Row="2"
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=StartLocationUpperRight, Mode=TwoWay}"
+                                      Checked="StartLocationUpperRight_Checked">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                            <TextBlock Grid.Row="3"
+                                       Grid.Column="0"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="WhiteSmoke"
+                                       Text="Lower-right" />
+                            <CheckBox Grid.Row="3"
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding Path=StartLocationLowerRight, Mode=TwoWay}"
+                                      Checked="StartLocationLowerRight_Checked">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Border Canvas.Top="350"
+                        Canvas.Left="15"
+                        Width="420"
+                        Height="300"
                         BorderBrush="WhiteSmoke"
                         BorderThickness="1">
                     <Grid Margin="0,0,0,5">

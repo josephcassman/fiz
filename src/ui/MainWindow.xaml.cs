@@ -390,6 +390,7 @@ namespace UI {
         }
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
+            WindowManager.SetWindowPosition(this, vm);
             if (vm.MediaListMode) {
                 if (0 < mediaList.Items.Count) {
                     mediaList.SelectedIndex = 0;

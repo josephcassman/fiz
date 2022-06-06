@@ -14,10 +14,8 @@
         Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        Topmost="False"
+        Topmost="True"
         AllowDrop="True"
-        Left="20"
-        Top="20"
         WindowStartupLocation="Manual"
         Title="Fiz" Height="710" Width="515">
     <Window.Resources>
