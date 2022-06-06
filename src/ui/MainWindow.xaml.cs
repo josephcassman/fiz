@@ -14,7 +14,10 @@ namespace UI {
             DataContext = vm;
             mediaList.ItemsSource = vm.MediaItems;
             Closing += Window_Closing;
+            Drop += Media_Drop;
             Loaded += Window_Loaded;
+            MouseDown += Window_MouseDown;
+            PreviewKeyDown += Window_PreviewKeyDown;
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));

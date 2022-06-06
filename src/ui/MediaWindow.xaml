@@ -13,10 +13,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Height="450"
-        Width="800"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        MouseDown="Window_MouseDown"
-        MouseDoubleClick="Window_MouseDoubleClick">
+        Width="800">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
         <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
