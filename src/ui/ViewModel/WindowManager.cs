@@ -3,6 +3,30 @@ using System.Windows;
 
 namespace UI.ViewModel {
     public static class WindowManager {
+        public static void SetWindowPosition (Window window, MainViewModel vm) {
+            if (vm.StartLocationLowerLeft) {
+                window.Left = 0;
+                window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - window.Height;
+                return;
+            }
+
+            if (vm.StartLocationUpperLeft) {
+                window.Left = 0;
+                window.Top = 0;
+                return;
+            }
+
+            if (vm.StartLocationUpperRight) {
+                window.Left = SystemParameters.WorkArea.Left + SystemParameters.WorkArea.Width - window.Width;
+                window.Top = 0;
+                return;
+            }
+
+            // Lower-right
+            window.Left = SystemParameters.WorkArea.Left + SystemParameters.WorkArea.Width - window.Width;
+            window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - window.Height;
+        }
+
         public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {
             window.Closing += closing;
             window.WindowStartupLocation = WindowStartupLocation.Manual;

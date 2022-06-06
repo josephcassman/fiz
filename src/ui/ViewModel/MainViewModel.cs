@@ -16,6 +16,10 @@ namespace UI.ViewModel {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
             ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
+            StartLocationLowerLeft = SettingsStorage.StartLocationLowerLeft;
+            StartLocationUpperLeft = SettingsStorage.StartLocationUpperLeft;
+            StartLocationUpperRight = SettingsStorage.StartLocationUpperRight;
+            StartLocationLowerRight = SettingsStorage.StartLocationLowerRight;
             var a = SettingsStorage.MediaListPaths;
             foreach (var path in a) {
                 if (!File.Exists(path)) SettingsStorage.DeleteMediaListPath(path);
@@ -237,6 +241,42 @@ namespace UI.ViewModel {
             set {
                 Set(ref _showMediaOnSecondMonitor, value);
                 SettingsStorage.ShowMediaOnSecondMonitor = value;
+            }
+        }
+
+        bool _startLocationLowerLeft = true;
+        public bool StartLocationLowerLeft {
+            get => _startLocationLowerLeft;
+            set {
+                Set(ref _startLocationLowerLeft, value);
+                SettingsStorage.StartLocationLowerLeft = value;
+            }
+        }
+
+        bool _startLocationUpperLeft = false;
+        public bool StartLocationUpperLeft {
+            get => _startLocationUpperLeft;
+            set {
+                Set(ref _startLocationUpperLeft, value);
+                SettingsStorage.StartLocationUpperLeft = value;
+            }
+        }
+
+        bool _startLocationUpperRight = false;
+        public bool StartLocationUpperRight {
+            get => _startLocationUpperRight;
+            set {
+                Set(ref _startLocationUpperRight, value);
+                SettingsStorage.StartLocationUpperRight = value;
+            }
+        }
+
+        bool _startLocationLowerRight = false;
+        public bool StartLocationLowerRight {
+            get => _startLocationLowerRight;
+            set {
+                Set(ref _startLocationLowerRight, value);
+                SettingsStorage.StartLocationLowerRight = value;
             }
         }
     }
