@@ -197,13 +197,25 @@ namespace UI.ViewModel {
         bool _pdfDisplayedOnMediaWindow = false;
         public bool PdfDisplayedOnMediaWindow {
             get => _pdfDisplayedOnMediaWindow;
-            set { Set(ref _pdfDisplayedOnMediaWindow, value); }
+            set {
+                Set(ref _pdfDisplayedOnMediaWindow, value);
+                if (value) {
+                    PictureDisplayedOnMediaWindow = false;
+                    VideoDisplayedOnMediaWindow = false;
+                }
+            }
         }
 
         bool _pictureDisplayedOnMediaWindow = false;
         public bool PictureDisplayedOnMediaWindow {
             get => _pictureDisplayedOnMediaWindow;
-            set { Set(ref _pictureDisplayedOnMediaWindow, value); }
+            set {
+                Set(ref _pictureDisplayedOnMediaWindow, value);
+                if (value) {
+                    PdfDisplayedOnMediaWindow = false;
+                    VideoDisplayedOnMediaWindow = false;
+                }
+            }
         }
 
         VideoItem _singleVideo = new();
@@ -215,7 +227,13 @@ namespace UI.ViewModel {
         bool _videoDisplayedOnMediaWindow = false;
         public bool VideoDisplayedOnMediaWindow {
             get => _videoDisplayedOnMediaWindow;
-            set { Set(ref _videoDisplayedOnMediaWindow, value); }
+            set {
+                Set(ref _videoDisplayedOnMediaWindow, value);
+                if (value) {
+                    PdfDisplayedOnMediaWindow = false;
+                    PictureDisplayedOnMediaWindow = false;
+                }
+            }
         }
 
         bool _videoPaused = true;
