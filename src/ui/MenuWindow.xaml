@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:UI"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Background="#404040"
-        BorderBrush="#404040"
-        BorderThickness="4"
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
         Title="MenuWindow" Height="580" Width="500">
@@ -48,145 +48,161 @@
                       CornerRadius="4"
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
-    <Canvas>
-        <Border Canvas.Top="10"
-                Canvas.Right="10">
-            <Button Style="{StaticResource MenuIconButton}"
-                    FontSize="17"
-                    Margin="0"
-                    Click="Close_Click">
-                &#xE8BB;
-            </Button>
+    <Border BorderBrush="#404040"
+            BorderThickness="1"
+            CornerRadius="4"
+            Margin="5"
+            AllowDrop="True">
+        <Border.Effect>
+            <DropShadowEffect Color="Black"
+                              ShadowDepth="3"
+                              Opacity="0.15" />
+        </Border.Effect>
+        <Border CornerRadius="4"
+                BorderThickness="1"
+                BorderBrush="#404040"
+                AllowDrop="True">
+            <Canvas Background="#404040">
+                <Border Canvas.Top="10"
+                        Canvas.Right="10">
+                    <Button Style="{StaticResource MenuIconButton}"
+                            FontSize="17"
+                            Margin="0"
+                            Click="Close_Click">
+                        &#xE8BB;
+                    </Button>
+                </Border>
+                <Grid Canvas.Top="55"
+                      Canvas.Left="25"
+                      Width="445"
+                      Height="110">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="WhiteSmoke"
+                               Text="Show media on second display" />
+                    <CheckBox Grid.Row="0"
+                              Grid.Column="1"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="WhiteSmoke"
+                               Text="Show media fullscreen" />
+                    <CheckBox Grid.Row="1"
+                              Grid.Column="1"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsChecked="{Binding Path=ShowMediaFullscreen, Mode=TwoWay}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </Grid>
+                <Border Canvas.Top="200"
+                        Canvas.Left="10"
+                        Width="470"
+                        Height="360"
+                        BorderBrush="WhiteSmoke"
+                        BorderThickness="1">
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="0"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="VIDEO KEYBOARD COMMANDS" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="1"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="UP" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="1"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Go to the previous item" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="2"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="DOWN" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="2"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Go to the next item" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="3"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="LEFT" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="3"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Skip back 10 seconds" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="4"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="RIGHT" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="4"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Skip forward 30 seconds" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="5"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="SPACE" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="5"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Pause/Play" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="6"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="ESCAPE" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="6"
+                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Text="Stop" />
+
+                    </Grid>
+                </Border>
+            </Canvas>
         </Border>
-        <Grid Canvas.Top="55"
-              Canvas.Left="25"
-              Width="445"
-              Height="110">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0"
-                       Grid.Column="0"
-                       FontSize="20"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       Foreground="WhiteSmoke"
-                       Text="Show media on second display" />
-            <CheckBox Grid.Row="0"
-                      Grid.Column="1"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      IsChecked="{Binding Path=ShowMediaOnSecondMonitor, Mode=TwoWay}">
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                </CheckBox.LayoutTransform>
-            </CheckBox>
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       FontSize="20"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       Foreground="WhiteSmoke"
-                       Text="Show media fullscreen" />
-            <CheckBox Grid.Row="1"
-                      Grid.Column="1"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      IsChecked="{Binding Path=ShowMediaFullscreen, Mode=TwoWay}">
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                </CheckBox.LayoutTransform>
-            </CheckBox>
-        </Grid>
-        <Border Canvas.Top="200"
-                Canvas.Left="10"
-                Width="470"
-                Height="360"
-                BorderBrush="WhiteSmoke"
-                BorderThickness="1">
-            <Grid Margin="0,0,0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0"
-                           Grid.ColumnSpan="2"
-                           Grid.Row="0"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="VIDEO KEYBOARD COMMANDS" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="1"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="UP" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Go to the previous item" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="2"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="DOWN" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="2"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Go to the next item" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="3"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="LEFT" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="3"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Skip back 10 seconds" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="4"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="RIGHT" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="4"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Skip forward 30 seconds" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="5"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="SPACE" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="5"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Pause/Play" />
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="6"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="ESCAPE" />
-                <TextBlock Grid.Column="1"
-                           Grid.Row="6"
-                           Style="{StaticResource KeyboardCommandDescription}"
-                           Text="Stop" />
-
-            </Grid>
-        </Border>
-    </Canvas>
+    </Border>
 </Window>

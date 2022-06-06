@@ -7,10 +7,11 @@
         xmlns:local="clr-namespace:UI"
         xmlns:vm="clr-namespace:UI.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        ResizeMode="NoResize"
+        ResizeMode="CanResize"
         WindowStyle="None"
         BorderBrush="Transparent"
         BorderThickness="0"
+        Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
         Topmost="False"
@@ -18,7 +19,7 @@
         Left="20"
         Top="20"
         WindowStartupLocation="Manual"
-        Title="Fiz" Height="700" Width="500">
+        Title="Fiz" Height="710" Width="515">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
         <vm:BoolToOpaqueConverter x:Key="boolToOpaque" />
@@ -141,622 +142,639 @@
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0"
+                      ResizeBorderThickness="0"
                       CornerRadius="4"
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
-    <Canvas>
-        <Border Canvas.Top="10"
-                Canvas.Left="10">
-            <Button Style="{StaticResource MenuIconButton}"
-                    FontSize="25"
-                    Margin="0"
-                    Click="Menu_Click">
-                &#xEDE3;
-            </Button>
-        </Border>
-        <Border Canvas.Top="16"
-                Canvas.Right="55">
-            <Button Style="{StaticResource MenuIconButton}"
-                    FontSize="17"
-                    Margin="0"
-                    Click="Minimize_Click">
-                &#xE921;
-            </Button>
-        </Border>
-        <Border Canvas.Top="10"
-                Canvas.Right="10">
-            <Button Style="{StaticResource MenuIconButton}"
-                    FontSize="17"
-                    Margin="0"
-                    Click="Close_Click">
-                &#xE8BB;
-            </Button>
-        </Border>
-        <Grid Canvas.Top="0"
-              Canvas.Left="0"
-              Width="500"
-              Height="700"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
-              AllowDrop="True"
-              Name="mainGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70" />
-                <RowDefinition />
-                <RowDefinition Height="70" />
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource boolToOpaque}}">
-                <StackPanel Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <Button Style="{StaticResource TabButton}"
-                            Click="MediaListMode_Click">
-                        &#xEA37;
+    <Border BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="4"
+            Margin="5"
+            AllowDrop="True">
+        <Border.Effect>
+            <DropShadowEffect Color="Black"
+                              ShadowDepth="3"
+                              Opacity="0.15" />
+        </Border.Effect>
+        <Border CornerRadius="4"
+                BorderThickness="1"
+                BorderBrush="White"
+                AllowDrop="True">
+            <Canvas Background="White">
+                <Border Canvas.Top="10"
+                        Canvas.Left="10">
+                    <Button Style="{StaticResource MenuIconButton}"
+                            FontSize="25"
+                            Margin="0"
+                            Click="Menu_Click">
+                        &#xEDE3;
                     </Button>
-                    <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}" />
-                    <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
-                               Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}" />
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="10,0,0,0">
-                    <Button Click="SingleVideoMode_Click"
-                            Style="{StaticResource TabButton}" >
-                        &#xE714;
+                </Border>
+                <Border Canvas.Top="16"
+                        Canvas.Right="55">
+                    <Button Style="{StaticResource MenuIconButton}"
+                            FontSize="17"
+                            Margin="0"
+                            Click="Minimize_Click">
+                        &#xE921;
                     </Button>
-                    <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}" />
-                    <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
-                               Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource collapsedWhenTrue}}" />
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="10,5,0,0">
-                    <Button Click="InternetMode_Click"
-                            Style="{StaticResource TabButton}" >
-                        &#xF6FA;
+                </Border>
+                <Border Canvas.Top="10"
+                        Canvas.Right="10">
+                    <Button Style="{StaticResource MenuIconButton}"
+                            FontSize="17"
+                            Margin="0"
+                            Click="Close_Click">
+                        &#xE8BB;
                     </Button>
-                    <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
-                               Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}" />
-                    <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
-                               Visibility="{Binding Path=InternetMode, Converter={StaticResource collapsedWhenTrue}}" />
-                </StackPanel>
-            </StackPanel>
+                </Border>
+                <Grid Canvas.Top="0"
+                      Canvas.Left="0"
+                      Width="500"
+                      Height="700"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      AllowDrop="True"
+                      Name="mainGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70" />
+                        <RowDefinition />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1"
-                        Orientation="Vertical"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        AllowDrop="True"
-                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
-                <TextBlock HorizontalAlignment="Center"
-                           FontSize="50"
-                           Foreground="LightGray"
-                           AllowDrop="True"
-                           Text="Drag and drop"
-                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
-                <TextBlock HorizontalAlignment="Center"
-                           FontSize="50"
-                           Foreground="LightGray"
-                           AllowDrop="True"
-                           Text="media here"
-                           Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
-            </StackPanel>
+                    <StackPanel Grid.Row="0"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource boolToOpaque}}">
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Button Style="{StaticResource TabButton}"
+                                    Click="MediaListMode_Click">
+                                &#xEA37;
+                            </Button>
+                            <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
+                                       Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}" />
+                            <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
+                                       Visibility="{Binding Path=MediaListMode, Converter={StaticResource collapsedWhenTrue}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0">
+                            <Button Click="SingleVideoMode_Click"
+                                    Style="{StaticResource TabButton}" >
+                                &#xE714;
+                            </Button>
+                            <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
+                                       Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}" />
+                            <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
+                                       Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource collapsedWhenTrue}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="10,5,0,0">
+                            <Button Click="InternetMode_Click"
+                                    Style="{StaticResource TabButton}" >
+                                &#xF6FA;
+                            </Button>
+                            <Rectangle Height="2.5" Stroke="#555555" Fill="#555555"
+                                       Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}" />
+                            <Rectangle Height="2.5" Stroke="Transparent" Fill="Transparent"
+                                       Visibility="{Binding Path=InternetMode, Converter={StaticResource collapsedWhenTrue}}" />
+                        </StackPanel>
+                    </StackPanel>
 
-            <StackPanel Grid.Row="1"
-                        AllowDrop="True"
-                        Orientation="Vertical"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Margin="4 10 4 0"
-                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
-                <ListBox AllowDrop="True"
-                         BorderThickness="0"
-                         HorizontalContentAlignment="Stretch"
-                         Height="550"
-                         VerticalAlignment="Stretch"
-                         VerticalContentAlignment="Top"
-                         HorizontalAlignment="Stretch"
-                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         SelectionChanged="MediaList_SelectionChanged"
-                         MouseDoubleClick="MediaList_MouseDoubleClick"
-                         ItemTemplate="{StaticResource MediaListTemplate}"
-                         Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
-                         Name="mediaList" />
-            </StackPanel>
-
-            <Grid Grid.Row="1"
-                  Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
-                  AllowDrop="True"
-                  Name="singleVideoGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
-                    <RowDefinition />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="200" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           FontSize="25"
-                           VerticalAlignment="Bottom"
-                           HorizontalAlignment="Left"
-                           Margin="70,0,0,2"
-                           Text="{Binding Path=SingleVideo.DecodedName}" />
-                <Border Grid.Row="1"
-                        BorderBrush="#707070"
-                        BorderThickness="3"
-                        Width="350"
-                        Height="240"
-                        AllowDrop="True"
-                        Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemCollapsedWhenTrue}}">
-                    <StackPanel Orientation="Vertical"
+                    <StackPanel Grid.Row="1"
+                                Orientation="Vertical"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                AllowDrop="True">
-                        <TextBlock Foreground="LightGray"
-                                   FontSize="45"
+                                AllowDrop="True"
+                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="50"
+                                   Foreground="LightGray"
                                    AllowDrop="True"
-                                   HorizontalAlignment="Center"
                                    Text="Drag and drop"
-                                   Name="singleVideoTextOne" />
-                        <TextBlock Foreground="LightGray"
-                                   FontSize="45"
-                                   HorizontalAlignment="Center"
+                                   Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="50"
+                                   Foreground="LightGray"
                                    AllowDrop="True"
-                                   Text="video here"
-                                   Name="singleVideoTextTwo" />
+                                   Text="media here"
+                                   Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource collapsedWhenTrue}}" />
                     </StackPanel>
-                </Border>
-                <Border Grid.Row="1"
-                        CornerRadius="2"
-                        BorderThickness="0"
-                        Background="Black"
-                        Width="400"
-                        Height="250"
-                        Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                    <MediaElement Panel.ZIndex="1"
-                                  Width="400"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  LoadedBehavior="Manual"
-                                  Volume="0"
-                                  Name="singleVideoPreview" />
-                </Border>
-                <TextBlock Grid.Row="2"
-                           FontSize="20"
-                           FontFamily="Consolas"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Right"
-                           Margin="0,0,50,0"
-                           Name="singleVideoTotalLength" />
-                <Grid Grid.Row="3"
-                      Height="80"
-                      VerticalAlignment="Top"
-                      Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="70" />
-                        <ColumnDefinition Width="70" />
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="70" />
-                        <ColumnDefinition Width="70" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1"
-                            Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="SkipBackwardLongSingleVideoPreview_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="40"
-                                Margin="10"
-                                Click="SkipBackwardLongSingleVideoPreview_Click">
-                            &#xE760;
-                        </Button>
-                    </Border>
-                    <Border Grid.Column="2"
-                            Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
-                                Margin="15"
-                                Click="SkipBackwardShortSingleVideoPreview_Click">
-                            &#xE973;
-                        </Button>
-                    </Border>
-                    <TextBlock Grid.Column="3"
-                               FontSize="40"
-                               FontFamily="Consolas"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,2"
-                               Text="00:00"
-                               Name="singleVideoPreviewPosition" />
-                    <Border Grid.Column="4"
-                            Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="SkipForwardShortSingleVideoPreview_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
-                                Margin="15"
-                                Click="SkipForwardShortSingleVideoPreview_Click">
-                            &#xE974;
-                        </Button>
-                    </Border>
-                    <Border Grid.Column="5"
-                            Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="SkipForwardLongSingleVideoPreview_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="40"
-                                Margin="10"
-                                Click="SkipForwardLongSingleVideoPreview_Click">
-                            &#xE761;
-                        </Button>
-                    </Border>
-                </Grid>
-            </Grid>
 
-            <Grid Grid.Row="1"
-                  Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="60" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <TextBox Grid.Column="0"
-                         Grid.Row="0"
-                         FontSize="20"
-                         Padding="5"
-                         Margin="10,0,0,0"
-                         VerticalAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         KeyDown="Url_KeyDown"
-                         Name = "url"/>
-                <Border Grid.Column="1"
-                        Grid.Row="0"
-                        Style="{StaticResource IconButtonBorder}"
-                        MouseLeftButtonDown="NavigateUrl_MouseLeftButtonDown">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="20"
-                            Margin="10"
-                            Click="NavigateUrl_Click">
-                        &#xE721;
-                    </Button>
-                </Border>
-                <wv2:WebView2 Grid.Column="0"
-                              Grid.ColumnSpan="2"
-                              Grid.Row="1"
-                              Source="about:blank"
-                              Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource collapsedWhenTrue}}"
-                              Name="web" />
-                <StackPanel Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="1"
-                            Orientation="Vertical"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource visibleWhenTrue}}">
-                    <TextBlock VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontSize="50"
-                               Foreground="LightGray"
-                               AllowDrop="True"
-                               Text="Could not load" />
-                    <TextBlock DockPanel.Dock="Left"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontSize="50"
-                               Foreground="LightGray"
-                               AllowDrop="True"
-                               Text="web page" />
-                </StackPanel>
-            </Grid>
-
-            <StackPanel Grid.Row="2"
-                        Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
-                <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="125" />
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0"
-                            Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="Stop_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="25"
-                                Margin="15"
-                                ToolTip="Escape"
-                                Click="Stop_Click">
-                            &#xE71A;
-                        </Button>
-                    </Border>
-                    <Grid Grid.Column="1"
-                          HorizontalAlignment="Stretch"
-                          Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="1"
-                                Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="35"
-                                    Margin="12"
-                                    ToolTip="Left Arrow"
-                                    Click="SkipBackward_Click">
-                                &#xED3C;
-                            </Button>
-                        </Border>
-                        <Border Grid.Column="2"
-                                Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="Play_MouseLeftButtonDown"
-                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="60"
-                                    Margin="0"
-                                    ToolTip="Space"
-                                    Click="Play_Click">
-                                &#xEE4A;
-                            </Button>
-                        </Border>
-                        <Border Grid.Column="2"
-                                Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="Pause_MouseLeftButtonDown"
-                                Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="37"
-                                    Margin="12"
-                                    ToolTip="Space"
-                                    Click="Pause_Click">
-                                &#xE769;
-                            </Button>
-                        </Border>
-                        <Border Grid.Column="3"
-                                Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="35"
-                                    Margin="12"
-                                    ToolTip="Right Arrow"
-                                    Click="SkipForward_Click">
-                                &#xED3D;
-                            </Button>
-                        </Border>
-                    </Grid>
-                    <StackPanel Grid.Column="2"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="25"
-                                    Margin="15"
-                                    ToolTip="Down"
-                                    Click="MoveDown_Click">
-                                &#xE70D;
-                            </Button>
-                        </Border>
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="25"
-                                    Margin="15"
-                                    ToolTip="Up"
-                                    Click="MoveUp_Click">
-                                &#xE70E;
-                            </Button>
-                        </Border>
+                    <StackPanel Grid.Row="1"
+                                AllowDrop="True"
+                                Orientation="Vertical"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Margin="4 10 4 0"
+                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
+                        <ListBox AllowDrop="True"
+                                 BorderThickness="0"
+                                 HorizontalContentAlignment="Stretch"
+                                 Height="550"
+                                 VerticalAlignment="Stretch"
+                                 VerticalContentAlignment="Top"
+                                 HorizontalAlignment="Stretch"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 SelectionChanged="MediaList_SelectionChanged"
+                                 MouseDoubleClick="MediaList_MouseDoubleClick"
+                                 ItemTemplate="{StaticResource MediaListTemplate}"
+                                 Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
+                                 Name="mediaList" />
                     </StackPanel>
-                </Grid>
-                <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Left">
-                        <Border Style="{StaticResource IconButtonBorder}"
-                                MouseLeftButtonDown="AddMediaToMediaList_MouseLeftButtonDown"
-                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                            <Button Style="{StaticResource IconButton}"
-                                    FontSize="30"
-                                    Margin="15"
-                                    Click="AddMediaToMediaList_Click">
-                                &#xE948;
-                            </Button>
+
+                    <Grid Grid.Row="1"
+                          Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
+                          AllowDrop="True"
+                          Name="singleVideoGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70" />
+                            <RowDefinition />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="200" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   FontSize="25"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Left"
+                                   Margin="70,0,0,2"
+                                   Text="{Binding Path=SingleVideo.DecodedName}" />
+                        <Border Grid.Row="1"
+                                BorderBrush="#707070"
+                                BorderThickness="3"
+                                Width="350"
+                                Height="240"
+                                AllowDrop="True"
+                                Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemCollapsedWhenTrue}}">
+                            <StackPanel Orientation="Vertical"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        AllowDrop="True">
+                                <TextBlock Foreground="LightGray"
+                                           FontSize="45"
+                                           AllowDrop="True"
+                                           HorizontalAlignment="Center"
+                                           Text="Drag and drop"
+                                           Name="singleVideoTextOne" />
+                                <TextBlock Foreground="LightGray"
+                                           FontSize="45"
+                                           HorizontalAlignment="Center"
+                                           AllowDrop="True"
+                                           Text="video here"
+                                           Name="singleVideoTextTwo" />
+                            </StackPanel>
                         </Border>
-                        <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
-                                    MouseLeftButtonDown="RemoveMediaFromMediaList_MouseLeftButtonDown">
+                        <Border Grid.Row="1"
+                                CornerRadius="2"
+                                BorderThickness="0"
+                                Background="Black"
+                                Width="400"
+                                Height="250"
+                                Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
+                            <MediaElement Panel.ZIndex="1"
+                                          Width="400"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          LoadedBehavior="Manual"
+                                          Volume="0"
+                                          Name="singleVideoPreview" />
+                        </Border>
+                        <TextBlock Grid.Row="2"
+                                   FontSize="20"
+                                   FontFamily="Consolas"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,0,50,0"
+                                   Name="singleVideoTotalLength" />
+                        <Grid Grid.Row="3"
+                              Height="80"
+                              VerticalAlignment="Top"
+                              Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="1"
+                                    Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="SkipBackwardLongSingleVideoPreview_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="40"
+                                        Margin="10"
+                                        Click="SkipBackwardLongSingleVideoPreview_Click">
+                                    &#xE760;
+                                </Button>
+                            </Border>
+                            <Border Grid.Column="2"
+                                    Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown">
                                 <Button Style="{StaticResource IconButton}"
                                         FontSize="30"
                                         Margin="15"
-                                        Click="RemoveMediaFromMediaList_Click">
-                                    &#xE738;
+                                        Click="SkipBackwardShortSingleVideoPreview_Click">
+                                    &#xE973;
                                 </Button>
                             </Border>
-                        </StackPanel>
-                    </StackPanel>
-                    <Grid Grid.Column="1"
-                          HorizontalAlignment="Stretch"
-                          Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                            <TextBlock Grid.Column="3"
+                                       FontSize="40"
+                                       FontFamily="Consolas"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,2"
+                                       Text="00:00"
+                                       Name="singleVideoPreviewPosition" />
+                            <Border Grid.Column="4"
+                                    Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="SkipForwardShortSingleVideoPreview_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="30"
+                                        Margin="15"
+                                        Click="SkipForwardShortSingleVideoPreview_Click">
+                                    &#xE974;
+                                </Button>
+                            </Border>
+                            <Border Grid.Column="5"
+                                    Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="SkipForwardLongSingleVideoPreview_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="40"
+                                        Margin="10"
+                                        Click="SkipForwardLongSingleVideoPreview_Click">
+                                    &#xE761;
+                                </Button>
+                            </Border>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="1"
+                          Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="60" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="Play_MouseLeftButtonDown">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Grid.Row="0"
+                                 FontSize="20"
+                                 Padding="5"
+                                 Margin="10,0,0,0"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 KeyDown="Url_KeyDown"
+                                 Name = "url"/>
+                        <Border Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource IconButtonBorder}"
+                                MouseLeftButtonDown="NavigateUrl_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="20"
+                                    Margin="10"
+                                    Click="NavigateUrl_Click">
+                                &#xE721;
+                            </Button>
+                        </Border>
+                        <wv2:WebView2 Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      Grid.Row="1"
+                                      Source="about:blank"
+                                      Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource collapsedWhenTrue}}"
+                                      Name="web" />
+                        <StackPanel Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="1"
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource visibleWhenTrue}}">
+                            <TextBlock VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="50"
+                                       Foreground="LightGray"
+                                       AllowDrop="True"
+                                       Text="Could not load" />
+                            <TextBlock DockPanel.Dock="Left"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="50"
+                                       Foreground="LightGray"
+                                       AllowDrop="True"
+                                       Text="web page" />
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Grid.Row="2"
+                                Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
+                        <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="125" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="Stop_MouseLeftButtonDown">
                                 <Button Style="{StaticResource IconButton}"
-                                        FontSize="60"
-                                        Margin="0"
-                                        ToolTip="Down"
-                                        Click="Play_Click">
-                                    &#xEE4A;
+                                        FontSize="25"
+                                        Margin="15"
+                                        ToolTip="Escape"
+                                        Click="Stop_Click">
+                                    &#xE71A;
+                                </Button>
+                            </Border>
+                            <Grid Grid.Column="1"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1"
+                                        Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="35"
+                                            Margin="12"
+                                            ToolTip="Left Arrow"
+                                            Click="SkipBackward_Click">
+                                        &#xED3C;
+                                    </Button>
+                                </Border>
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="Play_MouseLeftButtonDown"
+                                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="60"
+                                            Margin="0"
+                                            ToolTip="Space"
+                                            Click="Play_Click">
+                                        &#xEE4A;
+                                    </Button>
+                                </Border>
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="Pause_MouseLeftButtonDown"
+                                        Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="37"
+                                            Margin="12"
+                                            ToolTip="Space"
+                                            Click="Pause_Click">
+                                        &#xE769;
+                                    </Button>
+                                </Border>
+                                <Border Grid.Column="3"
+                                        Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="35"
+                                            Margin="12"
+                                            ToolTip="Right Arrow"
+                                            Click="SkipForward_Click">
+                                        &#xED3D;
+                                    </Button>
+                                </Border>
+                            </Grid>
+                            <StackPanel Grid.Column="2"
+                                        Orientation="Horizontal"
+                                        Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                                <Border Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="25"
+                                            Margin="15"
+                                            ToolTip="Down"
+                                            Click="MoveDown_Click">
+                                        &#xE70D;
+                                    </Button>
+                                </Border>
+                                <Border Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="25"
+                                            Margin="15"
+                                            ToolTip="Up"
+                                            Click="MoveUp_Click">
+                                        &#xE70E;
+                                    </Button>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Left">
+                                <Border Style="{StaticResource IconButtonBorder}"
+                                        MouseLeftButtonDown="AddMediaToMediaList_MouseLeftButtonDown"
+                                        Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                                    <Button Style="{StaticResource IconButton}"
+                                            FontSize="30"
+                                            Margin="15"
+                                            Click="AddMediaToMediaList_Click">
+                                        &#xE948;
+                                    </Button>
+                                </Border>
+                                <StackPanel Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                                    <Border Style="{StaticResource IconButtonBorder}"
+                                            Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}"
+                                            MouseLeftButtonDown="RemoveMediaFromMediaList_MouseLeftButtonDown">
+                                        <Button Style="{StaticResource IconButton}"
+                                                FontSize="30"
+                                                Margin="15"
+                                                Click="RemoveMediaFromMediaList_Click">
+                                            &#xE738;
+                                        </Button>
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                            <Grid Grid.Column="1"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="140" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <Border Style="{StaticResource IconButtonBorder}"
+                                            MouseLeftButtonDown="Play_MouseLeftButtonDown">
+                                        <Button Style="{StaticResource IconButton}"
+                                                FontSize="60"
+                                                Margin="0"
+                                                ToolTip="Down"
+                                                Click="Play_Click">
+                                            &#xEE4A;
+                                        </Button>
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                                    <Border Style="{StaticResource IconButtonBorder}"
+                                            MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
+                                        <Button Style="{StaticResource IconButton}"
+                                                FontSize="25"
+                                                Margin="15"
+                                                ToolTip="Down"
+                                                Click="MoveDown_Click">
+                                            &#xE70D;
+                                        </Button>
+                                    </Border>
+                                    <Border Style="{StaticResource IconButtonBorder}"
+                                            MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
+                                        <Button Style="{StaticResource IconButton}"
+                                                FontSize="25"
+                                                Margin="15"
+                                                ToolTip="Up"
+                                                Click="MoveUp_Click">
+                                            &#xE70E;
+                                        </Button>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Grid.Row="2"
+                          Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}"
+                                    MouseLeftButtonDown="AddSingleVideo_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="30"
+                                        Margin="15"
+                                        Click="AddSingleVideo_Click">
+                                    &#xE948;
+                                </Button>
+                            </Border>
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                                    MouseLeftButtonDown="Stop_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="25"
+                                        Margin="15"
+                                        ToolTip="Escape"
+                                        Click="Stop_Click">
+                                    &#xE71A;
                                 </Button>
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Column="1"
                                     Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    Visibility="{Binding Path=MediaListHasContents, Converter={StaticResource visibleWhenTrue}}">
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
                             <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="MoveDown_MouseLeftButtonDown">
+                                    Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                                    MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
                                 <Button Style="{StaticResource IconButton}"
-                                        FontSize="25"
-                                        Margin="15"
-                                        ToolTip="Down"
-                                        Click="MoveDown_Click">
-                                    &#xE70D;
+                                        FontSize="35"
+                                        Margin="12"
+                                        ToolTip="Left Arrow"
+                                        Click="SkipBackward_Click">
+                                    &#xED3C;
                                 </Button>
                             </Border>
                             <Border Style="{StaticResource IconButtonBorder}"
-                                    MouseLeftButtonDown="MoveUp_MouseLeftButtonDown">
+                                    MouseLeftButtonDown="Play_MouseLeftButtonDown"
+                                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
                                 <Button Style="{StaticResource IconButton}"
-                                        FontSize="25"
-                                        Margin="15"
-                                        ToolTip="Up"
-                                        Click="MoveUp_Click">
-                                    &#xE70E;
+                                        FontSize="60"
+                                        Margin="0"
+                                        ToolTip="Space"
+                                        Click="Play_Click">
+                                    &#xEE4A;
+                                </Button>
+                            </Border>
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="Pause_MouseLeftButtonDown"
+                                    Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="37"
+                                        Margin="12"
+                                        ToolTip="Space"
+                                        Click="Pause_Click">
+                                    &#xE769;
+                                </Button>
+                            </Border>
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                                    MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="35"
+                                        Margin="12"
+                                        ToolTip="Right Arrow"
+                                        Click="SkipForward_Click">
+                                    &#xED3D;
                                 </Button>
                             </Border>
                         </StackPanel>
                     </Grid>
+
+                    <Grid Grid.Row="2"
+                          Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"
+                                Style="{StaticResource IconButtonBorder}"
+                                Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
+                                MouseLeftButtonDown="Stop_MouseLeftButtonDown">
+                            <Button Style="{StaticResource IconButton}"
+                                    FontSize="25"
+                                    Margin="15"
+                                    ToolTip="Escape"
+                                    Click="Stop_Click">
+                                &#xE71A;
+                            </Button>
+                        </Border>
+                        <StackPanel Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
+                            <Border Style="{StaticResource IconButtonBorder}"
+                                    MouseLeftButtonDown="ShowWebpage_MouseLeftButtonDown">
+                                <Button Style="{StaticResource IconButton}"
+                                        FontSize="60"
+                                        Margin="0"
+                                        ToolTip="Space"
+                                        Click="ShowWebpage_Click">
+                                    &#xEE4A;
+                                </Button>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
                 </Grid>
-            </StackPanel>
-
-            <Grid Grid.Row="2"
-                  Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left">
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}"
-                            MouseLeftButtonDown="AddSingleVideo_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="30"
-                                Margin="15"
-                                Click="AddSingleVideo_Click">
-                            &#xE948;
-                        </Button>
-                    </Border>
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="Stop_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="25"
-                                Margin="15"
-                                ToolTip="Escape"
-                                Click="Stop_Click">
-                            &#xE71A;
-                        </Button>
-                    </Border>
-                </StackPanel>
-                <StackPanel Grid.Column="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="SkipBackward_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="35"
-                                Margin="12"
-                                ToolTip="Left Arrow"
-                                Click="SkipBackward_Click">
-                            &#xED3C;
-                        </Button>
-                    </Border>
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="Play_MouseLeftButtonDown"
-                            Visibility="{Binding Path=VideoPaused, Converter={StaticResource visibleWhenTrue}}">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="60"
-                                Margin="0"
-                                ToolTip="Space"
-                                Click="Play_Click">
-                            &#xEE4A;
-                        </Button>
-                    </Border>
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="Pause_MouseLeftButtonDown"
-                            Visibility="{Binding Path=VideoPaused, Converter={StaticResource collapsedWhenTrue}}">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="37"
-                                Margin="12"
-                                ToolTip="Space"
-                                Click="Pause_Click">
-                            &#xE769;
-                        </Button>
-                    </Border>
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                            MouseLeftButtonDown="SkipForward_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="35"
-                                Margin="12"
-                                ToolTip="Right Arrow"
-                                Click="SkipForward_Click">
-                            &#xED3D;
-                        </Button>
-                    </Border>
-                </StackPanel>
-            </Grid>
-
-            <Grid Grid.Row="2"
-                  Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        Style="{StaticResource IconButtonBorder}"
-                        Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource visibleWhenTrue}}"
-                        MouseLeftButtonDown="Stop_MouseLeftButtonDown">
-                    <Button Style="{StaticResource IconButton}"
-                            FontSize="25"
-                            Margin="15"
-                            ToolTip="Escape"
-                            Click="Stop_Click">
-                        &#xE71A;
-                    </Button>
-                </Border>
-                <StackPanel Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            Visibility="{Binding Path=MediaDisplayed, Converter={StaticResource collapsedWhenTrue}}">
-                    <Border Style="{StaticResource IconButtonBorder}"
-                            MouseLeftButtonDown="ShowWebpage_MouseLeftButtonDown">
-                        <Button Style="{StaticResource IconButton}"
-                                FontSize="60"
-                                Margin="0"
-                                ToolTip="Space"
-                                Click="ShowWebpage_Click">
-                            &#xEE4A;
-                        </Button>
-                    </Border>
-                </StackPanel>
-            </Grid>
-
-        </Grid>
-    </Canvas>
+            </Canvas>
+        </Border>
+    </Border>
 </Window>
