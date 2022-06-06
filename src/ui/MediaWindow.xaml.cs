@@ -10,7 +10,10 @@ namespace UI {
             InitializeComponent();
             DataContext = vm;
             Loaded += Window_Loaded;
+            MouseDoubleClick += Window_MouseDoubleClick;
+            MouseDown += Window_MouseDown;
             MouseMove += Window_MouseMove;
+            PreviewKeyDown += Window_PreviewKeyDown;
             SizeChanged += Window_SizeChanged;
             vm.SetMediaListMedia += (_, _) => { setMedia(); };
         }

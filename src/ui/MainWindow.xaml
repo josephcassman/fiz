@@ -18,9 +18,6 @@
         Left="20"
         Top="20"
         WindowStartupLocation="Manual"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        Drop="Media_Drop"
-        MouseDown="Window_MouseDown"
         Title="Fiz" Height="700" Width="500">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />

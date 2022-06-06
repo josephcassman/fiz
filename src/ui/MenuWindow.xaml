@@ -11,7 +11,6 @@
         BorderThickness="4"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        MouseDown="Window_MouseDown"
         Title="MenuWindow" Height="580" Width="500">
     <Window.Resources>
         <Style x:Key="MenuIconButton" TargetType="Button">
