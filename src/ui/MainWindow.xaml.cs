@@ -354,13 +354,13 @@ namespace UI {
 
         void SkipBackwardLongSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipBackwardSingleVideoPreview(20); }
         void SkipBackwardLongSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipBackwardSingleVideoPreview(20); }
-        void SkipBackwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipBackwardSingleVideoPreview(5); }
-        void SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipBackwardSingleVideoPreview(5); }
+        void SkipBackwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipBackwardSingleVideoPreview(2); }
+        void SkipBackwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipBackwardSingleVideoPreview(2); }
 
         void SkipForwardLongSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipForwardSingleVideoPreview(20); }
         void SkipForwardLongSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipForwardSingleVideoPreview(20); }
-        void SkipForwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipForwardSingleVideoPreview(5); }
-        void SkipForwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipForwardSingleVideoPreview(5); }
+        void SkipForwardShortSingleVideoPreview_Click (object sender, RoutedEventArgs e) { skipForwardSingleVideoPreview(2); }
+        void SkipForwardShortSingleVideoPreview_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { skipForwardSingleVideoPreview(2); }
 
         // Manage media window
 
