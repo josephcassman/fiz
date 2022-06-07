@@ -5,7 +5,12 @@ using System.Windows.Media.Imaging;
 namespace UI.ViewModel {
     public abstract class MediaItem {
         public string Name { get; set; } = "";
-        public string DecodedName => HttpUtility.UrlDecode(Name);
+        public string DecodedName {
+            get {
+                var a = HttpUtility.UrlDecode(Name);
+                return 25 < a.Length ? a[..25] + "\u2026" : a;
+            }
+        }
         public string Path { get; set; } = "";
         public abstract bool IsPdf { get; }
         public abstract bool IsPicture { get; }
