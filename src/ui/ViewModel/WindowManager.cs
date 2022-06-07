@@ -3,10 +3,11 @@ using System.Windows;
 
 namespace UI.ViewModel {
     public static class WindowManager {
-        public static void SetWindowPosition (Window window, MainViewModel vm) {
+        public static void SetWindowPosition (Window window, MainViewModel vm) => SetWindowPosition(window, vm, window.Height);
+        public static void SetWindowPosition (Window window, MainViewModel vm, double windowHeight) {
             if (vm.StartLocationLowerLeft) {
                 window.Left = 0;
-                window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - window.Height;
+                window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - windowHeight;
                 return;
             }
 
@@ -24,7 +25,7 @@ namespace UI.ViewModel {
 
             // Lower-right
             window.Left = SystemParameters.WorkArea.Left + SystemParameters.WorkArea.Width - window.Width;
-            window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - window.Height;
+            window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - windowHeight;
         }
 
         public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {
