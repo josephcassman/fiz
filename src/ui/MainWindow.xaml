@@ -381,6 +381,8 @@
                                               VerticalAlignment="Center"
                                               LoadedBehavior="Manual"
                                               Volume="0"
+                                              ScrubbingEnabled="True"
+                                              UseLayoutRounding="False"
                                               Name="singleVideoPreview" />
                             </Border>
                             <TextBlock Grid.Row="2"
