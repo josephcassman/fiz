@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using UI.ViewModel;
 
@@ -25,6 +26,11 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
         MediaWindow? media;
+
+        const double minimalHeight = 130;
+        const double maximalHeight = 710;
+        double mainGridHeight = 0;
+        GridLength mainGridRow0Height = new(0);
 
         readonly string[] NoResults = new string[] { "" };
 
@@ -64,6 +70,35 @@ namespace UI {
         void down () {
             if (vm.MediaDisplayed) moveNext();
             else shiftDown();
+        }
+
+        void maxify () {
+            vm.Minified = false;
+
+            mainGrid.Height = mainGridHeight;
+            mainGrid.RowDefinitions[0].Height = mainGridRow0Height;
+            mainGrid.RowDefinitions[1].Height = GridLength.Auto;
+
+            maxifyBorder.Visibility = Visibility.Collapsed;
+            minifyBorder.Visibility = Visibility.Visible;
+
+            Height = maximalHeight;
+            WindowManager.SetWindowPosition(this, vm, maximalHeight);
+        }
+
+        void minify () {
+            vm.Minified = true;
+
+            mainGridHeight = mainGrid.Height;
+            mainGridRow0Height = mainGrid.RowDefinitions[0].Height;
+            mainGrid.RowDefinitions[0].Height = new(0);
+            mainGrid.RowDefinitions[1].Height = new(0);
+
+            minifyBorder.Visibility = Visibility.Collapsed;
+            maxifyBorder.Visibility = Visibility.Visible;
+
+            Height = minimalHeight;
+            WindowManager.SetWindowPosition(this, vm, minimalHeight);
         }
 
         void moveNext () {
@@ -342,6 +377,10 @@ namespace UI {
         // Manage window
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
+        void Maxify_Click (object sender, RoutedEventArgs e) { maxify(); }
+        void Maxify_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { maxify(); }
+        void Minify_Click (object sender, RoutedEventArgs e) { minify(); }
+        void Minify_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { minify(); }
 
         void Minimize_Click (object sender, RoutedEventArgs e) {
             SystemCommands.MinimizeWindow(this);

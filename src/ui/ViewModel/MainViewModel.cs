@@ -125,6 +125,12 @@ namespace UI.ViewModel {
 
         // Main window state
 
+        bool _minified = false;
+        public bool Minified {
+            get => _minified;
+            set => Set(ref _minified, value);
+        }
+
         bool _internetMode = false;
         public bool InternetMode {
             get => _internetMode;
