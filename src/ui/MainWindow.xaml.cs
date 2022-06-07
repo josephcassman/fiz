@@ -197,6 +197,7 @@ namespace UI {
         void setSingleVideo (string path) {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
 
+            try { singleVideoPreview.Stop(); } catch { }
             vm.SingleVideo = new();
             singleVideoTotalLength.Text = "00:00:00";
             singleVideoTotalLength.Foreground = new SolidColorBrush(Colors.Transparent);
@@ -208,13 +209,9 @@ namespace UI {
                 Media = uri,
             };
 
-            try { singleVideoPreview.Stop(); } catch { }
             singleVideoPreviewPosition.Text = "00:00";
             singleVideoPreview.Source = vm.SingleVideo.Media;
             singleVideoPreview.Position = TimeSpan.Zero;
-            singleVideoPreview.MediaOpened += (_, _) => singleVideoPreview.Pause();
-            singleVideoPreview.Play();
-            singleVideoPreview.Loaded += (_, _) => singleVideoPreview.Pause();
             singleVideoPreview.MediaOpened += (_, _) => {
                 var a = singleVideoPreview.NaturalDuration.TimeSpan;
                 singleVideoTotalLength.Text = a.ToString(@"hh\:mm\:ss");
@@ -289,9 +286,6 @@ namespace UI {
             vm.SingleVideo.Skip = a;
             singleVideoPreview.Position = a;
             singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
-            singleVideoPreview.Play();
-            System.Threading.Thread.Sleep(120);
-            singleVideoPreview.Pause();
         }
 
         void skipForwardSingleVideoPreview (int seconds) {
@@ -300,9 +294,6 @@ namespace UI {
             vm.SingleVideo.Skip = a;
             singleVideoPreview.Position = a;
             singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
-            singleVideoPreview.Play();
-            System.Threading.Thread.Sleep(120);
-            singleVideoPreview.Pause();
         }
 
         void up () {
