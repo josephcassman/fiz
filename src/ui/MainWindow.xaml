@@ -411,6 +411,7 @@
                                     <Button Style="{StaticResource IconButton}"
                                             FontSize="40"
                                             Margin="10"
+                                            ToolTip="20 seconds"
                                             Click="SkipBackwardLongSingleVideoPreview_Click">
                                         &#xE760;
                                     </Button>
@@ -421,6 +422,7 @@
                                     <Button Style="{StaticResource IconButton}"
                                             FontSize="30"
                                             Margin="15"
+                                            ToolTip="2 seconds"
                                             Click="SkipBackwardShortSingleVideoPreview_Click">
                                         &#xE973;
                                     </Button>
@@ -439,6 +441,7 @@
                                     <Button Style="{StaticResource IconButton}"
                                             FontSize="30"
                                             Margin="15"
+                                            ToolTip="2 seconds"
                                             Click="SkipForwardShortSingleVideoPreview_Click">
                                         &#xE974;
                                     </Button>
@@ -449,6 +452,7 @@
                                     <Button Style="{StaticResource IconButton}"
                                             FontSize="40"
                                             Margin="10"
+                                            ToolTip="20 seconds"
                                             Click="SkipForwardLongSingleVideoPreview_Click">
                                         &#xE761;
                                     </Button>
