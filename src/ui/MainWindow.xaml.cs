@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using UI.ViewModel;
 
@@ -198,6 +199,8 @@ namespace UI {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
 
             vm.SingleVideo = new();
+            singleVideoTotalLength.Text = "00:00:00";
+            singleVideoTotalLength.Foreground = new SolidColorBrush(Colors.Transparent);
 
             Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
@@ -215,8 +218,9 @@ namespace UI {
             singleVideoPreview.Loaded += (_, _) => singleVideoPreview.Pause();
             singleVideoPreview.MediaOpened += (_, _) => {
                 var a = singleVideoPreview.NaturalDuration.TimeSpan;
-                singleVideoTotalLength.Text = a.ToString(@"mm\:ss");
+                singleVideoTotalLength.Text = a.ToString(@"hh\:mm\:ss");
                 vm.SingleVideo.TotalLength = a;
+                singleVideoTotalLength.Foreground = new SolidColorBrush(Colors.Gray);
             };
         }
 

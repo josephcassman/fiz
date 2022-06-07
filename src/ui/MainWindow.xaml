@@ -386,9 +386,11 @@
                             <TextBlock Grid.Row="2"
                                        FontSize="20"
                                        FontFamily="Consolas"
+                                       Foreground="Transparent"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        Margin="0,0,50,0"
+                                       Text="00:00:00"
                                        Name="singleVideoTotalLength" />
                             <Grid Grid.Row="3"
                                   Height="80"
