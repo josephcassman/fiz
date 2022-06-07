@@ -68,86 +68,38 @@ namespace UI.ViewModel {
         }
 
         public static bool ShowMediaOnSecondMonitor {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "ShowMediaOnSecondMonitor");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "ShowMediaOnSecondMonitor", value ? "1" : "0");
-            }
+            get => readBool("ShowMediaOnSecondMonitor");
+            set { writeBool("ShowMediaOnSecondMonitor", value); }
         }
 
         public static bool ShowMediaFullscreen {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "ShowMediaFullscreen");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "ShowMediaFullscreen", value ? "1" : "0");
-            }
+            get => readBool("ShowMediaFullscreen");
+            set { writeBool("ShowMediaFullscreen", value); }
         }
 
         public static string SingleVideoPath {
-            get {
-                using var con = Connection;
-                return readSetting(con, "SingleVideoPath") ?? "";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "SingleVideoPath", value);
-            }
+            get => readSetting("SingleVideoPath") ?? "";
+            set { writeSetting("SingleVideoPath", value); }
         }
 
         public static bool StartLocationLowerLeft {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "StartLocationLowerLeft");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "StartLocationLowerLeft", value ? "1" : "0");
-            }
+            get => readBool("StartLocationLowerLeft");
+            set { writeBool("StartLocationLowerLeft", value); }
         }
 
         public static bool StartLocationUpperLeft {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "StartLocationUpperLeft");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "StartLocationUpperLeft", value ? "1" : "0");
-            }
+            get => readBool("StartLocationUpperLeft");
+            set { writeBool("StartLocationUpperLeft", value); }
         }
 
         public static bool StartLocationUpperRight {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "StartLocationUpperRight");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "StartLocationUpperRight", value ? "1" : "0");
-            }
+            get => readBool("StartLocationUpperRight");
+            set { writeBool("StartLocationUpperRight", value); }
         }
 
         public static bool StartLocationLowerRight {
-            get {
-                using var con = Connection;
-                var a = readSetting(con, "StartLocationLowerRight");
-                return a == null || a == "1";
-            }
-            set {
-                using var con = Connection;
-                writeSetting(con, "StartLocationLowerRight", value ? "1" : "0");
-            }
+            get => readBool("StartLocationLowerRight");
+            set { writeBool("StartLocationLowerRight", value); }
         }
 
         static SqliteConnection Connection {
@@ -160,7 +112,13 @@ namespace UI.ViewModel {
             }
         }
 
-        static string? readSetting (SqliteConnection con, string name) {
+        static bool readBool (string name) {
+            var a = readSetting(name);
+            return a == null || a == "1";
+        }
+
+        static string? readSetting (string name) {
+            using var con = Connection;
             var sql = $@"
             SELECT Value
               FROM Settings
@@ -177,7 +135,12 @@ namespace UI.ViewModel {
             return r;
         }
 
-        static void writeSetting (SqliteConnection con, string name, string value) {
+        static void writeBool (string name, bool value) {
+            writeSetting(name, value ? "1" : "0");
+        }
+
+        static void writeSetting (string name, string value) {
+            using var con = Connection;
             var sql = @"
                 INSERT OR REPLACE INTO Settings (Name, Value)
                 VALUES (@Name, @Value);";
