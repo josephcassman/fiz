@@ -434,16 +434,12 @@ namespace UI {
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
             WindowManager.SetWindowPosition(this, vm);
-            if (vm.MediaListMode) {
-                if (0 < mediaList.Items.Count) {
-                    mediaList.SelectedIndex = 0;
-                    mediaList.Focus();
-                }
+            if (0 < mediaList.Items.Count) {
+                mediaList.SelectedIndex = 0;
+                mediaList.Focus();
             }
-            else if (vm.SingleVideoMode) {
-                if (!string.IsNullOrEmpty(vm.SingleVideo.Name))
-                    setSingleVideo(vm.SingleVideo.Media.AbsolutePath);
-            }
+            if (!string.IsNullOrEmpty(vm.SingleVideo.Name))
+                setSingleVideo(vm.SingleVideo.Media.AbsolutePath);
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
