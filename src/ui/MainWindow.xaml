@@ -341,7 +341,7 @@
                                        FontSize="25"
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"
-                                       Margin="70,0,0,2"
+                                       Margin="70,0,0,10"
                                        Text="{Binding Path=SingleVideo.DecodedName}" />
                             <Border Grid.Row="1"
                                     BorderBrush="#707070"
