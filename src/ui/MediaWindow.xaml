@@ -200,7 +200,7 @@
             <Grid Grid.Column="0"
                   Grid.ColumnSpan="3"
                   Grid.Row="2"
-                  Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
+                  Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="120" />
