@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using UI.ViewModel;
 
 namespace UI {
@@ -197,10 +198,15 @@ namespace UI {
         void setSingleVideo (string path) {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
 
+            vm.SingleVideoPreviewIsLoading = true;
+
             try { singleVideoPreview.Stop(); } catch { }
-            vm.SingleVideo = new();
-            singleVideoTotalLength.Text = "00:00:00";
-            singleVideoTotalLength.Foreground = new SolidColorBrush(Colors.Transparent);
+
+            singleVideoFileName.Text = "";
+            singleVideoPreviewPosition.Text = "00:00";
+            singleVideoTotalLength.Text = "";
+            Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
+            WindowManager.LetUIUpdate();
 
             Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
@@ -208,16 +214,26 @@ namespace UI {
                 Path = path,
                 Media = uri,
             };
-
-            singleVideoPreviewPosition.Text = "00:00";
-            singleVideoPreview.Source = vm.SingleVideo.Media;
+            singleVideoPreview.Source = uri;
             singleVideoPreview.Position = TimeSpan.Zero;
+
             singleVideoPreview.MediaOpened += (_, _) => {
-                var a = singleVideoPreview.NaturalDuration.TimeSpan;
-                singleVideoTotalLength.Text = a.ToString(@"hh\:mm\:ss");
-                vm.SingleVideo.TotalLength = a;
-                singleVideoTotalLength.Foreground = new SolidColorBrush(Colors.Gray);
+                try {
+                    var a = singleVideoPreview.NaturalDuration.TimeSpan;
+                    vm.SingleVideo.TotalLength = a;
+                    singleVideoTotalLength.Text = a.ToString(@"hh\:mm\:ss");
+                }
+                catch { }
             };
+
+            System.Threading.Thread.Sleep(1000);
+
+            var a = HttpUtility.UrlDecode(Name);
+            singleVideoFileName.Text = 25 < a.Length ? a[..25] + "\u2026" : a;
+
+            vm.SingleVideoPreviewIsLoading = false;
+            Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
+            WindowManager.LetUIUpdate();
         }
 
         void shiftDown () {
@@ -429,8 +445,12 @@ namespace UI {
                 mediaList.SelectedIndex = 0;
                 mediaList.Focus();
             }
-            if (!string.IsNullOrEmpty(vm.SingleVideo.Name))
-                setSingleVideo(vm.SingleVideo.Media.AbsolutePath);
+            var a = SettingsStorage.SingleVideoPath;
+            if (a != "") {
+                // Hide the drag-and-drop hint text
+                vm.SingleVideo = new() { Name = " ", };
+                setSingleVideo(a);
+            }
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {

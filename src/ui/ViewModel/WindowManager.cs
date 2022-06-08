@@ -1,8 +1,21 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace UI.ViewModel {
     public static class WindowManager {
+        public static void LetUIUpdate () {
+            DispatcherFrame frame = new();
+            DispatcherOperationCallback callback = new(delegate (object parameter) {
+                frame.Continue = false;
+                return null;
+            });
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, callback, null);
+            Dispatcher.PushFrame(frame);
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
+        }
+
         public static void SetWindowPosition (Window window, MainViewModel vm) => SetWindowPosition(window, vm, window.Height);
         public static void SetWindowPosition (Window window, MainViewModel vm, double windowHeight) {
             if (vm.StartLocationLowerLeft) {
