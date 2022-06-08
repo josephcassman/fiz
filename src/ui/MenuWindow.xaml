@@ -173,7 +173,7 @@
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       IsChecked="{Binding Path=StartLocationLowerLeft, Mode=TwoWay}"
-                                      Checked="StartLocationLowerLeft_Checked">
+                                      Click="StartLocationLowerLeft_Click">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
@@ -191,7 +191,7 @@
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       IsChecked="{Binding Path=StartLocationUpperLeft, Mode=TwoWay}"
-                                      Checked="StartLocationUpperLeft_Checked">
+                                      Click="StartLocationUpperLeft_Click">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
@@ -209,7 +209,7 @@
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       IsChecked="{Binding Path=StartLocationUpperRight, Mode=TwoWay}"
-                                      Checked="StartLocationUpperRight_Checked">
+                                      Click="StartLocationUpperRight_Click">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
@@ -227,7 +227,7 @@
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       IsChecked="{Binding Path=StartLocationLowerRight, Mode=TwoWay}"
-                                      Checked="StartLocationLowerRight_Checked">
+                                      Click="StartLocationLowerRight_Click">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>

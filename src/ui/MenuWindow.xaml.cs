@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using UI.ViewModel;
 
@@ -25,32 +26,61 @@ namespace UI {
                 try { DragMove(); } catch { }
         }
 
-        void StartLocationLowerLeft_Checked (object sender, RoutedEventArgs e) {
+        void StartLocationLowerLeft_Click (object sender, RoutedEventArgs e) {
+            var a = (CheckBox) sender;
+            if (a == null || a.IsChecked == false) {
+                vm.StartLocationLowerLeft = true;
+                e.Handled = true;
+                return;
+            }
+            vm.StartLocationLowerLeft = true;
             vm.StartLocationUpperLeft = false;
             vm.StartLocationUpperRight = false;
             vm.StartLocationLowerRight = false;
             updateWindowLocation();
         }
 
-        void StartLocationUpperLeft_Checked (object sender, RoutedEventArgs e) {
+        void StartLocationUpperLeft_Click (object sender, RoutedEventArgs e) {
+            var a = (CheckBox) sender;
+            if (a == null || a.IsChecked == false) {
+                vm.StartLocationUpperLeft = true;
+                e.Handled = true;
+                return;
+            }
             vm.StartLocationLowerLeft = false;
+            vm.StartLocationUpperLeft = true;
             vm.StartLocationUpperRight = false;
             vm.StartLocationLowerRight = false;
             updateWindowLocation();
         }
 
-        void StartLocationUpperRight_Checked (object sender, RoutedEventArgs e) {
+        void StartLocationUpperRight_Click (object sender, RoutedEventArgs e) {
+            var a = (CheckBox) sender;
+            if (a == null || a.IsChecked == false) {
+                vm.StartLocationUpperRight = true;
+                e.Handled = true;
+                return;
+            }
             vm.StartLocationLowerLeft = false;
             vm.StartLocationUpperLeft = false;
+            vm.StartLocationUpperRight = true;
             vm.StartLocationLowerRight = false;
             updateWindowLocation();
         }
 
-        void StartLocationLowerRight_Checked (object sender, RoutedEventArgs e) {
+        void StartLocationLowerRight_Click (object sender, RoutedEventArgs e) {
+            var a = (CheckBox) sender;
+            if (a == null || a.IsChecked == false) {
+                vm.StartLocationLowerRight = true;
+                e.Handled = true;
+                return;
+            }
             vm.StartLocationLowerLeft = false;
             vm.StartLocationUpperLeft = false;
             vm.StartLocationUpperRight = false;
+            vm.StartLocationLowerRight = true;
             updateWindowLocation();
         }
+
     }
 }
