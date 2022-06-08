@@ -229,7 +229,7 @@ namespace UI {
 
             System.Threading.Thread.Sleep(1000);
 
-            var a = HttpUtility.UrlDecode(Name);
+            var a = HttpUtility.UrlDecode(vm.SingleVideo.Name);
             singleVideoFileName.Text = 25 < a.Length ? a[..25] + "\u2026" : a;
 
             vm.SingleVideoPreviewIsLoading = false;
