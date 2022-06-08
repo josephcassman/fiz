@@ -161,7 +161,8 @@
                 AllowDrop="True">
             <Canvas Background="White">
                 <Border Canvas.Top="10"
-                        Canvas.Left="10">
+                        Canvas.Left="10"
+                        Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}">
                     <Button Style="{StaticResource MenuIconButton}"
                             FontSize="25"
                             Margin="0"
