@@ -143,6 +143,7 @@ namespace UI {
         }
 
         void processMediaItems (string[] paths) {
+            if (vm.MediaDisplayed) return;
             if (paths == null || paths.Length == 0) return;
             if (vm.InternetMode) return;
             if (vm.SingleVideoMode) {
@@ -270,9 +271,13 @@ namespace UI {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
             if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
             media = new();
+            mainContent.IsEnabled = false;
+            mainContent.Opacity = 0.15;
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
+                mainContent.IsEnabled = true;
+                mainContent.Opacity = 1.0;
             });
             vm.MediaDisplayed = true;
         }
@@ -280,9 +285,13 @@ namespace UI {
         void showSingleVideo () {
             if (string.IsNullOrEmpty(vm.SingleVideo.Name)) return;
             media = new();
+            mainContent.IsEnabled = false;
+            mainContent.Opacity = 0.15;
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
+                mainContent.IsEnabled = true;
+                mainContent.Opacity = 1.0;
             });
             vm.MediaDisplayed = true;
             vm.VideoDisplayedOnMediaWindow = true;
@@ -290,8 +299,14 @@ namespace UI {
 
         void showWebpage () {
             media = new();
+            mainContent.IsEnabled = false;
+            mainContent.Opacity = 0.15;
+            web.Source = new("about:blank");
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
+                mainContent.IsEnabled = true;
+                mainContent.Opacity = 1.0;
+                web.Source = vm.WebpageUrl;
             });
             vm.MediaDisplayed = true;
         }

@@ -229,7 +229,8 @@
                                 Orientation="Vertical"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}">
+                                Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
+                                Name="mainContent">
                         <StackPanel Grid.Row="0"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Center"
