@@ -15,8 +15,10 @@ Build output is located in the folder `src/ui/bin/x64/Release/net6.0-windows10.0
 
 ## Media List
 
-![media list](/assets/readme-main-window-media-list.png)
+| ![media list](/assets/readme-main-window-media-list.png) |
+| - |
 
 ## Single Video Mode
 
-![single video mode](/assets/readme-main-window-single-video-mode.png)
+| ![single video mode](/assets/readme-main-window-single-video-mode.png) |
+| - |
