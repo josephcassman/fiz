@@ -53,17 +53,10 @@ namespace UI.ViewModel {
                     else SettingsStorage.DeleteMediaListPath(path);
                 }
             }
-            var b = SettingsStorage.SingleVideoPath;
-            if (File.Exists(b)) {
-                Uri uri = new(b);
-                SingleVideo = new VideoItem {
-                    Name = Path.GetFileName(b),
-                    Path = b,
-                    Media = uri,
-                };
-            }
+
             if (0 < a.Count) MainWindowMode = MainWindowMode.MediaList;
-            else if (!string.IsNullOrEmpty(SingleVideo.Path)) MainWindowMode = MainWindowMode.SingleVideo;
+            else if (!string.IsNullOrEmpty(SettingsStorage.SingleVideoPath))
+                MainWindowMode = MainWindowMode.SingleVideo;
             else MainWindowMode = MainWindowMode.MediaList;
         }
 
@@ -228,6 +221,12 @@ namespace UI.ViewModel {
         public VideoItem SingleVideo {
             get => _singleVideo;
             set => Set(ref _singleVideo, value);
+        }
+
+        bool _singleVideoPreviewIsLoading = false;
+        public bool SingleVideoPreviewIsLoading {
+            get => _singleVideoPreviewIsLoading;
+            set => Set(ref _singleVideoPreviewIsLoading, value);
         }
 
         bool _videoDisplayedOnMediaWindow = false;

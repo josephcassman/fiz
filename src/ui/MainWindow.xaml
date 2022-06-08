@@ -333,7 +333,7 @@
                               Name="singleVideoGrid">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="70" />
-                                <RowDefinition />
+                                <RowDefinition Height="250" />
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="165" />
                             </Grid.RowDefinitions>
@@ -342,7 +342,7 @@
                                        VerticalAlignment="Bottom"
                                        HorizontalAlignment="Left"
                                        Margin="70,0,0,10"
-                                       Text="{Binding Path=SingleVideo.DecodedName}" />
+                                       Name="singleVideoFileName" />
                             <Border Grid.Row="1"
                                     BorderBrush="#707070"
                                     BorderThickness="3"
@@ -374,9 +374,8 @@
                                     Background="Black"
                                     Width="400"
                                     Height="250"
-                                    Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}">
-                                <MediaElement Panel.ZIndex="1"
-                                              Width="400"
+                                    Visibility="{Binding SingleVideoPreviewIsLoading, Converter={StaticResource collapsedWhenTrue}}">
+                                <MediaElement Width="400"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               LoadedBehavior="Manual"
@@ -385,14 +384,29 @@
                                               UseLayoutRounding="False"
                                               Name="singleVideoPreview" />
                             </Border>
+                            <Border Grid.Row="1"
+                                    BorderBrush="#707070"
+                                    BorderThickness="3"
+                                    Width="400"
+                                    Height="240"
+                                    AllowDrop="True"
+                                    Visibility="{Binding SingleVideoPreviewIsLoading, Converter={StaticResource visibleWhenTrue}}">
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Vertical"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Foreground="LightGray"
+                                               FontSize="45"
+                                               AllowDrop="True"
+                                               Text="Loading&#x2026;" />
+                                </StackPanel>
+                            </Border>
                             <TextBlock Grid.Row="2"
                                        FontSize="20"
                                        FontFamily="Consolas"
-                                       Foreground="Transparent"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        Margin="0,0,50,0"
-                                       Text="00:00:00"
                                        Name="singleVideoTotalLength" />
                             <Grid Grid.Row="3"
                                   Height="80"
