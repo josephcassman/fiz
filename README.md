@@ -13,7 +13,7 @@ _Fiz_ is a simple media viewer for pdf, picture, and video files as well as web 
 
 Build output is located in the folder `src/ui/bin/x64/Release/net6.0-windows10.0.19041.0`.
 
-## Media List
+## Media List Mode
 
 | ![media list](/assets/readme-main-window-media-list.png) |
 | - |
