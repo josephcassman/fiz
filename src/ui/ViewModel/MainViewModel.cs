@@ -72,31 +72,16 @@ namespace UI.ViewModel {
             ".wav",
         };
 
-        public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
-        public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
+        public Uri WebpageUrl = new("about:blank");
+
+        // Media items
 
         public event EventHandler? MoveDown;
         public event EventHandler? MoveUp;
         public event EventHandler? SetMediaListMedia;
 
-        public Uri WebpageUrl = new("about:blank");
-
-        public void AddMediaItem (MediaItem a) {
-            MediaItems.Add(a);
-            MediaListHasContents = true;
-        }
-
-        public void BackupMediaItems () {
-            SettingsStorage.ClearMediaListPaths();
-            foreach (MediaItem a in MediaItems)
-                SettingsStorage.SaveMediaListPath(a.Path);
-            SettingsStorage.SingleVideoPath = SingleVideo.Path;
-        }
-
-        public void RemoveMediaItem (int i) {
-            MediaItems.RemoveAt(i);
-            MediaListHasContents = 0 < MediaItems.Count;
-        }
+        public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
+        public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
@@ -116,13 +101,24 @@ namespace UI.ViewModel {
             }
         }
 
-        // Main window state
-
-        bool _minified = false;
-        public bool Minified {
-            get => _minified;
-            set => Set(ref _minified, value);
+        public void AddMediaItem (MediaItem a) {
+            MediaItems.Add(a);
+            MediaListHasContents = true;
         }
+
+        public void BackupMediaItems () {
+            SettingsStorage.ClearMediaListPaths();
+            foreach (MediaItem a in MediaItems)
+                SettingsStorage.SaveMediaListPath(a.Path);
+            SettingsStorage.SingleVideoPath = SingleVideo.Path;
+        }
+
+        public void RemoveMediaItem (int i) {
+            MediaItems.RemoveAt(i);
+            MediaListHasContents = 0 < MediaItems.Count;
+        }
+
+        // Main window state
 
         bool _internetMode = false;
         public bool InternetMode {
@@ -171,6 +167,12 @@ namespace UI.ViewModel {
         public bool MediaListMode {
             get => _mediaListMode;
             set => Set(ref _mediaListMode, value);
+        }
+
+        bool _minified = false;
+        public bool Minified {
+            get => _minified;
+            set => Set(ref _minified, value);
         }
 
         bool _singleVideoMode = false;
@@ -276,6 +278,15 @@ namespace UI.ViewModel {
             }
         }
 
+        bool _startLocationLowerRight = false;
+        public bool StartLocationLowerRight {
+            get => _startLocationLowerRight;
+            set {
+                Set(ref _startLocationLowerRight, value);
+                SettingsStorage.StartLocationLowerRight = value;
+            }
+        }
+
         bool _startLocationUpperLeft = false;
         public bool StartLocationUpperLeft {
             get => _startLocationUpperLeft;
@@ -291,15 +302,6 @@ namespace UI.ViewModel {
             set {
                 Set(ref _startLocationUpperRight, value);
                 SettingsStorage.StartLocationUpperRight = value;
-            }
-        }
-
-        bool _startLocationLowerRight = false;
-        public bool StartLocationLowerRight {
-            get => _startLocationLowerRight;
-            set {
-                Set(ref _startLocationLowerRight, value);
-                SettingsStorage.StartLocationLowerRight = value;
             }
         }
     }
