@@ -405,9 +405,7 @@ namespace UI {
                 Top = Top + 15,
                 Left = Left + 15,
             };
-            menu.Closed += (_, _) => {
-                IsEnabled = true;
-            };
+            menu.Closed += (_, _) => IsEnabled = true;
             menu.Show();
         }
 
