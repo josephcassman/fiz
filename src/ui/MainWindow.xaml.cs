@@ -30,8 +30,6 @@ namespace UI {
 
         const double minimalHeight = 130;
         const double maximalHeight = 710;
-        double mainGridHeight = 0;
-        GridLength mainGridRow0Height = new(0);
 
         readonly string[] NoResults = new string[] { "" };
 
@@ -75,29 +73,12 @@ namespace UI {
 
         void maxify () {
             vm.Minified = false;
-
-            mainGrid.Height = mainGridHeight;
-            mainGrid.RowDefinitions[0].Height = mainGridRow0Height;
-            mainGrid.RowDefinitions[1].Height = GridLength.Auto;
-
-            maxifyBorder.Visibility = Visibility.Collapsed;
-            minifyBorder.Visibility = Visibility.Visible;
-
             Height = maximalHeight;
             WindowManager.SetWindowPosition(this, vm, maximalHeight);
         }
 
         void minify () {
             vm.Minified = true;
-
-            mainGridHeight = mainGrid.Height;
-            mainGridRow0Height = mainGrid.RowDefinitions[0].Height;
-            mainGrid.RowDefinitions[0].Height = new(0);
-            mainGrid.RowDefinitions[1].Height = new(0);
-
-            minifyBorder.Visibility = Visibility.Collapsed;
-            maxifyBorder.Visibility = Visibility.Visible;
-
             Height = minimalHeight;
             WindowManager.SetWindowPosition(this, vm, minimalHeight);
         }
@@ -200,6 +181,7 @@ namespace UI {
             if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
 
             vm.SingleVideoPreviewIsLoading = true;
+            vm.SingleVideo = new();
 
             try { singleVideoPreview.Stop(); } catch { }
 
@@ -271,13 +253,9 @@ namespace UI {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
             if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
             media = new();
-            mainContent.IsEnabled = false;
-            mainContent.Opacity = 0.15;
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
-                mainContent.IsEnabled = true;
-                mainContent.Opacity = 1.0;
             });
             vm.MediaDisplayed = true;
         }
@@ -285,13 +263,9 @@ namespace UI {
         void showSingleVideo () {
             if (string.IsNullOrEmpty(vm.SingleVideo.Name)) return;
             media = new();
-            mainContent.IsEnabled = false;
-            mainContent.Opacity = 0.15;
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
-                mainContent.IsEnabled = true;
-                mainContent.Opacity = 1.0;
             });
             vm.MediaDisplayed = true;
             vm.VideoDisplayedOnMediaWindow = true;
@@ -299,13 +273,9 @@ namespace UI {
 
         void showWebpage () {
             media = new();
-            mainContent.IsEnabled = false;
-            mainContent.Opacity = 0.15;
             web.Source = new("about:blank");
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
-                mainContent.IsEnabled = true;
-                mainContent.Opacity = 1.0;
                 web.Source = vm.WebpageUrl;
             });
             vm.MediaDisplayed = true;
@@ -424,19 +394,18 @@ namespace UI {
 
         void SingleVideoMode_Click (object sender, RoutedEventArgs e) {
             if (vm.MediaDisplayed) return;
+            vm.SingleVideoPreviewIsLoading = false;
             vm.MainWindowMode = MainWindowMode.SingleVideo;
         }
 
         void Menu_Click (object sender, RoutedEventArgs e) {
             IsEnabled = false;
-            mainGrid.Opacity = 0.15;
             var menu = new MenuWindow {
                 Owner = this,
                 Top = Top + 15,
                 Left = Left + 15,
             };
             menu.Closed += (_, _) => {
-                mainGrid.Opacity = 1.0;
                 IsEnabled = true;
             };
             menu.Show();
