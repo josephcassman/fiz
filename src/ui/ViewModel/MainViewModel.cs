@@ -85,8 +85,8 @@ namespace UI.ViewModel {
         public event EventHandler? MoveUp;
         public event EventHandler? SetMediaListMedia;
 
-        public void MoveToNextMediaItem () { MoveDown?.Invoke(this, new()); }
-        public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, new()); }
+        public void MoveToNextMediaItem () { MoveDown?.Invoke(this, EventArgs.Empty); }
+        public void MoveToPreviousMediaItem () { MoveUp?.Invoke(this, EventArgs.Empty); }
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
@@ -102,7 +102,7 @@ namespace UI.ViewModel {
                 PictureDisplayedOnMediaWindow = MediaItems[value].IsPicture;
                 VideoDisplayedOnMediaWindow = MediaItems[value].IsVideo;
 
-                SetMediaListMedia?.Invoke(this, new());
+                SetMediaListMedia?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -305,8 +305,8 @@ namespace UI.ViewModel {
             set => Set(ref _videoTotalTimeText, value);
         }
 
-        public void PauseVideo () { PauseVideoEvent?.Invoke(this, new()); }
-        public void PlayVideo () { PlayVideoEvent?.Invoke(this, new()); }
+        public void PauseVideo () { PauseVideoEvent?.Invoke(this, EventArgs.Empty); }
+        public void PlayVideo () { PlayVideoEvent?.Invoke(this, EventArgs.Empty); }
         public void StartTimer () { updateVideoPositionTimer.Start(); }
         public void StopTimer () { updateVideoPositionTimer.Stop(); }
 
