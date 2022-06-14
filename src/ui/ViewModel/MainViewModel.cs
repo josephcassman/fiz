@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace UI.ViewModel {
     public enum MainWindowMode {
@@ -58,6 +59,10 @@ namespace UI.ViewModel {
             else if (!string.IsNullOrEmpty(SettingsStorage.SingleVideoPath))
                 MainWindowMode = MainWindowMode.SingleVideo;
             else MainWindowMode = MainWindowMode.MediaList;
+
+            updateVideoPositionTimer.Tick += (_, _) => {
+                GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         public static readonly HashSet<string> PictureExtensions = new() {
@@ -189,6 +194,13 @@ namespace UI.ViewModel {
 
         // Media window state
 
+        readonly DispatcherTimer updateVideoPositionTimer = new() { Interval = TimeSpan.FromSeconds(0.1) };
+
+        public event EventHandler? GetVideoPositionEvent;
+        public event EventHandler? SetVideoPositionEvent;
+        public event EventHandler? PauseVideoEvent;
+        public event EventHandler? PlayVideoEvent;
+
         bool _mediaDisplayed = false;
         public bool MediaDisplayed {
             get => _mediaDisplayed;
@@ -231,6 +243,28 @@ namespace UI.ViewModel {
             set => Set(ref _singleVideoPreviewIsLoading, value);
         }
 
+        TimeSpan _videoCurrentPosition = TimeSpan.Zero;
+        public TimeSpan VideoCurrentPosition {
+            get => _videoCurrentPosition;
+            set {
+                _videoCurrentPosition = value;
+                VideoCurrentPositionText = value.ToString(@"hh\:mm\:ss");
+                VideoCurrentPositionSeconds = value.TotalSeconds;
+            }
+        }
+
+        double _videoCurrentPositionSeconds = 0;
+        public double VideoCurrentPositionSeconds {
+            get => _videoCurrentPositionSeconds;
+            set => Set(ref _videoCurrentPositionSeconds, value);
+        }
+
+        string _videoCurrentPositionText = "00:00:00";
+        public string VideoCurrentPositionText {
+            get => _videoCurrentPositionText;
+            set => Set(ref _videoCurrentPositionText, value);
+        }
+
         bool _videoDisplayedOnMediaWindow = false;
         public bool VideoDisplayedOnMediaWindow {
             get => _videoDisplayedOnMediaWindow;
@@ -247,6 +281,38 @@ namespace UI.ViewModel {
         public bool VideoPaused {
             get => _videoPaused;
             set => Set(ref _videoPaused, value);
+        }
+
+        TimeSpan _videoTotalTime = TimeSpan.Zero;
+        public TimeSpan VideoTotalTime {
+            get => _videoTotalTime;
+            set {
+                _videoTotalTime = value;
+                VideoTotalTimeText = value.ToString(@"hh\:mm\:ss");
+                VideoTotalTimeSeconds = value.TotalSeconds;
+            }
+        }
+
+        double _videoTotalTimeSeconds = 0;
+        public double VideoTotalTimeSeconds {
+            get => _videoTotalTimeSeconds;
+            set => Set(ref _videoTotalTimeSeconds, value);
+        }
+
+        string _videoTotalTimeText = "00:00:00";
+        public string VideoTotalTimeText {
+            get => _videoTotalTimeText;
+            set => Set(ref _videoTotalTimeText, value);
+        }
+
+        public void PauseVideo () { PauseVideoEvent?.Invoke(this, new()); }
+        public void PlayVideo () { PlayVideoEvent?.Invoke(this, new()); }
+        public void StartTimer () { updateVideoPositionTimer.Start(); }
+        public void StopTimer () { updateVideoPositionTimer.Stop(); }
+
+        public void UpdateVideoPosition (TimeSpan a) {
+            VideoCurrentPosition = a;
+            SetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
         }
 
         // Settings
