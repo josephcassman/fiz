@@ -70,16 +70,33 @@ namespace UI {
             else shiftDown();
         }
 
+        void initializeSliderVideoPreview () {
+            try { sliderMinifiedPositionChangePreview.Stop(); } catch { }
+            try { sliderMaxifiedPositionChangePreview.Stop(); } catch { }
+            if (vm.CurrentMediaItem is VideoItem a) {
+                if (vm.Minified) {
+                    sliderMinifiedPositionChangePreview.Source = a.Source;
+                    sliderMinifiedPositionChangePreview.Pause();
+                }
+                else {
+                    sliderMaxifiedPositionChangePreview.Source = a.Source;
+                    sliderMaxifiedPositionChangePreview.Pause();
+                }
+            }
+        }
+
         void maxify () {
             vm.Minified = false;
             Height = maximalHeight;
             WindowManager.SetWindowPosition(this, vm, maximalHeight);
+            initializeSliderVideoPreview();
         }
 
         void minify () {
             vm.Minified = true;
             Height = minimalHeight;
             WindowManager.SetWindowPosition(this, vm, minimalHeight);
+            initializeSliderVideoPreview();
         }
 
         void moveNext () {
@@ -244,6 +261,7 @@ namespace UI {
                 vm.VideoPaused = true;
             });
             vm.MediaDisplayed = true;
+            initializeSliderVideoPreview();
         }
 
         void showSingleVideo () {
@@ -361,12 +379,16 @@ namespace UI {
             videoPlayingBeforeSliderDragEvent = !vm.VideoPaused;
             vm.StopTimer();
             vm.PauseVideo();
+            if (vm.Minified) sliderMinifiedPositionChangePreview.Position = vm.VideoPosition;
+            else sliderMaxifiedPositionChangePreview.Position = vm.VideoPosition;
         }
 
         void Slider_DragCompleted (object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e) {
             vm.SetVideoPositionSliderActive = false;
             TimeSpan a = new(0, 0, (int) ((Slider) e.Source).Value);
             vm.UpdateVideoPosition(a);
+            if (vm.Minified) sliderMinifiedPositionChangePreview.Position = a;
+            else sliderMaxifiedPositionChangePreview.Position = a;
             if (videoPlayingBeforeSliderDragEvent) {
                 vm.PlayVideo();
                 vm.StartTimer();
@@ -377,6 +399,8 @@ namespace UI {
             if (!vm.SetVideoPositionSliderActive) return;
             TimeSpan a = new(0, 0, (int) ((Slider) e.Source).Value);
             vm.SetVideoPositionSliderPreviewPositionText = a.ToString(@"hh\:mm\:ss");
+            if (vm.Minified) sliderMinifiedPositionChangePreview.Position = a;
+            else sliderMaxifiedPositionChangePreview.Position = a;
         }
 
         // Manage window
