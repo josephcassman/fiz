@@ -23,7 +23,7 @@ namespace UI {
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
-            singleVideoPreview.MediaOpened += (_, _) => vm.VideoTotalTime = singleVideoPreview.NaturalDuration.TimeSpan;
+            singleVideoPreview.MediaOpened += (_, _) => vm.VideoTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;

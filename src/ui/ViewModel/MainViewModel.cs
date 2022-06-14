@@ -294,26 +294,26 @@ namespace UI.ViewModel {
             set => Set(ref _videoPaused, value);
         }
 
-        TimeSpan _videoTotalTime = TimeSpan.Zero;
-        public TimeSpan VideoTotalTime {
-            get => _videoTotalTime;
+        TimeSpan _videoTotalLength = TimeSpan.Zero;
+        public TimeSpan VideoTotalLength {
+            get => _videoTotalLength;
             set {
-                _videoTotalTime = value;
-                VideoTotalTimeText = value.ToString(@"hh\:mm\:ss");
-                VideoTotalTimeSeconds = value.TotalSeconds;
+                _videoTotalLength = value;
+                VideoTotalLengthText = value.ToString(@"hh\:mm\:ss");
+                VideoTotalLengthSeconds = value.TotalSeconds;
             }
         }
 
-        double _videoTotalTimeSeconds = 0;
-        public double VideoTotalTimeSeconds {
-            get => _videoTotalTimeSeconds;
-            set => Set(ref _videoTotalTimeSeconds, value);
+        double _videoTotalLengthSeconds = 0;
+        public double VideoTotalLengthSeconds {
+            get => _videoTotalLengthSeconds;
+            set => Set(ref _videoTotalLengthSeconds, value);
         }
 
-        string _videoTotalTimeText = "00:00:00";
-        public string VideoTotalTimeText {
-            get => _videoTotalTimeText;
-            set => Set(ref _videoTotalTimeText, value);
+        string _videoTotalLengthText = "00:00:00";
+        public string VideoTotalLengthText {
+            get => _videoTotalLengthText;
+            set => Set(ref _videoTotalLengthText, value);
         }
 
         public void PauseVideo () { PauseVideoEvent?.Invoke(this, EventArgs.Empty); }
