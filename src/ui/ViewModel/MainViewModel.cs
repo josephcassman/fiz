@@ -231,6 +231,18 @@ namespace UI.ViewModel {
             }
         }
 
+        bool _setVideoPositionSliderActive = false;
+        public bool SetVideoPositionSliderActive {
+            get => _setVideoPositionSliderActive;
+            set => Set(ref _setVideoPositionSliderActive, value);
+        }
+
+        string _setVideoPositionSliderPreviewPositionText = "00:00:00";
+        public string SetVideoPositionSliderPreviewPositionText {
+            get => _setVideoPositionSliderPreviewPositionText;
+            set => Set(ref _setVideoPositionSliderPreviewPositionText, value);
+        }
+
         VideoItem _singleVideo = new();
         public VideoItem SingleVideo {
             get => _singleVideo;
