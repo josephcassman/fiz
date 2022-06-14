@@ -17,21 +17,12 @@ namespace UI {
             SizeChanged += Window_SizeChanged;
             vm.SetMediaListMedia += (_, _) => { setMedia(); };
 
-            vm.GetVideoPositionEvent += (_, _) => {
-                var video = vm.MediaListMode ? mediaListVideo : singleVideo;
-                vm.VideoCurrentPosition = video.Position;
-            };
-
-            vm.SetVideoPositionEvent += (_, _) => {
-                var video = vm.MediaListMode ? mediaListVideo : singleVideo;
-                video.Position = vm.VideoCurrentPosition;
-            };
-
+            vm.GetVideoPositionEvent += (_, _) => vm.VideoCurrentPosition = video.Position;
+            vm.SetVideoPositionEvent += (_, _) => video.Position = vm.VideoCurrentPosition;
             vm.PauseVideoEvent += (_, _) => pauseVideo();
             vm.PlayVideoEvent += (_, _) => playVideo();
 
-            mediaListVideo.MediaOpened += (_, _) => vm.VideoTotalTime = mediaListVideo.NaturalDuration.TimeSpan;
-            singleVideo.MediaOpened += (_, _) => vm.VideoTotalTime = singleVideo.NaturalDuration.TimeSpan;
+            video.MediaOpened += (_, _) => vm.VideoTotalTime = video.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -69,7 +60,6 @@ namespace UI {
 
         void playVideo () {
             if (vm.InternetMode) return;
-            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Play();
             vm.StartTimer();
             vm.VideoPaused = false;
@@ -78,7 +68,6 @@ namespace UI {
         void pauseVideo () {
             if (vm.InternetMode) return;
             vm.StopTimer();
-            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             vm.VideoPaused = true;
         }
@@ -89,23 +78,22 @@ namespace UI {
                 return;
             }
 
-            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem.IsPicture)
                     mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
                 else if (vm.CurrentMediaItem.IsVideo) {
-                    mediaListVideo.Close();
-                    mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Source;
+                    video.Close();
+                    video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
                     playVideo();
                 }
                 else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Source;
             }
             else {
-                singleVideo.Close();
-                singleVideo.Source = vm.SingleVideo.Source;
-                singleVideo.Position = vm.SingleVideo.Position;
+                video.Close();
+                video.Source = vm.SingleVideo.Source;
+                video.Position = vm.SingleVideo.Position;
                 playVideo();
             }
         }
@@ -120,7 +108,6 @@ namespace UI {
         public void SkipBackwardVideo () {
             if (!vm.VideoDisplayedOnMediaWindow) return;
             if (vm.InternetMode) return;
-            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             video.Position = video.Position.Subtract(new TimeSpan(0, 0, 10));
             vm.VideoCurrentPosition = video.Position;
@@ -131,7 +118,6 @@ namespace UI {
         public void SkipForwardVideo () {
             if (!vm.VideoDisplayedOnMediaWindow) return;
             if (vm.InternetMode) return;
-            var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             video.Position = video.Position.Add(new TimeSpan(0, 0, 30));
             vm.VideoCurrentPosition = video.Position;
@@ -193,10 +179,9 @@ namespace UI {
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
             mediaListPicture.Height = e.NewSize.Height;
             mediaListPicture.Width = e.NewSize.Width;
-            mediaListVideo.Width = e.NewSize.Width;
             mediaListWeb.Height = e.NewSize.Height;
             mediaListWeb.Width = e.NewSize.Width;
-            singleVideo.Width = e.NewSize.Width;
+            video.Width = e.NewSize.Width;
             web.Height = e.NewSize.Height;
             web.Width = e.NewSize.Width;
             navigationTopBackground.Width = e.NewSize.Width;

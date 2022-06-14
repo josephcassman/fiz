@@ -72,16 +72,6 @@
                    VerticalAlignment="Center"
                    Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
                    Name="mediaListPicture" />
-            <MediaElement Canvas.Top="0"
-                          Canvas.Left="0"
-                          Panel.ZIndex="1"
-                          Width="850"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          LoadedBehavior="Manual"
-                          Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
-                          ScrubbingEnabled="True"
-                          Name="mediaListVideo" />
             <wv2:WebView2 Canvas.Top="0"
                           Canvas.Left="0"
                           Panel.ZIndex="1"
@@ -92,7 +82,8 @@
                           Name="mediaListWeb" />
         </StackPanel>
 
-        <MediaElement Canvas.Top="0"
+        <MediaElement Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
+                      Canvas.Top="0"
                       Canvas.Left="0"
                       Panel.ZIndex="1"
                       Width="850"
@@ -100,8 +91,7 @@
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
                       ScrubbingEnabled="True"
-                      Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
-                      Name="singleVideo" />
+                      Name="video" />
 
         <wv2:WebView2 Canvas.Top="0"
                       Canvas.Left="0"
