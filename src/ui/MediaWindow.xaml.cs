@@ -82,7 +82,7 @@ namespace UI {
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem.IsPicture)
-                    mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
+                    picture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
                 else if (vm.CurrentMediaItem.IsVideo) {
                     video.Close();
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
@@ -177,8 +177,8 @@ namespace UI {
         }
 
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
-            mediaListPicture.Height = e.NewSize.Height;
-            mediaListPicture.Width = e.NewSize.Width;
+            picture.Height = e.NewSize.Height;
+            picture.Width = e.NewSize.Width;
             web.Height = e.NewSize.Height;
             web.Width = e.NewSize.Width;
             video.Width = e.NewSize.Width;
