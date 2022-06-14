@@ -10,14 +10,14 @@ namespace UI.ViewModel {
         public abstract bool IsVideo { get; }
     }
 
-    public class PdfItem : MediaItem {
+    public sealed class PdfItem : MediaItem {
         public Uri Media { get; set; } = new("about:blank");
         public override bool IsPdf => true;
         public override bool IsPicture => false;
         public override bool IsVideo => false;
     }
 
-    public class PictureItem : MediaItem {
+    public sealed class PictureItem : MediaItem {
         public BitmapSource Preview { get; set; } = new BitmapImage();
         public BitmapImage Media { get; set; } = new();
         public override bool IsPdf => false;
@@ -25,7 +25,7 @@ namespace UI.ViewModel {
         public override bool IsVideo => false;
     }
 
-    public class VideoItem : MediaItem {
+    public sealed class VideoItem : MediaItem {
         public Uri Media { get; set; } = new("about:blank");
         public TimeSpan Skip { get; set; } = TimeSpan.Zero;
         public TimeSpan TotalLength { get; set; } = TimeSpan.Zero;

@@ -12,7 +12,7 @@ namespace UI.ViewModel {
         Internet,
     }
 
-    public class MainViewModel : BindableBase {
+    public sealed class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
