@@ -88,7 +88,7 @@ namespace UI {
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
                     playVideo();
                 }
-                else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Source;
+                else web.Source = ((PdfItem) vm.CurrentMediaItem).Source;
             }
             else {
                 video.Close();
@@ -179,8 +179,8 @@ namespace UI {
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
             mediaListPicture.Height = e.NewSize.Height;
             mediaListPicture.Width = e.NewSize.Width;
-            mediaListWeb.Height = e.NewSize.Height;
-            mediaListWeb.Width = e.NewSize.Width;
+            web.Height = e.NewSize.Height;
+            web.Width = e.NewSize.Width;
             video.Width = e.NewSize.Width;
             web.Height = e.NewSize.Height;
             web.Width = e.NewSize.Width;
