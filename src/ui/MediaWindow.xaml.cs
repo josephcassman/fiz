@@ -92,7 +92,7 @@ namespace UI {
             else {
                 video.Close();
                 video.Source = vm.SingleVideo.Source;
-                video.Position = vm.SingleVideoPreviewPosition;
+                video.Position = vm.VideoPosition;
                 playVideo();
             }
         }
