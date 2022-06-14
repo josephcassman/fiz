@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -184,8 +183,6 @@ namespace UI {
 
             try { singleVideoPreview.Stop(); } catch { }
 
-            singleVideoFileName.Text = "";
-            singleVideoPreviewPosition.Text = "00:00";
             Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
             WindowManager.LetUIUpdate();
 
@@ -198,12 +195,9 @@ namespace UI {
             singleVideoPreview.Source = uri;
             singleVideoPreview.Position = TimeSpan.Zero;
 
-            singleVideoPreview.MediaOpened += (_, _) => vm.SingleVideoTotalLengthText = singleVideoPreview.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss");
+            singleVideoPreview.MediaOpened += (_, _) => vm.SingleVideoPreviewTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
 
             System.Threading.Thread.Sleep(1000);
-
-            var a = HttpUtility.UrlDecode(vm.SingleVideo.FileName);
-            singleVideoFileName.Text = 25 < a.Length ? a[..25] + "\u2026" : a;
 
             vm.SingleVideoPreviewIsLoading = false;
             Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
@@ -276,17 +270,15 @@ namespace UI {
         void skipBackwardSingleVideoPreview (int seconds) {
             var a = singleVideoPreview.Position.Subtract(new TimeSpan(0, 0, seconds));
             if (a < TimeSpan.Zero) a = TimeSpan.Zero;
-            vm.SingleVideo.Position = a;
+            vm.SingleVideoPreviewPosition = a;
             singleVideoPreview.Position = a;
-            singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
         }
 
         void skipForwardSingleVideoPreview (int seconds) {
             var a = singleVideoPreview.Position.Add(new TimeSpan(0, 0, seconds));
-            if (vm.SingleVideo.TotalLength <= a) a = vm.SingleVideo.TotalLength;
-            vm.SingleVideo.Position = a;
+            if (vm.SingleVideoPreviewTotalLength <= a) a = vm.SingleVideoPreviewTotalLength;
+            vm.SingleVideoPreviewPosition = a;
             singleVideoPreview.Position = a;
-            singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
         }
 
         void up () {

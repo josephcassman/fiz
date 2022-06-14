@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Web;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -245,7 +246,34 @@ namespace UI.ViewModel {
         VideoItem _singleVideo = new();
         public VideoItem SingleVideo {
             get => _singleVideo;
-            set => Set(ref _singleVideo, value);
+            set {
+                Set(ref _singleVideo, value);
+                var a = HttpUtility.UrlDecode(value.FileName);
+                SingleVideoPreviewFileName = 25 < a.Length ? a[..25] + "\u2026" : a;
+                SingleVideoPreviewPosition = TimeSpan.Zero;
+                SingleVideoPreviewTotalLength = TimeSpan.Zero;
+            }
+        }
+
+        string _singleVideoPreviewFileName = "";
+        public string SingleVideoPreviewFileName {
+            get => _singleVideoPreviewFileName;
+            set => Set(ref _singleVideoPreviewFileName, value);
+        }
+
+        TimeSpan _singleVideoPreviewPosition = TimeSpan.Zero;
+        public TimeSpan SingleVideoPreviewPosition {
+            get => _singleVideoPreviewPosition;
+            set {
+                _singleVideoPreviewPosition = value;
+                SingleVideoPreviewPositionText = value.ToString(@"hh\:mm\:ss");
+            }
+        }
+
+        string _singleVideoPreviewPositionText = "00:00:00";
+        public string SingleVideoPreviewPositionText {
+            get => _singleVideoPreviewPositionText;
+            set => Set(ref _singleVideoPreviewPositionText, value);
         }
 
         bool _singleVideoPreviewIsLoading = false;
@@ -254,10 +282,19 @@ namespace UI.ViewModel {
             set => Set(ref _singleVideoPreviewIsLoading, value);
         }
 
-        string _singleVideoTotalLengthText = "00:00:00";
-        public string SingleVideoTotalLengthText {
-            get => _singleVideoTotalLengthText;
-            set => Set(ref _singleVideoTotalLengthText, value);
+        TimeSpan _singleVideoPreviewTotalLength = TimeSpan.Zero;
+        public TimeSpan SingleVideoPreviewTotalLength {
+            get => _singleVideoPreviewTotalLength;
+            set {
+                _singleVideoPreviewTotalLength = value;
+                SingleVideoPreviewTotalLengthText = value.ToString(@"hh\:mm\:ss");
+            }
+        }
+
+        string _singleVideoPreviewTotalLengthText = "00:00:00";
+        public string SingleVideoPreviewTotalLengthText {
+            get => _singleVideoPreviewTotalLengthText;
+            set => Set(ref _singleVideoPreviewTotalLengthText, value);
         }
 
         TimeSpan _videoCurrentPosition = TimeSpan.Zero;
