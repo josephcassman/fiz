@@ -23,6 +23,7 @@ namespace UI {
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
+            singleVideoPreview.MediaOpened += (_, _) => vm.VideoTotalTime = singleVideoPreview.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -187,7 +188,6 @@ namespace UI {
 
             singleVideoFileName.Text = "";
             singleVideoPreviewPosition.Text = "00:00";
-            singleVideoTotalLength.Text = "";
             Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
             WindowManager.LetUIUpdate();
 
@@ -204,7 +204,6 @@ namespace UI {
                 try {
                     var a = singleVideoPreview.NaturalDuration.TimeSpan;
                     vm.SingleVideo.TotalLength = a;
-                    singleVideoTotalLength.Text = a.ToString(@"hh\:mm\:ss");
                 }
                 catch { }
             };
