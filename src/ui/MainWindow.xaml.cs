@@ -447,7 +447,7 @@ namespace UI {
             var a = SettingsStorage.SingleVideoPath;
             if (a != "") {
                 // Hide the drag-and-drop hint text
-                vm.SingleVideo = new() { Name = " ", };
+                vm.SingleVideo = new() { Name = " " };
                 setSingleVideo(a);
             }
         }
