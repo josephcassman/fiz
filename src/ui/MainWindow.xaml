@@ -167,6 +167,7 @@
             <Canvas Background="White">
 
                 <Border Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
+                        Panel.ZIndex="2"
                         Canvas.Top="10"
                         Canvas.Left="10">
                     <Button Style="{StaticResource MenuIconButton}"
@@ -178,6 +179,7 @@
                 </Border>
 
                 <Border Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
+                        Panel.ZIndex="2"
                         Canvas.Top="10"
                         Canvas.Left="56"
                         MouseLeftButtonDown="Minify_MouseLeftButtonDown">
@@ -190,6 +192,7 @@
                 </Border>
 
                 <Border Visibility="{Binding Path=Minified, Converter={StaticResource visibleWhenTrue}}"
+                        Panel.ZIndex="2"
                         Canvas.Top="10"
                         Canvas.Left="56"
                         MouseLeftButtonDown="Maxify_MouseLeftButtonDown">
@@ -202,7 +205,8 @@
                 </Border>
 
                 <Border Canvas.Top="16"
-                        Canvas.Right="55">
+                        Canvas.Right="55"
+                        Panel.ZIndex="2">
                     <Button Style="{StaticResource MenuIconButton}"
                             FontSize="17"
                             Margin="0"
@@ -210,8 +214,10 @@
                         &#xE921;
                     </Button>
                 </Border>
+
                 <Border Canvas.Top="10"
-                        Canvas.Right="10">
+                        Canvas.Right="10"
+                        Panel.ZIndex="2">
                     <Button Style="{StaticResource MenuIconButton}"
                             FontSize="17"
                             Margin="0"
@@ -219,6 +225,116 @@
                         &#xE8BB;
                     </Button>
                 </Border>
+
+                <!--Minified video slider-->
+                <Grid Canvas.Top="10"
+                      Canvas.Left="100"
+                      Panel.ZIndex="1"
+                      Width="300"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center">
+                    <Grid.Visibility>
+                        <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
+                            <Binding Path="MediaDisplayed" />
+                            <Binding Path="VideoDisplayedOnMediaWindow" />
+                            <Binding Path="Minified" />
+                        </MultiBinding>
+                    </Grid.Visibility>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Slider Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Grid.Row="0"
+                            Width="300"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Value="{Binding Path=VideoCurrentPositionSeconds}"
+                            Minimum="0"
+                            Maximum="{Binding Path=VideoTotalTimeSeconds}"
+                            TickPlacement="None"
+                            Thumb.DragStarted="Slider_DragStarted"
+                            Thumb.DragCompleted="Slider_DragCompleted" />
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="Consolas"
+                               FontSize="17"
+                               Foreground="#2A2A2A"
+                               AllowDrop="True"
+                               Text="{Binding Path=VideoCurrentPositionText}" />
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="Consolas"
+                               FontSize="17"
+                               Foreground="#2A2A2A"
+                               AllowDrop="True"
+                               Text="{Binding Path=VideoTotalTimeText}" />
+                </Grid>
+
+                <!--Maxified video slider-->
+                <Grid Canvas.Bottom="80"
+                      Canvas.Left="30"
+                      Panel.ZIndex="1"
+                      Width="440"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center">
+                    <Grid.Visibility>
+                        <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
+                            <Binding Path="MediaDisplayed" />
+                            <Binding Path="VideoDisplayedOnMediaWindow" />
+                            <Binding Path="Minified" Converter="{StaticResource invert}" />
+                        </MultiBinding>
+                    </Grid.Visibility>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Slider Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Grid.Row="0"
+                            Width="440"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Value="{Binding Path=VideoCurrentPositionSeconds}"
+                            Minimum="0"
+                            Maximum="{Binding Path=VideoTotalTimeSeconds}"
+                            TickPlacement="None"
+                            Thumb.DragStarted="Slider_DragStarted"
+                            Thumb.DragCompleted="Slider_DragCompleted" />
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="Consolas"
+                               FontSize="17"
+                               Foreground="#2A2A2A"
+                               AllowDrop="True"
+                               Text="{Binding Path=VideoCurrentPositionText}" />
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="Consolas"
+                               FontSize="17"
+                               Foreground="#2A2A2A"
+                               AllowDrop="True"
+                               Text="{Binding Path=VideoTotalTimeText}" />
+                </Grid>
 
                 <!--Toolbar-->
                 <StackPanel Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
