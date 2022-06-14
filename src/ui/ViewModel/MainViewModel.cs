@@ -297,26 +297,26 @@ namespace UI.ViewModel {
             set => Set(ref _singleVideoPreviewTotalLengthText, value);
         }
 
-        TimeSpan _videoCurrentPosition = TimeSpan.Zero;
-        public TimeSpan VideoCurrentPosition {
-            get => _videoCurrentPosition;
+        TimeSpan _videoPosition = TimeSpan.Zero;
+        public TimeSpan VideoPosition {
+            get => _videoPosition;
             set {
-                _videoCurrentPosition = value;
-                VideoCurrentPositionText = value.ToString(@"hh\:mm\:ss");
-                VideoCurrentPositionSeconds = value.TotalSeconds;
+                _videoPosition = value;
+                VideoPositionText = value.ToString(@"hh\:mm\:ss");
+                VideoPositionSeconds = value.TotalSeconds;
             }
         }
 
-        double _videoCurrentPositionSeconds = 0;
-        public double VideoCurrentPositionSeconds {
-            get => _videoCurrentPositionSeconds;
-            set => Set(ref _videoCurrentPositionSeconds, value);
+        double _videoPositionSeconds = 0;
+        public double VideoPositionSeconds {
+            get => _videoPositionSeconds;
+            set => Set(ref _videoPositionSeconds, value);
         }
 
-        string _videoCurrentPositionText = "00:00:00";
-        public string VideoCurrentPositionText {
-            get => _videoCurrentPositionText;
-            set => Set(ref _videoCurrentPositionText, value);
+        string _videoPositionText = "00:00:00";
+        public string VideoPositionText {
+            get => _videoPositionText;
+            set => Set(ref _videoPositionText, value);
         }
 
         bool _videoDisplayedOnMediaWindow = false;
@@ -365,7 +365,7 @@ namespace UI.ViewModel {
         public void StopTimer () { updateVideoPositionTimer.Stop(); }
 
         public void UpdateVideoPosition (TimeSpan a) {
-            VideoCurrentPosition = a;
+            VideoPosition = a;
             SetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
         }
 

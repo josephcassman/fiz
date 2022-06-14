@@ -317,7 +317,7 @@
                             Grid.Row="0"
                             Width="300"
                             Style="{StaticResource VideoSliderStyle}"
-                            Value="{Binding Path=VideoCurrentPositionSeconds}"
+                            Value="{Binding Path=VideoPositionSeconds}"
                             Maximum="{Binding Path=VideoTotalLengthSeconds}"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
@@ -330,7 +330,7 @@
                                FontSize="17"
                                Foreground="#2A2A2A"
                                AllowDrop="True"
-                               Text="{Binding Path=VideoCurrentPositionText}" />
+                               Text="{Binding Path=VideoPositionText}" />
                     <TextBlock Grid.Column="2"
                                Grid.Row="1"
                                VerticalAlignment="Center"
@@ -370,7 +370,7 @@
                             Grid.Row="0"
                             Width="440"
                             Style="{StaticResource VideoSliderStyle}"
-                            Value="{Binding Path=VideoCurrentPositionSeconds}"
+                            Value="{Binding Path=VideoPositionSeconds}"
                             Maximum="{Binding Path=VideoTotalLengthSeconds}"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
@@ -383,7 +383,7 @@
                                FontSize="17"
                                Foreground="#2A2A2A"
                                AllowDrop="True"
-                               Text="{Binding Path=VideoCurrentPositionText}" />
+                               Text="{Binding Path=VideoPositionText}" />
                     <TextBlock Grid.Column="2"
                                Grid.Row="1"
                                VerticalAlignment="Center"
