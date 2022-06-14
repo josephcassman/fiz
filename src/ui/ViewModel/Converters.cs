@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace UI.ViewModel {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class BoolToCollapsedConverter : IValueConverter {
+    public sealed class BoolToCollapsedConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return a ? Visibility.Collapsed : Visibility.Visible;
@@ -18,7 +18,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(double))]
-    public class BoolToOpaqueConverter : IValueConverter {
+    public sealed class BoolToOpaqueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return a ? 0.5 : 1.0;
@@ -30,7 +30,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class BoolToVisibleConverter : IValueConverter {
+    public sealed class BoolToVisibleConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return a ? Visibility.Visible: Visibility.Collapsed;
@@ -42,7 +42,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(bool))]
-    public class InvertConverter : IValueConverter {
+    public sealed class InvertConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return !a;
@@ -54,7 +54,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(double))]
-    public class MainContentHeightConverter : IValueConverter {
+    public sealed class MainContentHeightConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return a ? 0 : 530;
@@ -66,7 +66,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(MediaItem), typeof(Visibility))]
-    public class MediaItemToCollapsedWhenTrueConverter : IValueConverter {
+    public sealed class MediaItemToCollapsedWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
             return string.IsNullOrEmpty(a.Name) ? Visibility.Visible : Visibility.Collapsed;
@@ -78,7 +78,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(MediaItem), typeof(Visibility))]
-    public class MediaItemToVisibleWhenTrueConverter : IValueConverter {
+    public sealed class MediaItemToVisibleWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
             return string.IsNullOrEmpty(a.Name) ? Visibility.Collapsed : Visibility.Visible;
@@ -90,7 +90,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class MultiBoolToCollapsedConverter : IMultiValueConverter {
+    public sealed class MultiBoolToCollapsedConverter : IMultiValueConverter {
         public object Convert (object[] values, Type targetType, object parameter, CultureInfo culture) {
             return values.Where(value => value is bool).Any(value => (bool) value == false) ?
                 Visibility.Visible : Visibility.Collapsed;
@@ -102,7 +102,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(double))]
-    public class MultiBoolToVisibleConverter : IMultiValueConverter {
+    public sealed class MultiBoolToVisibleConverter : IMultiValueConverter {
         public object Convert (object[] values, Type targetType, object parameter, CultureInfo culture) {
             return values.Where(value => value is bool).Any(value => (bool) value == false) ?
                   Visibility.Collapsed : Visibility.Visible;
@@ -114,7 +114,7 @@ namespace UI.ViewModel {
     }
 
     [ValueConversion(typeof(bool), typeof(double))]
-    public class OpacityConverter : IValueConverter {
+    public sealed class OpacityConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             bool a = (bool) value;
             return a ? 0.15 : 1.0;
