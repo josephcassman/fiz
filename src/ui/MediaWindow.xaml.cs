@@ -59,14 +59,14 @@ namespace UI {
         }
 
         void playVideo () {
-            if (vm.InternetMode) return;
+            if (!vm.VideoDisplayedOnMediaWindow) return;
             video.Play();
             vm.StartTimer();
             vm.VideoPaused = false;
         }
 
         void pauseVideo () {
-            if (vm.InternetMode) return;
+            if (!vm.VideoDisplayedOnMediaWindow) return;
             vm.StopTimer();
             video.Pause();
             vm.VideoPaused = true;
