@@ -16,6 +16,22 @@ namespace UI {
             PreviewKeyDown += Window_PreviewKeyDown;
             SizeChanged += Window_SizeChanged;
             vm.SetMediaListMedia += (_, _) => { setMedia(); };
+
+            vm.GetVideoPositionEvent += (_, _) => {
+                var video = vm.MediaListMode ? mediaListVideo : singleVideo;
+                vm.VideoCurrentPosition = video.Position;
+            };
+
+            vm.SetVideoPositionEvent += (_, _) => {
+                var video = vm.MediaListMode ? mediaListVideo : singleVideo;
+                video.Position = vm.VideoCurrentPosition;
+            };
+
+            vm.PauseVideoEvent += (_, _) => pauseVideo();
+            vm.PlayVideoEvent += (_, _) => playVideo();
+
+            mediaListVideo.MediaOpened += (_, _) => vm.VideoTotalTime = mediaListVideo.NaturalDuration.TimeSpan;
+            singleVideo.MediaOpened += (_, _) => vm.VideoTotalTime = singleVideo.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -55,11 +71,13 @@ namespace UI {
             if (vm.InternetMode) return;
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Play();
+            vm.StartTimer();
             vm.VideoPaused = false;
         }
 
         void pauseVideo () {
             if (vm.InternetMode) return;
+            vm.StopTimer();
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             vm.VideoPaused = true;
@@ -78,12 +96,14 @@ namespace UI {
                 if (vm.CurrentMediaItem.IsPicture)
                     mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Media;
                 else if (vm.CurrentMediaItem.IsVideo) {
+                    mediaListVideo.Close();
                     mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Media;
                     playVideo();
                 }
                 else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Media;
             }
             else {
+                singleVideo.Close();
                 singleVideo.Source = vm.SingleVideo.Media;
                 singleVideo.Position = vm.SingleVideo.Skip;
                 playVideo();
@@ -103,6 +123,7 @@ namespace UI {
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             video.Position = video.Position.Subtract(new TimeSpan(0, 0, 10));
+            vm.VideoCurrentPosition = video.Position;
             video.Play();
             fadeOutNavigation();
         }
@@ -113,6 +134,7 @@ namespace UI {
             var video = vm.MediaListMode ? mediaListVideo : singleVideo;
             video.Pause();
             video.Position = video.Position.Add(new TimeSpan(0, 0, 30));
+            vm.VideoCurrentPosition = video.Position;
             video.Play();
             fadeOutNavigation();
         }

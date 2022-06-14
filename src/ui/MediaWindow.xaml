@@ -80,6 +80,7 @@
                           VerticalAlignment="Center"
                           LoadedBehavior="Manual"
                           Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
+                          ScrubbingEnabled="True"
                           Name="mediaListVideo" />
             <wv2:WebView2 Canvas.Top="0"
                           Canvas.Left="0"
@@ -98,6 +99,7 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       LoadedBehavior="Manual"
+                      ScrubbingEnabled="True"
                       Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
                       Name="singleVideo" />
 

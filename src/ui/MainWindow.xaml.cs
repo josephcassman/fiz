@@ -369,6 +369,23 @@ namespace UI {
         void Stop_Click (object sender, RoutedEventArgs e) { closeMedia(); }
         void Stop_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { closeMedia(); }
 
+        bool videoPlayingBeforeSliderDragEvent = false;
+
+        void Slider_DragStarted (object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e) {
+            videoPlayingBeforeSliderDragEvent = !vm.VideoPaused;
+            vm.StopTimer();
+            vm.PauseVideo();
+        }
+
+        void Slider_DragCompleted (object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e) {
+            TimeSpan a = new(0, 0, (int) ((Slider) e.Source).Value);
+            vm.UpdateVideoPosition(a);
+            if (videoPlayingBeforeSliderDragEvent) {
+                vm.PlayVideo();
+                vm.StartTimer();
+            }
+        }
+
         // Manage window
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
