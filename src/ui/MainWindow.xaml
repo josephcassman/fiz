@@ -503,6 +503,8 @@
                             <Binding Path="MediaDisplayed" />
                         </MultiBinding>
                     </StackPanel.Visibility>
+
+                    <!--Media list main content-->
                     <StackPanel AllowDrop="True">
                         <StackPanel.Visibility>
                             <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
@@ -554,6 +556,7 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <!--Single video main content-->
                     <Grid Visibility="{Binding Path=SingleVideoMode, Converter={StaticResource visibleWhenTrue}}"
                           AllowDrop="True">
                         <Grid.RowDefinitions>
@@ -703,6 +706,7 @@
                         </Grid>
                     </Grid>
 
+                    <!--Internet mode main content-->
                     <Grid Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}"
                           Height="450">
                         <Grid.ColumnDefinitions>
