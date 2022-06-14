@@ -22,7 +22,10 @@ namespace UI {
             vm.PauseVideoEvent += (_, _) => pauseVideo();
             vm.PlayVideoEvent += (_, _) => playVideo();
 
-            video.MediaOpened += (_, _) => vm.VideoTotalLength = video.NaturalDuration.TimeSpan;
+            video.MediaOpened += (_, _) => {
+                vm.VideoTotalLength = video.NaturalDuration.TimeSpan;
+                video.Position = vm.VideoPosition;
+            };
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -61,24 +64,23 @@ namespace UI {
         void playVideo () {
             if (!vm.VideoDisplayedOnMediaWindow) return;
             video.Play();
-            vm.StartTimer();
             vm.VideoPaused = false;
         }
 
         void pauseVideo () {
             if (!vm.VideoDisplayedOnMediaWindow) return;
-            vm.StopTimer();
             video.Pause();
             vm.VideoPaused = true;
         }
 
         void setMedia () {
+            vm.StopTimer();
+            try { video.Stop(); } catch { }
+            vm.VideoPaused = true;
             if (vm.InternetMode) {
                 try { web.Source = vm.WebpageUrl; } catch { }
                 return;
             }
-            try { video.Stop(); } catch { }
-            vm.VideoPaused = true;
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem.IsPicture)
                     picture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
@@ -86,14 +88,19 @@ namespace UI {
                     video.Close();
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
                     playVideo();
+                    vm.StartTimer();
                 }
                 else web.Source = ((PdfItem) vm.CurrentMediaItem).Source;
             }
             else {
                 video.Close();
+                video.Volume = 0;
                 video.Source = vm.SingleVideo.Source;
                 video.Position = vm.VideoPosition;
-                playVideo();
+                video.Pause();
+                video.Play();
+                video.Volume = 1;
+                vm.StartTimer();
             }
         }
 

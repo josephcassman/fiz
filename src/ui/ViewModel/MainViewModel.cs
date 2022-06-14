@@ -60,9 +60,8 @@ namespace UI.ViewModel {
                 MainWindowMode = MainWindowMode.SingleVideo;
             else MainWindowMode = MainWindowMode.MediaList;
 
-            updateVideoPositionTimer.Tick += (_, _) => {
-                GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
-            };
+            updateVideoPositionTimer.Tick += (_, _) => GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
+            updateVideoPositionTimer.Start();
         }
 
         public static readonly HashSet<string> PictureExtensions = new() {
@@ -194,7 +193,7 @@ namespace UI.ViewModel {
 
         // Media window state
 
-        readonly DispatcherTimer updateVideoPositionTimer = new() { Interval = TimeSpan.FromSeconds(0.1) };
+        readonly DispatcherTimer updateVideoPositionTimer = new() { Interval = TimeSpan.FromSeconds(0.5) };
 
         public event EventHandler? GetVideoPositionEvent;
         public event EventHandler? SetVideoPositionEvent;
