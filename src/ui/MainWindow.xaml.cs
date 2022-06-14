@@ -73,15 +73,16 @@ namespace UI {
         void initializeSliderVideoPreview () {
             try { sliderMinifiedPositionChangePreview.Stop(); } catch { }
             try { sliderMaxifiedPositionChangePreview.Stop(); } catch { }
-            if (vm.CurrentMediaItem is VideoItem a) {
-                if (vm.Minified) {
-                    sliderMinifiedPositionChangePreview.Source = a.Source;
-                    sliderMinifiedPositionChangePreview.Pause();
-                }
-                else {
-                    sliderMaxifiedPositionChangePreview.Source = a.Source;
-                    sliderMaxifiedPositionChangePreview.Pause();
-                }
+            if (vm.InternetMode) return;
+            if (vm.MediaListMode && vm.CurrentMediaItem is not VideoItem) return;
+            var source = vm.SingleVideoMode ? vm.SingleVideo.Source : ((VideoItem) vm.CurrentMediaItem).Source;
+            if (vm.Minified) {
+                sliderMinifiedPositionChangePreview.Source = source;
+                sliderMinifiedPositionChangePreview.Pause();
+            }
+            else {
+                sliderMaxifiedPositionChangePreview.Source = source;
+                sliderMaxifiedPositionChangePreview.Pause();
             }
         }
 
@@ -103,12 +104,14 @@ namespace UI {
             if (mediaList.Items.Count == 0) return;
             if (mediaList.Items.Count - 1 <= mediaList.SelectedIndex) return;
             ++mediaList.SelectedIndex;
+            initializeSliderVideoPreview();
         }
 
         void movePrevious () {
             if (mediaList.Items.Count == 0) return;
             if (mediaList.SelectedIndex == 0) return;
             --mediaList.SelectedIndex;
+            initializeSliderVideoPreview();
         }
 
         void navigateUrl () {
@@ -178,6 +181,7 @@ namespace UI {
             if (0 < paths.Length) {
                 mediaList.SelectedIndex = 0;
                 mediaList.Focus();
+                initializeSliderVideoPreview();
             }
         }
 
@@ -190,6 +194,7 @@ namespace UI {
             if (vm.MediaItems.Count <= i)
                 i = vm.MediaItems.Count - 1;
             mediaList.SelectedIndex = i;
+            initializeSliderVideoPreview();
         }
 
         void setSingleVideo (string path) {
@@ -219,6 +224,8 @@ namespace UI {
             vm.SingleVideoPreviewIsLoading = false;
             Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
             WindowManager.LetUIUpdate();
+
+            initializeSliderVideoPreview();
         }
 
         void shiftDown () {
@@ -274,6 +281,7 @@ namespace UI {
                 vm.VideoPaused = true;
             });
             vm.MediaDisplayed = true;
+            initializeSliderVideoPreview();
         }
 
         void showWebpage () {
@@ -284,6 +292,7 @@ namespace UI {
                 web.Source = vm.WebpageUrl;
             });
             vm.MediaDisplayed = true;
+            initializeSliderVideoPreview();
         }
 
         void skipBackwardSingleVideoPreview (int seconds) {
