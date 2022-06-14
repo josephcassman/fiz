@@ -391,7 +391,7 @@
                 </StackPanel>
 
                 <!--Main content-->
-                <StackPanel Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource opacity}}"    Background="Magenta"
+                <StackPanel Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource opacity}}"
                             IsEnabled="{Binding Path=MediaDisplayed, Converter={StaticResource invert}}"
                             Canvas.Top="100"
                             Canvas.Left="0"
