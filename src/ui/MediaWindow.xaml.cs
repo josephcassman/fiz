@@ -17,8 +17,8 @@ namespace UI {
             SizeChanged += Window_SizeChanged;
             vm.SetMediaListMedia += (_, _) => { setMedia(); };
 
-            vm.GetVideoPositionEvent += (_, _) => vm.VideoCurrentPosition = video.Position;
-            vm.SetVideoPositionEvent += (_, _) => video.Position = vm.VideoCurrentPosition;
+            vm.GetVideoPositionEvent += (_, _) => vm.VideoPosition = video.Position;
+            vm.SetVideoPositionEvent += (_, _) => video.Position = vm.VideoPosition;
             vm.PauseVideoEvent += (_, _) => pauseVideo();
             vm.PlayVideoEvent += (_, _) => playVideo();
 
@@ -109,7 +109,7 @@ namespace UI {
             if (vm.InternetMode) return;
             video.Pause();
             video.Position = video.Position.Subtract(new TimeSpan(0, 0, 10));
-            vm.VideoCurrentPosition = video.Position;
+            vm.VideoPosition = video.Position;
             video.Play();
             fadeOutNavigation();
         }
@@ -119,7 +119,7 @@ namespace UI {
             if (vm.InternetMode) return;
             video.Pause();
             video.Position = video.Position.Add(new TimeSpan(0, 0, 30));
-            vm.VideoCurrentPosition = video.Position;
+            vm.VideoPosition = video.Position;
             video.Play();
             fadeOutNavigation();
         }
