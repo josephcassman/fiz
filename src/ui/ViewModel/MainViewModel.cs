@@ -31,24 +31,23 @@ namespace UI.ViewModel {
                     if (PictureExtensions.Contains(extension)) {
                         var bmp = new BitmapImage(uri);
                         AddMediaItem(new PictureItem {
-                            Name = name,
-                            Path = path,
-                            Preview = bmp,
-                            Media = bmp,
+                            FileName = name,
+                            FilePath = path,
+                            Source = bmp,
                         });
                     }
                     else if (VideoExtensions.Contains(extension)) {
                         AddMediaItem(new VideoItem {
-                            Name = name,
-                            Path = path,
-                            Media = uri,
+                            FileName = name,
+                            FilePath = path,
+                            Source = uri,
                         });
                     }
                     else if (extension == ".pdf") {
                         AddMediaItem(new PdfItem {
-                            Name = name,
-                            Path = path,
-                            Media = uri,
+                            FileName = name,
+                            FilePath = path,
+                            Source = uri,
                         });
                     }
                     else SettingsStorage.DeleteMediaListPath(path);
@@ -114,8 +113,8 @@ namespace UI.ViewModel {
         public void BackupMediaItems () {
             SettingsStorage.ClearMediaListPaths();
             foreach (MediaItem a in MediaItems)
-                SettingsStorage.SaveMediaListPath(a.Path);
-            SettingsStorage.SingleVideoPath = SingleVideo.Path;
+                SettingsStorage.SaveMediaListPath(a.FilePath);
+            SettingsStorage.SingleVideoPath = SingleVideo.FilePath;
         }
 
         public void RemoveMediaItem (int i) {

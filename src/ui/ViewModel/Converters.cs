@@ -69,7 +69,7 @@ namespace UI.ViewModel {
     public sealed class MediaItemToCollapsedWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
-            return string.IsNullOrEmpty(a.Name) ? Visibility.Visible : Visibility.Collapsed;
+            return string.IsNullOrEmpty(a.FileName) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -81,7 +81,7 @@ namespace UI.ViewModel {
     public sealed class MediaItemToVisibleWhenTrueConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
             var a = (MediaItem) value;
-            return string.IsNullOrEmpty(a.Name) ? Visibility.Collapsed : Visibility.Visible;
+            return string.IsNullOrEmpty(a.FileName) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {

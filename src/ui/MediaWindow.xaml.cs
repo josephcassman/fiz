@@ -94,18 +94,18 @@ namespace UI {
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem.IsPicture)
-                    mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Media;
+                    mediaListPicture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
                 else if (vm.CurrentMediaItem.IsVideo) {
                     mediaListVideo.Close();
-                    mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Media;
+                    mediaListVideo.Source = ((VideoItem) vm.CurrentMediaItem).Source;
                     playVideo();
                 }
-                else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Media;
+                else mediaListWeb.Source = ((PdfItem) vm.CurrentMediaItem).Source;
             }
             else {
                 singleVideo.Close();
-                singleVideo.Source = vm.SingleVideo.Media;
-                singleVideo.Position = vm.SingleVideo.Skip;
+                singleVideo.Source = vm.SingleVideo.Source;
+                singleVideo.Position = vm.SingleVideo.Position;
                 playVideo();
             }
         }
