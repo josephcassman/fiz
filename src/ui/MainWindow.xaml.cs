@@ -372,18 +372,26 @@ namespace UI {
         bool videoPlayingBeforeSliderDragEvent = false;
 
         void Slider_DragStarted (object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e) {
+            vm.SetVideoPositionSliderActive = true;
             videoPlayingBeforeSliderDragEvent = !vm.VideoPaused;
             vm.StopTimer();
             vm.PauseVideo();
         }
 
         void Slider_DragCompleted (object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e) {
+            vm.SetVideoPositionSliderActive = false;
             TimeSpan a = new(0, 0, (int) ((Slider) e.Source).Value);
             vm.UpdateVideoPosition(a);
             if (videoPlayingBeforeSliderDragEvent) {
                 vm.PlayVideo();
                 vm.StartTimer();
             }
+        }
+
+        void Slider_ValueChanged (object sender, RoutedPropertyChangedEventArgs<double> e) {
+            if (!vm.SetVideoPositionSliderActive) return;
+            TimeSpan a = new(0, 0, (int) ((Slider) e.Source).Value);
+            vm.SetVideoPositionSliderPreviewPositionText = a.ToString(@"hh\:mm\:ss");
         }
 
         // Manage window

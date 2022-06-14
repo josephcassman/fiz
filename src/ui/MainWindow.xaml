@@ -259,6 +259,7 @@
                             Minimum="0"
                             Maximum="{Binding Path=VideoTotalTimeSeconds}"
                             TickPlacement="None"
+                            ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
                     <TextBlock Grid.Column="0"
@@ -314,6 +315,7 @@
                             Minimum="0"
                             Maximum="{Binding Path=VideoTotalTimeSeconds}"
                             TickPlacement="None"
+                            ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
                     <TextBlock Grid.Column="0"
@@ -335,6 +337,45 @@
                                AllowDrop="True"
                                Text="{Binding Path=VideoTotalTimeText}" />
                 </Grid>
+
+                <!--Minified video slider position indicator-->
+                <Border Canvas.Top="32"
+                        Canvas.Left="210"
+                        Panel.ZIndex="1"
+                        BorderThickness="3"
+                        BorderBrush="#555555"
+                        Background="WhiteSmoke"
+                        Opacity="0.8">
+                    <Border.Visibility>
+                        <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
+                            <Binding Path="Minified" />
+                            <Binding Path="SetVideoPositionSliderActive" />
+                        </MultiBinding>
+                    </Border.Visibility>
+                    <TextBlock Margin="2"
+                               FontSize="15"
+                               FontFamily="Consolas"
+                               Text="{Binding Path=SetVideoPositionSliderPreviewPositionText}" />
+                </Border>
+
+                <!--Maxified video slider position indicator-->
+                <Border Canvas.Bottom="130"
+                        Canvas.Right="40"
+                        Panel.ZIndex="1"
+                        BorderThickness="5"
+                        BorderBrush="#555555"
+                        Background="WhiteSmoke">
+                    <Border.Visibility>
+                        <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
+                            <Binding Path="Minified" Converter="{StaticResource invert}" />
+                            <Binding Path="SetVideoPositionSliderActive" />
+                        </MultiBinding>
+                    </Border.Visibility>
+                    <TextBlock Margin="15"
+                               FontSize="28"
+                               FontFamily="Consolas"
+                               Text="{Binding Path=SetVideoPositionSliderPreviewPositionText}" />
+                </Border>
 
                 <!--Toolbar-->
                 <StackPanel Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
