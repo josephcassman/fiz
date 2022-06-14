@@ -111,7 +111,8 @@
                     Opacity="0.8"
                     Name="navigationTopBackground" />
 
-        <Border Canvas.Left="10"
+        <Border Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
+                Canvas.Left="10"
                 Canvas.Bottom="10"
                 Panel.ZIndex="2"
                 CornerRadius="4"
@@ -121,8 +122,7 @@
                 BorderThickness="1"
                 BorderBrush="#202020"
                 Opacity="0.8"
-                Name="navigationBottomBackground"
-                Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}">
+                Name="navigationBottomBackground">
             <StackPanel VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Background="#202020"
