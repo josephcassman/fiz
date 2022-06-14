@@ -23,7 +23,6 @@ namespace UI {
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
-            singleVideoPreview.MediaOpened += (_, _) => vm.VideoTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -199,13 +198,7 @@ namespace UI {
             singleVideoPreview.Source = uri;
             singleVideoPreview.Position = TimeSpan.Zero;
 
-            singleVideoPreview.MediaOpened += (_, _) => {
-                try {
-                    var a = singleVideoPreview.NaturalDuration.TimeSpan;
-                    vm.SingleVideo.TotalLength = a;
-                }
-                catch { }
-            };
+            singleVideoPreview.MediaOpened += (_, _) => vm.SingleVideoTotalLengthText = singleVideoPreview.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss");
 
             System.Threading.Thread.Sleep(1000);
 
