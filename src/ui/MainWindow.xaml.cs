@@ -251,6 +251,7 @@ namespace UI {
         void showMediaListMedia () {
             if (vm.MediaItems.Count == 0 || mediaList.Items.Count == 0) return;
             if (mediaList.SelectedValue == null) mediaList.SelectedIndex = 0;
+            vm.VideoCurrentPosition = TimeSpan.Zero;
             media = new();
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
