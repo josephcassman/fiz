@@ -249,13 +249,13 @@ namespace UI {
         void showSingleVideo () {
             if (string.IsNullOrEmpty(vm.SingleVideo.FileName)) return;
             vm.VideoPosition = vm.SingleVideoPreviewPosition;
+            vm.VideoDisplayedOnMediaWindow = true;
             media = new();
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
                 vm.VideoPaused = true;
             });
             vm.MediaDisplayed = true;
-            vm.VideoDisplayedOnMediaWindow = true;
         }
 
         void showWebpage () {
