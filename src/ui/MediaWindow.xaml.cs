@@ -22,7 +22,7 @@ namespace UI {
             vm.PauseVideoEvent += (_, _) => pauseVideo();
             vm.PlayVideoEvent += (_, _) => playVideo();
 
-            video.MediaOpened += (_, _) => vm.VideoTotalTime = video.NaturalDuration.TimeSpan;
+            video.MediaOpened += (_, _) => vm.VideoTotalLength = video.NaturalDuration.TimeSpan;
         }
 
         public MainViewModel vm => App.ViewModel;

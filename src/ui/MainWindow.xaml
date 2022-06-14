@@ -318,7 +318,7 @@
                             Width="300"
                             Style="{StaticResource VideoSliderStyle}"
                             Value="{Binding Path=VideoCurrentPositionSeconds}"
-                            Maximum="{Binding Path=VideoTotalTimeSeconds}"
+                            Maximum="{Binding Path=VideoTotalLengthSeconds}"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
@@ -339,7 +339,7 @@
                                FontSize="17"
                                Foreground="#2A2A2A"
                                AllowDrop="True"
-                               Text="{Binding Path=VideoTotalTimeText}" />
+                               Text="{Binding Path=VideoTotalLengthText}" />
                 </Grid>
 
                 <!--Maxified video slider-->
@@ -371,7 +371,7 @@
                             Width="440"
                             Style="{StaticResource VideoSliderStyle}"
                             Value="{Binding Path=VideoCurrentPositionSeconds}"
-                            Maximum="{Binding Path=VideoTotalTimeSeconds}"
+                            Maximum="{Binding Path=VideoTotalLengthSeconds}"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
@@ -392,7 +392,7 @@
                                FontSize="17"
                                Foreground="#2A2A2A"
                                AllowDrop="True"
-                               Text="{Binding Path=VideoTotalTimeText}" />
+                               Text="{Binding Path=VideoTotalLengthText}" />
                 </Grid>
 
                 <!--Minified video slider position indicator-->
@@ -634,7 +634,7 @@
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Margin="0,0,50,0"
-                                   Text="{Binding Path=VideoTotalTimeText}" />
+                                   Text="{Binding Path=VideoTotalLengthText}" />
                         <Grid Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}"
                               Grid.Row="3"
                               Height="80"
