@@ -77,7 +77,6 @@ namespace UI {
                 try { web.Source = vm.WebpageUrl; } catch { }
                 return;
             }
-
             try { video.Stop(); } catch { }
             vm.VideoPaused = true;
             if (vm.MediaListMode) {
