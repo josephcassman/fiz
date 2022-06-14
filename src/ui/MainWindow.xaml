@@ -733,7 +733,7 @@
                         </Button>
                     </Border>
 
-                    <Grid Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource collapsedWhenTrue}}"
+                    <Grid Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
