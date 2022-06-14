@@ -26,8 +26,6 @@ namespace UI.ViewModel {
 
     public sealed class VideoItem : MediaItem {
         public Uri Source { get; set; } = new("about:blank");
-        public TimeSpan Position { get; set; } = TimeSpan.Zero;
-        public TimeSpan TotalLength { get; set; } = TimeSpan.Zero;
         public override bool IsPdf => false;
         public override bool IsPicture => false;
         public override bool IsVideo => true;
