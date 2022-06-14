@@ -21,7 +21,6 @@
         Name="window">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
-        <vm:BoolToOpaqueConverter x:Key="boolToOpaque" />
         <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
         <vm:InvertConverter x:Key="invert" />
         <vm:MainContentHeightConverter x:Key="mainContentHeight" />
