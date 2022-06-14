@@ -28,7 +28,7 @@
         <vm:MediaItemToVisibleWhenTrueConverter x:Key="mediaItemVisibleWhenTrue" />
         <vm:MultiBoolToCollapsedConverter x:Key="multiCollapsedWhenTrue" />
         <vm:MultiBoolToVisibleConverter x:Key="multiVisibleWhenTrue" />
-        <vm:OpacityConverter x:Key="opacity" />
+        <vm:BoolToNotActiveOpacityConverter x:Key="boolToNotActiveOpacity" />
         <Style x:Key="TabButton" TargetType="Button">
             <Setter Property="Height" Value="50" />
             <Setter Property="Padding" Value="10" />
@@ -378,7 +378,7 @@
 
                 <!--Toolbar-->
                 <StackPanel Visibility="{Binding Path=Minified, Converter={StaticResource collapsedWhenTrue}}"
-                            Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource opacity}}"
+                            Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource boolToNotActiveOpacity}}"
                             IsEnabled="{Binding Path=MediaDisplayed, Converter={StaticResource invert}}"
                             Canvas.Top="40"
                             Canvas.Left="0"
@@ -431,7 +431,7 @@
                 </StackPanel>
 
                 <!--Main content-->
-                <StackPanel Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource opacity}}"
+                <StackPanel Opacity="{Binding Path=MediaDisplayed, Converter={StaticResource boolToNotActiveOpacity}}"
                             IsEnabled="{Binding Path=MediaDisplayed, Converter={StaticResource invert}}"
                             Canvas.Top="100"
                             Canvas.Left="0"
