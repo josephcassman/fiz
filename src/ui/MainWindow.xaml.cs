@@ -129,7 +129,7 @@ namespace UI {
             if (paths == null || paths.Length == 0) return;
             if (vm.InternetMode) return;
             if (vm.SingleVideoMode) {
-                if (paths[0] == vm.SingleVideo.Path) return;
+                if (paths[0] == vm.SingleVideo.FilePath) return;
                 setSingleVideo(paths[0]);
                 return;
             }
@@ -140,24 +140,23 @@ namespace UI {
                 if (MainViewModel.PictureExtensions.Contains(extension)) {
                     var bmp = new BitmapImage(uri);
                     vm.AddMediaItem(new PictureItem {
-                        Name = name,
-                        Path = path,
-                        Preview = bmp,
-                        Media = bmp,
+                        FileName = name,
+                        FilePath = path,
+                        Source = bmp,
                     });
                 }
                 else if (MainViewModel.VideoExtensions.Contains(extension)) {
                     vm.AddMediaItem(new VideoItem {
-                        Name = name,
-                        Path = path,
-                        Media = uri,
+                        FileName = name,
+                        FilePath = path,
+                        Source = uri,
                     });
                 }
                 else if (extension == ".pdf") {
                     vm.AddMediaItem(new PdfItem {
-                        Name = name,
-                        Path = path,
-                        Media = uri,
+                        FileName = name,
+                        FilePath = path,
+                        Source = uri,
                     });
                 }
             }
@@ -193,9 +192,9 @@ namespace UI {
 
             Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
-                Name = Path.GetFileName(path),
-                Path = path,
-                Media = uri,
+                FileName = Path.GetFileName(path),
+                FilePath = path,
+                Source = uri,
             };
             singleVideoPreview.Source = uri;
             singleVideoPreview.Position = TimeSpan.Zero;
@@ -210,7 +209,7 @@ namespace UI {
 
             System.Threading.Thread.Sleep(1000);
 
-            var a = HttpUtility.UrlDecode(vm.SingleVideo.Name);
+            var a = HttpUtility.UrlDecode(vm.SingleVideo.FileName);
             singleVideoFileName.Text = 25 < a.Length ? a[..25] + "\u2026" : a;
 
             vm.SingleVideoPreviewIsLoading = false;
@@ -261,7 +260,7 @@ namespace UI {
         }
 
         void showSingleVideo () {
-            if (string.IsNullOrEmpty(vm.SingleVideo.Name)) return;
+            if (string.IsNullOrEmpty(vm.SingleVideo.FileName)) return;
             media = new();
             WindowManager.ShowMediaWindow(media, vm, (s, e) => {
                 vm.MediaDisplayed = false;
@@ -284,7 +283,7 @@ namespace UI {
         void skipBackwardSingleVideoPreview (int seconds) {
             var a = singleVideoPreview.Position.Subtract(new TimeSpan(0, 0, seconds));
             if (a < TimeSpan.Zero) a = TimeSpan.Zero;
-            vm.SingleVideo.Skip = a;
+            vm.SingleVideo.Position = a;
             singleVideoPreview.Position = a;
             singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
         }
@@ -292,7 +291,7 @@ namespace UI {
         void skipForwardSingleVideoPreview (int seconds) {
             var a = singleVideoPreview.Position.Add(new TimeSpan(0, 0, seconds));
             if (vm.SingleVideo.TotalLength <= a) a = vm.SingleVideo.TotalLength;
-            vm.SingleVideo.Skip = a;
+            vm.SingleVideo.Position = a;
             singleVideoPreview.Position = a;
             singleVideoPreviewPosition.Text = a.ToString(@"mm\:ss");
         }
@@ -455,7 +454,7 @@ namespace UI {
             var a = SettingsStorage.SingleVideoPath;
             if (a != "") {
                 // Hide the drag-and-drop hint text
-                vm.SingleVideo = new() { Name = " " };
+                vm.SingleVideo = new() { FileName = " " };
                 setSingleVideo(a);
             }
         }

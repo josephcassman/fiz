@@ -40,7 +40,7 @@
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
                        Height="70"
-                       Source="{Binding Preview}"
+                       Source="{Binding Source}"
                        Visibility="{Binding Path=IsPicture, Converter={StaticResource visibleWhenTrue}}" />
                 <TextBlock Grid.Column="0"
                            FontFamily="Segoe MDL2 Assets"
@@ -62,7 +62,7 @@
                                TextWrapping="Wrap"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Text="{Binding Path=Name}" />
+                               Text="{Binding Path=FileName}" />
                 </Grid>
             </Grid>
         </DataTemplate>
