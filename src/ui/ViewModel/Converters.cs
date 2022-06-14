@@ -17,6 +17,18 @@ namespace UI.ViewModel {
         }
     }
 
+    [ValueConversion(typeof(bool), typeof(double))]
+    public sealed class BoolToNotActiveOpacityConverter : IValueConverter {
+        public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
+            bool a = (bool) value;
+            return a ? 0.08 : 1.0;
+        }
+
+        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
+            throw new NotImplementedException();
+        }
+    }
+
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class BoolToVisibleConverter : IValueConverter {
         public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
@@ -97,18 +109,6 @@ namespace UI.ViewModel {
         }
 
         public object[] ConvertBack (object value, Type[] targetType, object parameter, CultureInfo culture) {
-            throw new NotImplementedException();
-        }
-    }
-
-    [ValueConversion(typeof(bool), typeof(double))]
-    public sealed class OpacityConverter : IValueConverter {
-        public object Convert (object value, Type targetType, object parameter, CultureInfo culture) {
-            bool a = (bool) value;
-            return a ? 0.15 : 1.0;
-        }
-
-        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture) {
             throw new NotImplementedException();
         }
     }
