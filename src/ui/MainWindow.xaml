@@ -570,7 +570,7 @@
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Left"
                                    Margin="70,0,0,10"
-                                   Name="singleVideoFileName" />
+                                   Text="{Binding Path=SingleVideoPreviewFileName}" />
                         <StackPanel Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemCollapsedWhenTrue}}"
                                     Grid.Row="1">
                             <Border Visibility="{Binding Path=SingleVideoPreviewIsLoading, Converter={StaticResource collapsedWhenTrue}}"
@@ -637,7 +637,7 @@
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Margin="0,0,50,0"
-                                   Text="{Binding Path=SingleVideoTotalLengthText}" />
+                                   Text="{Binding Path=SingleVideoPreviewTotalLengthText}" />
                         <Grid Visibility="{Binding Path=SingleVideo, Converter={StaticResource mediaItemVisibleWhenTrue}}"
                               Grid.Row="3"
                               Height="80"
@@ -674,13 +674,12 @@
                                 </Button>
                             </Border>
                             <TextBlock Grid.Column="3"
-                                       FontSize="40"
+                                       FontSize="30"
                                        FontFamily="Consolas"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"
                                        Margin="0,0,0,2"
-                                       Text="00:00"
-                                       Name="singleVideoPreviewPosition" />
+                                       Text="{Binding Path=SingleVideoPreviewPositionText}" />
                             <Border Grid.Column="4"
                                     Style="{StaticResource IconButtonBorder}"
                                     MouseLeftButtonDown="SkipForwardShortSingleVideoPreview_MouseLeftButtonDown">
