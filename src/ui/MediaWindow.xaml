@@ -63,17 +63,16 @@
     </WindowChrome.WindowChrome>
     <Canvas MouseLeftButtonDown="Video_Click"
             MouseRightButtonDown="Video_Click">
-        <StackPanel Visibility="{Binding Path=MediaListMode, Converter={StaticResource visibleWhenTrue}}">
-            <Image Canvas.Top="0"
-                   Canvas.Left="0"
-                   Panel.ZIndex="1"
-                   Width="850"
-                   Height="450"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
-                   Name="mediaListPicture" />
-        </StackPanel>
+
+        <Image Visibility="{Binding Path=PictureDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
+               Canvas.Top="0"
+               Canvas.Left="0"
+               Panel.ZIndex="1"
+               Width="850"
+               Height="450"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Name="picture" />
 
         <MediaElement Visibility="{Binding Path=VideoDisplayedOnMediaWindow, Converter={StaticResource visibleWhenTrue}}"
                       Canvas.Top="0"
