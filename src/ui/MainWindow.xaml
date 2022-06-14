@@ -142,6 +142,70 @@
                 </Grid>
             </Grid>
         </DataTemplate>
+        <Style x:Key="VideoSliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border BorderThickness="1"
+                                BorderBrush="#444444"
+                                Background="#444444"
+                                Height="3" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VideoSliderThumb" TargetType="Thumb">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border BorderThickness="3"
+                                BorderBrush="#444444"
+                                CornerRadius="12"
+                                Background="White">
+                            <Ellipse Height="17"
+                                     Width="17"
+                                     Fill="White" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="VideoSlider" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource VideoSliderRepeatButton}" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource VideoSliderThumb}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource VideoSliderRepeatButton}" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="VideoSliderStyle" TargetType="Slider">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Minimum" Value="0" />
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="TickPlacement" Value="None" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Template" Value="{StaticResource VideoSlider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0"
@@ -252,12 +316,9 @@
                             Grid.ColumnSpan="3"
                             Grid.Row="0"
                             Width="300"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
+                            Style="{StaticResource VideoSliderStyle}"
                             Value="{Binding Path=VideoCurrentPositionSeconds}"
-                            Minimum="0"
                             Maximum="{Binding Path=VideoTotalTimeSeconds}"
-                            TickPlacement="None"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
@@ -308,12 +369,9 @@
                             Grid.ColumnSpan="3"
                             Grid.Row="0"
                             Width="440"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
+                            Style="{StaticResource VideoSliderStyle}"
                             Value="{Binding Path=VideoCurrentPositionSeconds}"
-                            Minimum="0"
                             Maximum="{Binding Path=VideoTotalTimeSeconds}"
-                            TickPlacement="None"
                             ValueChanged="Slider_ValueChanged"
                             Thumb.DragStarted="Slider_DragStarted"
                             Thumb.DragCompleted="Slider_DragCompleted" />
@@ -338,7 +396,7 @@
                 </Grid>
 
                 <!--Minified video slider position indicator-->
-                <Border Canvas.Top="32"
+                <Border Canvas.Top="35"
                         Canvas.Left="210"
                         Panel.ZIndex="1"
                         BorderThickness="3"
