@@ -254,6 +254,12 @@ namespace UI.ViewModel {
             set => Set(ref _singleVideoPreviewIsLoading, value);
         }
 
+        string _singleVideoTotalLengthText = "00:00:00";
+        public string SingleVideoTotalLengthText {
+            get => _singleVideoTotalLengthText;
+            set => Set(ref _singleVideoTotalLengthText, value);
+        }
+
         TimeSpan _videoCurrentPosition = TimeSpan.Zero;
         public TimeSpan VideoCurrentPosition {
             get => _videoCurrentPosition;
