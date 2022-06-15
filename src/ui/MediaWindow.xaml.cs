@@ -191,7 +191,13 @@ namespace UI {
             web.Height = e.NewSize.Height;
             web.Width = e.NewSize.Width;
             navigationTopBackground.Width = e.NewSize.Width;
-            navigationBottomBackground.Width = e.NewSize.Width - 20;
+
+            // Work-around a crash which occurs when the media window is rendered on
+            // the secondary display but no secondary display actually exists.
+            // Assigning a negative value to Width is not allowed.
+            var a = e.NewSize.Width - 20;
+            navigationBottomBackground.Width = a < 0 ? 0 : a;
+
             navigation.Height = e.NewSize.Height;
             navigation.Width = e.NewSize.Width;
             fadeOutNavigation();
