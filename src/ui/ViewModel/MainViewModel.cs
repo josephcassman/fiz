@@ -22,10 +22,12 @@ namespace UI.ViewModel {
             StartLocationUpperLeft = SettingsStorage.StartLocationUpperLeft;
             StartLocationUpperRight = SettingsStorage.StartLocationUpperRight;
             StartLocationLowerRight = SettingsStorage.StartLocationLowerRight;
-            var a = SettingsStorage.MediaListPaths;
-            foreach (var path in a) {
+
+            var count = 0;
+            foreach (var path in SettingsStorage.MediaListPaths) {
                 if (!File.Exists(path)) SettingsStorage.DeleteMediaListPath(path);
                 else {
+                    count++;
                     var name = Path.GetFileName(path);
                     var extension = Path.GetExtension(path);
                     var uri = new Uri(path);
@@ -55,9 +57,15 @@ namespace UI.ViewModel {
                 }
             }
 
-            if (0 < a.Count) MainWindowMode = MainWindowMode.MediaList;
-            else if (!string.IsNullOrEmpty(SettingsStorage.SingleVideoPath))
-                MainWindowMode = MainWindowMode.SingleVideo;
+            var a = SettingsStorage.SingleVideoPath;
+            if (0 < count) MainWindowMode = MainWindowMode.MediaList;
+            else if (a != "") {
+                if (File.Exists(a)) MainWindowMode = MainWindowMode.SingleVideo;
+                else {
+                    SettingsStorage.SingleVideoPath = "";
+                    MainWindowMode = MainWindowMode.MediaList;
+                }
+            }
             else MainWindowMode = MainWindowMode.MediaList;
 
             updateVideoPositionTimer.Tick += (_, _) => GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
