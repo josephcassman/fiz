@@ -104,7 +104,7 @@ namespace UI.ViewModel {
 
         static SqliteConnection Connection {
             get {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fiz.db");
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
                 var cs = new SqliteConnectionStringBuilder() { DataSource = path }.ToString();
                 var r = new SqliteConnection(cs);
                 r.Open();
