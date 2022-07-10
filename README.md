@@ -1,7 +1,7 @@
 _Fiz_ is a simple media viewer for pdf, picture, and video files as well as web pages. Its main goal is to make it straightforward to share media during a video conference.
 
 ## REQUIREMENTS
-* .NET 6.0
+* [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 * Target OS version: 10.0.19041.0
 * Minimal OS version: 10.0.17763.0
 
