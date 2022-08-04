@@ -40,7 +40,7 @@ namespace UI {
         void addMediaUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog many = new() {
                 FileName = "",
-                Filter = "Pictures and Videos |*.jpg;*.jpeg;*.png;*.gif;*.mp4;*.wav;*.pdf",
+                Filter = "Pictures and Videos |*.bmp;*.gif;*.jpg;*.jpeg;*.ico;*.png;*.tif;*.tiff;*.avi;*.mov;*.mp4;*.mpe;*.mpeg;*.mpg;*.wmv;*.pdf",
                 Multiselect = true,
             };
             many.ShowDialog();
@@ -51,12 +51,12 @@ namespace UI {
         void addSingleVideoUsingFileDialog () {
             Microsoft.Win32.OpenFileDialog one = new() {
                 FileName = "",
-                Filter = "Video |*.mp4;*.wav",
+                Filter = "Video |*.avi;*.mov;*.mp4;*.mpe;*.mpeg;*.mpg;*.wmv",
                 Multiselect = false,
             };
             one.ShowDialog();
             if (string.IsNullOrEmpty(one.FileName)) return;
-            if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(one.FileName))) return;
+            if (MainViewModel.GetMediaType(one.FileName) != MediaType.Video) return;
             setSingleVideo(one.FileName);
         }
 
@@ -153,29 +153,31 @@ namespace UI {
             }
             foreach (var path in paths) {
                 var name = Path.GetFileName(path);
-                var extension = Path.GetExtension(path);
                 var uri = new Uri(path);
-                if (MainViewModel.PictureExtensions.Contains(extension)) {
-                    var bmp = new BitmapImage(uri);
-                    vm.AddMediaItem(new PictureItem {
-                        FileName = name,
-                        FilePath = path,
-                        Source = bmp,
-                    });
-                }
-                else if (MainViewModel.VideoExtensions.Contains(extension)) {
-                    vm.AddMediaItem(new VideoItem {
-                        FileName = name,
-                        FilePath = path,
-                        Source = uri,
-                    });
-                }
-                else if (extension == ".pdf") {
-                    vm.AddMediaItem(new PdfItem {
-                        FileName = name,
-                        FilePath = path,
-                        Source = uri,
-                    });
+                switch(MainViewModel.GetMediaType(path)) {
+                    case MediaType.Pdf:
+                        vm.AddMediaItem(new PdfItem {
+                            FileName = name,
+                            FilePath = path,
+                            Source = uri,
+                        });
+                        break;
+                    case MediaType.Picture:
+                        var bmp = new BitmapImage(uri);
+                        vm.AddMediaItem(new PictureItem {
+                            FileName = name,
+                            FilePath = path,
+                            Source = bmp,
+                        });
+                        break;
+                    case MediaType.Video:
+                        vm.AddMediaItem(new VideoItem {
+                            FileName = name,
+                            FilePath = path,
+                            Source = uri,
+                        });
+                        break;
+                    default: break;
                 }
             }
             if (0 < paths.Length) {
@@ -198,7 +200,7 @@ namespace UI {
         }
 
         void setSingleVideo (string path) {
-            if (!MainViewModel.VideoExtensions.Contains(Path.GetExtension(path))) return;
+            if (MainViewModel.GetMediaType(path) != MediaType.Video) return;
 
             vm.SingleVideoPreviewIsLoading = true;
             vm.SingleVideo = new();
