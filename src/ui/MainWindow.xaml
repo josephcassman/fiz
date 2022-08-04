@@ -1136,6 +1136,29 @@
                     </Border>
                 </Grid>
 
+                <!--No media files fount message-->
+                <Border Canvas.Bottom="70"
+                        Canvas.Left="5"
+                        Panel.ZIndex="4"
+                        Width="0"
+                        Height="0"
+                        CornerRadius="1"
+                        BorderThickness="2"
+                        BorderBrush="#202020"
+                        Background="#202020"
+                        Visibility="Collapsed"
+                        Name="noMediaFilesFoundMessage">
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Background="#202020">
+                        <TextBlock Foreground="WhiteSmoke"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="28"
+                                   Text="No media files found to import" />
+                    </StackPanel>
+                </Border>
+
             </Canvas>
         </Border>
     </Border>
