@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UI.ViewModel;
@@ -151,11 +153,13 @@ namespace UI {
                 setSingleVideo(paths[0]);
                 return;
             }
+            uint count = 0;
             foreach (var path in paths) {
                 var name = Path.GetFileName(path);
                 var uri = new Uri(path);
                 switch(MainViewModel.GetMediaType(path)) {
                     case MediaType.Pdf:
+                        ++count;
                         vm.AddMediaItem(new PdfItem {
                             FileName = name,
                             FilePath = path,
@@ -163,6 +167,7 @@ namespace UI {
                         });
                         break;
                     case MediaType.Picture:
+                        ++count;
                         var bmp = new BitmapImage(uri);
                         vm.AddMediaItem(new PictureItem {
                             FileName = name,
@@ -171,6 +176,7 @@ namespace UI {
                         });
                         break;
                     case MediaType.Video:
+                        ++count;
                         vm.AddMediaItem(new VideoItem {
                             FileName = name,
                             FilePath = path,
@@ -185,6 +191,8 @@ namespace UI {
                 mediaList.Focus();
                 initializeSliderVideoPreview();
             }
+            if (count == 0)
+                showNoMediaFilesFoundMessage();
         }
 
         void removeMediaItem () {
@@ -271,6 +279,61 @@ namespace UI {
             });
             vm.MediaDisplayed = true;
             initializeSliderVideoPreview();
+        }
+
+        void showNoMediaFilesFoundMessage () {
+            Storyboard showNoMediaFilesFoundMessage = new();
+
+            DoubleAnimation opacityIn = new() {
+                From = 0.0,
+                To = 0.8,
+                Duration = new(new TimeSpan(0, 0, 0, 0, 200)),
+                EasingFunction = new ExponentialEase(),
+            };
+            Storyboard.SetTargetProperty(opacityIn, new PropertyPath(OpacityProperty));
+            showNoMediaFilesFoundMessage.Children.Add(opacityIn);
+
+            DoubleAnimation growWidth = new() {
+                From = 0,
+                To = 490,
+                Duration = new(new TimeSpan(0, 0, 0, 0, 200)),
+                EasingFunction = new ExponentialEase(),
+            };
+            Storyboard.SetTargetProperty(growWidth, new PropertyPath(WidthProperty));
+            showNoMediaFilesFoundMessage.Children.Add(growWidth);
+
+            DoubleAnimation growHeight = new() {
+                From = 0,
+                To = 70,
+                Duration = new(new TimeSpan(0, 0, 0, 0, 200)),
+                EasingFunction = new ExponentialEase(),
+            };
+            Storyboard.SetTargetProperty(growHeight, new PropertyPath(HeightProperty));
+            showNoMediaFilesFoundMessage.Children.Add(growHeight);
+
+            showNoMediaFilesFoundMessage.Completed += (_, _) => {
+                Thread.Sleep(2000);
+                noMediaFilesFoundMessage.Dispatcher.BeginInvoke(new Action(() => {
+                    Storyboard hide = new();
+                    hide.Completed += (_, _) => {
+                        noMediaFilesFoundMessage.Visibility = Visibility.Collapsed;
+                    };
+
+                    DoubleAnimation fadeOut = new() {
+                        From = 0.8,
+                        To = 0.0,
+                        Duration = new(new TimeSpan(0, 0, 0, 0, 500)),
+                        EasingFunction = new ExponentialEase(),
+                    };
+                    Storyboard.SetTargetProperty(fadeOut, new PropertyPath(OpacityProperty));
+                    hide.Children.Add(fadeOut);
+
+                    hide.Begin(noMediaFilesFoundMessage);
+                }));
+            };
+
+            noMediaFilesFoundMessage.Visibility = Visibility.Visible;
+            showNoMediaFilesFoundMessage.Begin(noMediaFilesFoundMessage);
         }
 
         void showSingleVideo () {
