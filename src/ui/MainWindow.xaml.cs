@@ -74,7 +74,7 @@ namespace UI {
             try { sliderMinifiedPositionChangePreview.Stop(); } catch { }
             try { sliderMaxifiedPositionChangePreview.Stop(); } catch { }
             if (vm.InternetMode) return;
-            if (vm.MediaListMode && vm.CurrentMediaItem is not VideoItem) return;
+            if (vm.MediaListMode && (!vm.MediaListHasContents || vm.CurrentMediaItem is not VideoItem)) return;
             var source = vm.SingleVideoMode ? vm.SingleVideo.Source : ((VideoItem) vm.CurrentMediaItem).Source;
             if (vm.Minified) {
                 sliderMinifiedPositionChangePreview.Source = source;
