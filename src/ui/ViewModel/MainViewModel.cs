@@ -13,6 +13,13 @@ namespace UI.ViewModel {
         Internet,
     }
 
+    public enum MediaType {
+        Pdf,
+        Picture,
+        Video,
+        Unused,
+    }
+
     public sealed class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
@@ -31,29 +38,33 @@ namespace UI.ViewModel {
                     var name = Path.GetFileName(path);
                     var extension = Path.GetExtension(path);
                     var uri = new Uri(path);
-                    if (PictureExtensions.Contains(extension)) {
-                        var bmp = new BitmapImage(uri);
-                        AddMediaItem(new PictureItem {
-                            FileName = name,
-                            FilePath = path,
-                            Source = bmp,
-                        });
+                    switch (GetMediaType(path)) {
+                        case MediaType.Pdf:
+                            AddMediaItem(new PdfItem {
+                                FileName = name,
+                                FilePath = path,
+                                Source = uri,
+                            });
+                            break;
+                        case MediaType.Picture:
+                            var bmp = new BitmapImage(uri);
+                            AddMediaItem(new PictureItem {
+                                FileName = name,
+                                FilePath = path,
+                                Source = bmp,
+                            });
+                            break;
+                        case MediaType.Video:
+                            AddMediaItem(new VideoItem {
+                                FileName = name,
+                                FilePath = path,
+                                Source = uri,
+                            });
+                            break;
+                        default:
+                            SettingsStorage.DeleteMediaListPath(path);
+                            break;
                     }
-                    else if (VideoExtensions.Contains(extension)) {
-                        AddMediaItem(new VideoItem {
-                            FileName = name,
-                            FilePath = path,
-                            Source = uri,
-                        });
-                    }
-                    else if (extension == ".pdf") {
-                        AddMediaItem(new PdfItem {
-                            FileName = name,
-                            FilePath = path,
-                            Source = uri,
-                        });
-                    }
-                    else SettingsStorage.DeleteMediaListPath(path);
                 }
             }
 
@@ -72,17 +83,34 @@ namespace UI.ViewModel {
             updateVideoPositionTimer.Start();
         }
 
-        public static readonly HashSet<string> PictureExtensions = new() {
+        static readonly HashSet<string> PictureExtensions = new() {
+            ".bmp",
+            ".gif",
             ".jpg",
             ".jpeg",
+            ".ico",
             ".png",
-            ".gif",
+            ".tif",
+            ".tiff",
         };
 
-        public static readonly HashSet<string> VideoExtensions = new() {
+        static readonly HashSet<string> VideoExtensions = new() {
+            ".avi",
+            ".mov",
             ".mp4",
-            ".wav",
+            ".mpe",
+            ".mpeg",
+            ".mpg",
+            ".wmv",
         };
+
+        public static MediaType GetMediaType (string path) {
+            var extension = Path.GetExtension(path).ToLower();
+            return PictureExtensions.Contains(extension) ? MediaType.Picture :
+                   VideoExtensions.Contains(extension) ? MediaType.Video :
+                   extension == ".pdf" ? MediaType.Pdf :
+                   MediaType.Unused;
+        }
 
         public Uri WebpageUrl = new("about:blank");
 
