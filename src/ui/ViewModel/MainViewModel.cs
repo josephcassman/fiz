@@ -92,6 +92,7 @@ namespace UI.ViewModel {
             ".png",
             ".tif",
             ".tiff",
+            ".webp",
         };
 
         static readonly HashSet<string> VideoExtensions = new() {
