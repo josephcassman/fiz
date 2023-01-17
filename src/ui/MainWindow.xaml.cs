@@ -346,6 +346,7 @@ namespace UI {
                 vm.VideoPaused = true;
             });
             vm.MediaDisplayed = true;
+            vm.VideoPaused = false;
             initializeSliderVideoPreview();
         }
 
