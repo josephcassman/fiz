@@ -23,10 +23,8 @@ namespace UI.ViewModel {
         public MainViewModel() {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
-            StartLocationLowerLeft = SettingsStorage.StartLocationLowerLeft;
-            StartLocationUpperLeft = SettingsStorage.StartLocationUpperLeft;
-            StartLocationUpperRight = SettingsStorage.StartLocationUpperRight;
-            StartLocationLowerRight = SettingsStorage.StartLocationLowerRight;
+            StartLocationLeft = SettingsStorage.StartLocationLeft;
+            StartLocationTop = SettingsStorage.StartLocationTop;
 
             var count = 0;
             foreach (var path in SettingsStorage.MediaListPaths) {
@@ -387,39 +385,21 @@ namespace UI.ViewModel {
             }
         }
 
-        bool _startLocationLowerLeft = true;
-        public bool StartLocationLowerLeft {
-            get => _startLocationLowerLeft;
+        double _startLocationLeft = 0.0;
+        public double StartLocationLeft {
+            get => _startLocationLeft;
             set {
-                Set(ref _startLocationLowerLeft, value);
-                SettingsStorage.StartLocationLowerLeft = value;
+                Set(ref _startLocationLeft, value);
+                SettingsStorage.StartLocationLeft = value;
             }
         }
 
-        bool _startLocationLowerRight = false;
-        public bool StartLocationLowerRight {
-            get => _startLocationLowerRight;
+        double _startLocationTop = 0.0;
+        public double StartLocationTop {
+            get => _startLocationTop;
             set {
-                Set(ref _startLocationLowerRight, value);
-                SettingsStorage.StartLocationLowerRight = value;
-            }
-        }
-
-        bool _startLocationUpperLeft = false;
-        public bool StartLocationUpperLeft {
-            get => _startLocationUpperLeft;
-            set {
-                Set(ref _startLocationUpperLeft, value);
-                SettingsStorage.StartLocationUpperLeft = value;
-            }
-        }
-
-        bool _startLocationUpperRight = false;
-        public bool StartLocationUpperRight {
-            get => _startLocationUpperRight;
-            set {
-                Set(ref _startLocationUpperRight, value);
-                SettingsStorage.StartLocationUpperRight = value;
+                Set(ref _startLocationTop, value);
+                SettingsStorage.StartLocationTop = value;
             }
         }
     }
