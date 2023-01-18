@@ -84,20 +84,14 @@
                       ScrubbingEnabled="True"
                       Name="video" />
 
-        <wv2:WebView2 Canvas.Top="0"
+        <wv2:WebView2 Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}"
+                      Canvas.Top="0"
                       Canvas.Left="0"
                       Panel.ZIndex="1"
                       Height="450"
                       Width="850"
                       Source="about:blank"
-                      Name="web">
-            <wv2:WebView2.Visibility>
-                <MultiBinding Converter="{StaticResource disjunction}">
-                    <Binding Path="InternetMode" />
-                    <Binding Path="PdfDisplayedOnMediaWindow" />
-                </MultiBinding>
-            </wv2:WebView2.Visibility>
-        </wv2:WebView2>
+                      Name="web" />
 
         <StackPanel Canvas.Top="0"
                     Canvas.Left="0"
