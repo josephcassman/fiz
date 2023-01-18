@@ -23,7 +23,6 @@ namespace UI.ViewModel {
         public MainViewModel() {
             SettingsStorage.Initialize();
             ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
-            ShowMediaOnSecondMonitor = SettingsStorage.ShowMediaOnSecondMonitor;
             StartLocationLowerLeft = SettingsStorage.StartLocationLowerLeft;
             StartLocationUpperLeft = SettingsStorage.StartLocationUpperLeft;
             StartLocationUpperRight = SettingsStorage.StartLocationUpperRight;
@@ -385,15 +384,6 @@ namespace UI.ViewModel {
             set {
                 Set(ref _showMediaFullscreen, value);
                 SettingsStorage.ShowMediaFullscreen = value;
-            }
-        }
-
-        bool _showMediaOnSecondMonitor = true;
-        public bool ShowMediaOnSecondMonitor {
-            get => _showMediaOnSecondMonitor;
-            set {
-                Set(ref _showMediaOnSecondMonitor, value);
-                SettingsStorage.ShowMediaOnSecondMonitor = value;
             }
         }
 
