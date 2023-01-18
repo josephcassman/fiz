@@ -67,11 +67,6 @@ namespace UI.ViewModel {
             catch { }
         }
 
-        public static bool ShowMediaOnSecondMonitor {
-            get => readBool("ShowMediaOnSecondMonitor");
-            set { writeBool("ShowMediaOnSecondMonitor", value); }
-        }
-
         public static bool ShowMediaFullscreen {
             get => readBool("ShowMediaFullscreen");
             set { writeBool("ShowMediaFullscreen", value); }
