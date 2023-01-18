@@ -14,7 +14,6 @@ namespace UI.ViewModel {
     }
 
     public enum MediaType {
-        Pdf,
         Picture,
         Video,
         Unused,
@@ -39,13 +38,6 @@ namespace UI.ViewModel {
                     var extension = Path.GetExtension(path);
                     var uri = new Uri(path);
                     switch (GetMediaType(path)) {
-                        case MediaType.Pdf:
-                            AddMediaItem(new PdfItem {
-                                FileName = name,
-                                FilePath = path,
-                                Source = uri,
-                            });
-                            break;
                         case MediaType.Picture:
                             var bmp = new BitmapImage(uri);
                             AddMediaItem(new PictureItem {
@@ -109,7 +101,6 @@ namespace UI.ViewModel {
             var extension = Path.GetExtension(path).ToLower();
             return PictureExtensions.Contains(extension) ? MediaType.Picture :
                    VideoExtensions.Contains(extension) ? MediaType.Video :
-                   extension == ".pdf" ? MediaType.Pdf :
                    MediaType.Unused;
         }
 
@@ -134,7 +125,6 @@ namespace UI.ViewModel {
             set {
                 Set(ref _mediaItemsCurrentIndex, value);
 
-                PdfDisplayedOnMediaWindow = MediaItems[value].IsPdf;
                 PictureDisplayedOnMediaWindow = MediaItems[value].IsPicture;
                 VideoDisplayedOnMediaWindow = MediaItems[value].IsVideo;
 
@@ -243,27 +233,12 @@ namespace UI.ViewModel {
             set { Set(ref _mediaDisplayed, value); }
         }
 
-        bool _pdfDisplayedOnMediaWindow = false;
-        public bool PdfDisplayedOnMediaWindow {
-            get => _pdfDisplayedOnMediaWindow;
-            set {
-                Set(ref _pdfDisplayedOnMediaWindow, value);
-                if (value) {
-                    PictureDisplayedOnMediaWindow = false;
-                    VideoDisplayedOnMediaWindow = false;
-                }
-            }
-        }
-
         bool _pictureDisplayedOnMediaWindow = false;
         public bool PictureDisplayedOnMediaWindow {
             get => _pictureDisplayedOnMediaWindow;
             set {
                 Set(ref _pictureDisplayedOnMediaWindow, value);
-                if (value) {
-                    PdfDisplayedOnMediaWindow = false;
-                    VideoDisplayedOnMediaWindow = false;
-                }
+                if (value) VideoDisplayedOnMediaWindow = false;
             }
         }
 
@@ -360,10 +335,7 @@ namespace UI.ViewModel {
             get => _videoDisplayedOnMediaWindow;
             set {
                 Set(ref _videoDisplayedOnMediaWindow, value);
-                if (value) {
-                    PdfDisplayedOnMediaWindow = false;
-                    PictureDisplayedOnMediaWindow = false;
-                }
+                if (value) PictureDisplayedOnMediaWindow = false;
             }
         }
 
