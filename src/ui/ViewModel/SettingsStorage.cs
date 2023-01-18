@@ -73,8 +73,8 @@ namespace UI.ViewModel {
         }
 
         public static string SingleVideoPath {
-            get => readSetting("SingleVideoPath") ?? "";
-            set { writeSetting("SingleVideoPath", value); }
+            get => readString("SingleVideoPath") ?? "";
+            set { writeString("SingleVideoPath", value); }
         }
 
         public static bool StartLocationLowerLeft {
@@ -107,18 +107,31 @@ namespace UI.ViewModel {
             }
         }
 
-        static bool readBool (string name) {
-            var a = readSetting(name);
-            return a == null || a == "1";
+        static SqliteCommand readCommand (string name, SqliteConnection con) {
+            var sql = $@"
+                SELECT Value
+                  FROM Settings
+                 WHERE Name = '{name}';";
+            return new SqliteCommand(sql, con);
         }
 
-        static string? readSetting (string name) {
+        static bool readBool (string name) {
             using var con = Connection;
-            var sql = $@"
-            SELECT Value
-              FROM Settings
-             WHERE Name = '{name}';";
-            var cmd = new SqliteCommand(sql, con);
+            var cmd = readCommand(name, con);
+            int r = 0;
+            try {
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows) return false;
+                reader.Read();
+                r = reader.GetInt32(0);
+            }
+            catch { }
+            return r == 1;
+        }
+
+        static string? readString (string name) {
+            using var con = Connection;
+            var cmd = readCommand(name, con);
             string? r = null;
             try {
                 var reader = cmd.ExecuteReader();
@@ -130,19 +143,29 @@ namespace UI.ViewModel {
             return r;
         }
 
-        static void writeBool (string name, bool value) {
-            writeSetting(name, value ? "1" : "0");
+        static SqliteCommand writeCommand (string name, SqliteConnection con) {
+            var sql = $@"
+                INSERT OR REPLACE INTO Settings (Name, Value)
+                    VALUES (@Name, @Value);";
+            return new SqliteCommand(sql, con);
         }
 
-        static void writeSetting (string name, string value) {
+        static void writeBool (string name, bool value) {
             using var con = Connection;
-            var sql = @"
-                INSERT OR REPLACE INTO Settings (Name, Value)
-                VALUES (@Name, @Value);";
-            var cmd = new SqliteCommand(sql, con);
+            var cmd = writeCommand(name, con);
+            cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
+            cmd.Parameters.Add("@Value", SqliteType.Integer).Value = value ? 1 : 0;
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        static void writeString (string name, string value) {
+            using var con = Connection;
+            var cmd = writeCommand(name, con);
             cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
             cmd.Parameters.Add("@Value", SqliteType.Text).Value = value;
-            try { cmd.ExecuteNonQuery(); } catch { }
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
         }
     }
 }
