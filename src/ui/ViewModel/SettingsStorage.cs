@@ -77,24 +77,14 @@ namespace UI.ViewModel {
             set { writeString("SingleVideoPath", value); }
         }
 
-        public static bool StartLocationLowerLeft {
-            get => readBool("StartLocationLowerLeft");
-            set { writeBool("StartLocationLowerLeft", value); }
+        public static double StartLocationLeft {
+            get => readDouble("StartLocationLeft");
+            set { writeDouble("StartLocationLeft", value); }
         }
 
-        public static bool StartLocationUpperLeft {
-            get => readBool("StartLocationUpperLeft");
-            set { writeBool("StartLocationUpperLeft", value); }
-        }
-
-        public static bool StartLocationUpperRight {
-            get => readBool("StartLocationUpperRight");
-            set { writeBool("StartLocationUpperRight", value); }
-        }
-
-        public static bool StartLocationLowerRight {
-            get => readBool("StartLocationLowerRight");
-            set { writeBool("StartLocationLowerRight", value); }
+        public static double StartLocationTop {
+            get => readDouble("StartLocationTop");
+            set { writeDouble("StartLocationTop", value); }
         }
 
         static SqliteConnection Connection {
@@ -129,6 +119,20 @@ namespace UI.ViewModel {
             return r == 1;
         }
 
+        static double readDouble (string name) {
+            using var con = Connection;
+            var cmd = readCommand(name, con);
+            double r = 0.0;
+            try {
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows) return 0.0;
+                reader.Read();
+                r = reader.GetDouble(0);
+            }
+            catch { }
+            return r;
+        }
+
         static string? readString (string name) {
             using var con = Connection;
             var cmd = readCommand(name, con);
@@ -155,6 +159,15 @@ namespace UI.ViewModel {
             var cmd = writeCommand(name, con);
             cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
             cmd.Parameters.Add("@Value", SqliteType.Integer).Value = value ? 1 : 0;
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        static void writeDouble (string name, double value) {
+            using var con = Connection;
+            var cmd = writeCommand(name, con);
+            cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
+            cmd.Parameters.Add("@Value", SqliteType.Real).Value = value;
             try { cmd.ExecuteNonQuery(); }
             catch { }
         }

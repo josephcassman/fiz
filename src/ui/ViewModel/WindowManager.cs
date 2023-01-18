@@ -16,29 +16,9 @@ namespace UI.ViewModel {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
         }
 
-        public static void SetWindowPosition (Window window, MainViewModel vm) => SetWindowPosition(window, vm, window.Height);
-        public static void SetWindowPosition (Window window, MainViewModel vm, double windowHeight) {
-            if (vm.StartLocationLowerLeft) {
-                window.Left = 0;
-                window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - windowHeight;
-                return;
-            }
-
-            if (vm.StartLocationUpperLeft) {
-                window.Left = 0;
-                window.Top = 0;
-                return;
-            }
-
-            if (vm.StartLocationUpperRight) {
-                window.Left = SystemParameters.WorkArea.Left + SystemParameters.WorkArea.Width - window.Width;
-                window.Top = 0;
-                return;
-            }
-
-            // Lower-right
-            window.Left = SystemParameters.WorkArea.Left + SystemParameters.WorkArea.Width - window.Width;
-            window.Top = SystemParameters.WorkArea.Top + SystemParameters.WorkArea.Height - windowHeight;
+        public static void SetWindowPosition (Window window, MainViewModel vm) {
+            window.Left = vm.StartLocationLeft;
+            window.Top = vm.StartLocationTop;
         }
 
         public static void ShowMediaWindow (Window window, MainViewModel vm, CancelEventHandler closing) {

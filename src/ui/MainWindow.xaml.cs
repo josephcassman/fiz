@@ -19,6 +19,7 @@ namespace UI {
             Closing += Window_Closing;
             Drop += Media_Drop;
             Loaded += Window_Loaded;
+            LocationChanged += Window_LocationChanged;
             MouseDown += Window_MouseDown;
             PreviewKeyDown += Window_PreviewKeyDown;
             vm.MoveDown += (_, _) => moveNext();
@@ -91,14 +92,14 @@ namespace UI {
         void maxify () {
             vm.Minified = false;
             Height = maximalHeight;
-            WindowManager.SetWindowPosition(this, vm, maximalHeight);
+            WindowManager.SetWindowPosition(this, vm);
             initializeSliderVideoPreview();
         }
 
         void minify () {
             vm.Minified = true;
             Height = minimalHeight;
-            WindowManager.SetWindowPosition(this, vm, minimalHeight);
+            WindowManager.SetWindowPosition(this, vm);
             initializeSliderVideoPreview();
         }
 
@@ -477,6 +478,11 @@ namespace UI {
         void Maxify_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { maxify(); }
         void Minify_Click (object sender, RoutedEventArgs e) { minify(); }
         void Minify_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) { minify(); }
+
+        void Window_LocationChanged (object? sender, EventArgs e) {
+            SettingsStorage.StartLocationLeft = Left;
+            SettingsStorage.StartLocationTop = Top;
+        }
 
         void Minimize_Click (object sender, RoutedEventArgs e) {
             SystemCommands.MinimizeWindow(this);
