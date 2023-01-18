@@ -109,9 +109,9 @@ namespace UI.ViewModel {
 
         static SqliteCommand readCommand (string name, SqliteConnection con) {
             var sql = $@"
-                SELECT Value
-                  FROM Settings
-                 WHERE Name = '{name}';";
+            SELECT Value
+            FROM Settings
+            WHERE Name = '{name}';";
             return new SqliteCommand(sql, con);
         }
 
@@ -145,8 +145,8 @@ namespace UI.ViewModel {
 
         static SqliteCommand writeCommand (string name, SqliteConnection con) {
             var sql = $@"
-                INSERT OR REPLACE INTO Settings (Name, Value)
-                    VALUES (@Name, @Value);";
+            INSERT OR REPLACE INTO Settings (Name, Value)
+            VALUES (@Name, @Value);";
             return new SqliteCommand(sql, con);
         }
 
