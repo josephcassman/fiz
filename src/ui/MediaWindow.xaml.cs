@@ -84,13 +84,12 @@ namespace UI {
             if (vm.MediaListMode) {
                 if (vm.CurrentMediaItem.IsPicture)
                     picture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
-                else if (vm.CurrentMediaItem.IsVideo) {
+                else {
                     video.Close();
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
                     playVideo();
                     vm.StartTimer();
                 }
-                else web.Source = ((PdfItem) vm.CurrentMediaItem).Source;
             }
             else {
                 video.Close();

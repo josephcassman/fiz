@@ -158,14 +158,6 @@ namespace UI {
                 var name = Path.GetFileName(path);
                 var uri = new Uri(path);
                 switch(MainViewModel.GetMediaType(path)) {
-                    case MediaType.Pdf:
-                        ++count;
-                        vm.AddMediaItem(new PdfItem {
-                            FileName = name,
-                            FilePath = path,
-                            Source = uri,
-                        });
-                        break;
                     case MediaType.Picture:
                         ++count;
                         var bmp = new BitmapImage(uri);
