@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using UI.ViewModel;
 
@@ -13,6 +15,8 @@ namespace UI {
             MouseDoubleClick += Window_MouseDoubleClick;
             MouseDown += Window_MouseDown;
             MouseMove += Window_MouseMove;
+            MouseUp += Window_MouseUp;
+            MouseWheel += Window_MouseWheel;
             PreviewKeyDown += Window_PreviewKeyDown;
             SizeChanged += Window_SizeChanged;
             vm.SetMediaListMedia += (_, _) => { setMedia(); };
@@ -27,6 +31,13 @@ namespace UI {
                 video.Position = vm.VideoPosition;
             };
         }
+
+        // State for panning and zooming picture media
+        const float ZoomInFactor = 1.1f;
+        const float ZoomOutFactor = 1f / 1.1f;
+        MatrixTransform zoomTransform = new();
+        bool panning = false;
+        Vector panningDelta = new();
 
         public MainViewModel vm => App.ViewModel;
 
@@ -82,8 +93,18 @@ namespace UI {
                 return;
             }
             if (vm.MediaListMode) {
-                if (vm.CurrentMediaItem.IsPicture)
+                if (vm.CurrentMediaItem.IsPicture) {
+                    // Reset the picture layout.
+                    // Undo the panning translation and
+                    // zooming scale factors.
+                    panningDelta = new();
+                    Canvas.SetLeft(picture, 0);
+                    Canvas.SetTop(picture, 0);
+                    zoomTransform = new();
+                    picture.RenderTransform = zoomTransform;
+
                     picture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
+                }
                 else {
                     video.Close();
                     video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
@@ -132,15 +153,6 @@ namespace UI {
 
         // Manage window
 
-        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
-            if (WindowState == WindowState.Maximized)
-                SystemCommands.RestoreWindow(this);
-            else
-                SystemCommands.MaximizeWindow(this);
-        }
-
-        void Window_MouseMove (object sender, MouseEventArgs e) { fadeOutNavigation(); }
-
         void CloseBorder_MouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
             if (navigation.Opacity == 0.0) return;
             Close();
@@ -176,9 +188,52 @@ namespace UI {
             fadeOutNavigation();
         }
 
+        void Window_MouseDoubleClick (object sender, MouseButtonEventArgs e) {
+            if (WindowState == WindowState.Maximized)
+                SystemCommands.RestoreWindow(this);
+            else
+                SystemCommands.MaximizeWindow(this);
+        }
+
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
-            if (e.ChangedButton == MouseButton.Left)
+            if (Keyboard.Modifiers == ModifierKeys.Control) {
+                var mouse = e.GetPosition(this);
+                Point canvas = new(Canvas.GetLeft(picture), Canvas.GetTop(picture));
+                panningDelta = canvas - mouse;
+                panning = true;
+            }
+            else if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+        }
+
+        void Window_MouseMove (object sender, MouseEventArgs e) {
+            if (Keyboard.Modifiers == ModifierKeys.Control) {
+                if (panning && e.LeftButton == MouseButtonState.Pressed) {
+                    Canvas.SetLeft(picture, e.GetPosition(this).X + panningDelta.X);
+                    Canvas.SetTop(picture, e.GetPosition(this).Y + panningDelta.Y);
+                }
+            }
+            else fadeOutNavigation();
+        }
+
+        void Window_MouseUp (object sender, MouseButtonEventArgs e) {
+            panning = false;
+        }
+
+        void Window_MouseWheel (object sender, MouseWheelEventArgs e) {
+            if (Keyboard.Modifiers == ModifierKeys.Control) {
+                var scale = e.Delta < 0 ? ZoomOutFactor : ZoomInFactor;
+
+                // Adjust the canvas to the new size of the picture.
+                Canvas.SetLeft(picture, Canvas.GetLeft(picture) * scale);
+                Canvas.SetTop(picture, Canvas.GetTop(picture) * scale);
+
+                // Incrementally zoom by adjusting the current transform state.
+                Matrix b = zoomTransform.Matrix;
+                b.ScaleAt(scale, scale, e.GetPosition(this).X, e.GetPosition(this).Y);
+                zoomTransform.Matrix = b;
+                picture.RenderTransform = zoomTransform;
+            }
         }
 
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
