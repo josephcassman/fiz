@@ -12,7 +12,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="440" Width="464">
+        Title="MenuWindow" Height="575" Width="464">
     <Window.Resources>
         <Style x:Key="MenuIconButton" TargetType="Button">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -37,7 +37,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="KeyboardCommandDescription" TargetType="TextBlock">
+        <Style x:Key="DescriptionText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="WhiteSmoke" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -128,65 +128,110 @@
                         <TextBlock Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    Grid.Row="0"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="VIDEO KEYBOARD COMMANDS" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="1"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="UP" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="1"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Go to the previous item" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="2"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="DOWN" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="2"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Go to the next item" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="3"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="LEFT" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="3"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Skip back 10 seconds" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="4"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="RIGHT" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="4"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Skip forward 30 seconds" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="5"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="SPACE" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="5"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Pause/Play" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="6"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="ESCAPE" />
                         <TextBlock Grid.Column="1"
                                    Grid.Row="6"
-                                   Style="{StaticResource KeyboardCommandDescription}"
+                                   Style="{StaticResource DescriptionText}"
                                    Text="Stop" />
 
                     </Grid>
                 </Border>
+
+                <Border Canvas.Top="420"
+                        Canvas.Left="15"
+                        Width="420"
+                        Height="130"
+                        BorderBrush="WhiteSmoke"
+                        BorderThickness="1">
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="0"
+                                   Style="{StaticResource DescriptionText}"
+                                   Text="PICTURE MOUSE COMMANDS" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="1"
+                                   Style="{StaticResource DescriptionText}"
+                                   Text="CTRL + DRAG" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="1"
+                                   Style="{StaticResource DescriptionText}"
+                                   Text="Pan up/down/left/right" />
+
+                        <TextBlock Grid.Column="0"
+                                   Grid.Row="2"
+                                   Style="{StaticResource DescriptionText}"
+                                   Text="CTRL + SCROLL" />
+                        <TextBlock Grid.Column="1"
+                                   Grid.Row="2"
+                                   Style="{StaticResource DescriptionText}"
+                                   Text="Zoom in/out" />
+
+                    </Grid>
+                </Border>
+
             </Canvas>
         </Border>
     </Border>
