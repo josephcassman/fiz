@@ -14,6 +14,20 @@
     <PublishSingleFile>true</PublishSingleFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <Copyright>Copyright 2022 Joseph Cassman</Copyright>
+    <PackageProjectUrl>https://github.com/josephcassman/fiz</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/josephcassman/fiz</RepositoryUrl>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+    <AssemblyVersion>0.2</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <Version>$(AssemblyVersion)</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>media viewer</PackageTags>
+    <PackageIcon>fiz.png</PackageIcon>
+    <Description>A simple media viewer</Description>
+    <Title>Fiz</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +48,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\assets\fiz.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="C:\Users\kjoic\code\fiz\src\ui\.editorconfig" />
   </ItemGroup>
 
