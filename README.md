@@ -1,17 +1,14 @@
-_Fiz_ is a simple media viewer for pdf, picture, and video files as well as web pages. Its main goal is to make it straightforward to share media during a video conference.
+_Fiz_ is a simple media viewer for picture, video, and web page media to display content during a video conference.
 
 ## REQUIREMENTS
-* [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-* Target OS version: 10.0.19041.0
-* Minimal OS version: 10.0.17763.0
+* Target OS version: Windows 10.0.19041.0
+* Minimal OS version: Windows 10.0.17763.0
 
-## BUILD STEPS
+## BUILD AND DEPLOY STEPS
 * Download and install [Visual Studio](https://visualstudio.microsoft.com/)
 * Include the __.NET desktop development__ workload in the installation
-* Select the __Release__ profile
-* Run the __Rebuild Solution__ command
-
-Build output is located in the folder `src/ui/bin/x64/Release/net6.0-windows10.0.19041.0`.
+* Publish the __win-x64__ profile.
+* Copy `Fiz.exe` from the `ui/bin/publish` folder to the client computer.
 
 ## Media List Mode
 
