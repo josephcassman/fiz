@@ -1106,11 +1106,16 @@
                 </Grid>
 
                 <!--Internet mode navigation bar-->
-                <Grid Visibility="{Binding Path=InternetMode, Converter={StaticResource visibleWhenTrue}}"
-                      Canvas.Bottom="0"
+                <Grid Canvas.Bottom="0"
                       Canvas.Left="0"
                       Width="500"
                       Height="65">
+                    <Grid.Visibility>
+                        <MultiBinding Converter="{StaticResource multiVisibleWhenTrue}">
+                            <Binding Path="InternetMode" />
+                            <Binding Path="HasWebContent" />
+                        </MultiBinding>
+                    </Grid.Visibility>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70" />
                         <ColumnDefinition />
