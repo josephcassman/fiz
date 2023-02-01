@@ -85,6 +85,10 @@ namespace UI {
                     html.style.width = "100%";
                     html.style.height = "100%";
                     html.style.margin = "0";
+                    html.style.scale = "2";
+                    html.style.willChange = "scale";
+                    html.style.transformOrigin = "top center";
+                    html.style.transition = "all 0.35s cubic-bezier(0.33, 1, 0.68, 1)";
 
                     const body = document.getElementsByTagName("body")[0];
                     body.style.width = "100%";
@@ -95,8 +99,6 @@ namespace UI {
                     a.style.position = "absolute";
                     a.style.width = "99vw";
                     a.style.height = "99vh";
-                    a.style.transformOrigin = "top center";
-                    a.style.transform = "scale(2)";
 
                     while (0 < document.body.childNodes.length)
                         a.appendChild(document.body.childNodes[0]);
