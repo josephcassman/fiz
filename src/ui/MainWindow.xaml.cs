@@ -25,6 +25,12 @@ namespace UI {
             vm.MoveDown += (_, _) => moveNext();
             vm.MoveUp += (_, _) => movePrevious();
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.PreviewMouseDownEvent, new MouseButtonEventHandler(TextBox_PreviewMouseDown));
+            setWebMessages(WebPreviewState.Start);
+
+            web.NavigationCompleted += (object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e) => {
+                var wps = e.IsSuccess ? WebPreviewState.LoadSucceeded : WebPreviewState.LoadFailed;
+                setWebMessages(wps);
+            };
         }
 
         public MainViewModel vm => App.ViewModel;
@@ -119,6 +125,7 @@ namespace UI {
 
         void navigateUrl () {
             if (web == null || web.CoreWebView2 == null) return;
+            setWebMessages(WebPreviewState.Loading);
             var a = url.Text ?? "";
             var b = new string[] {
                 a,
@@ -127,15 +134,13 @@ namespace UI {
                 "http://" + a,
                 "http://www." + a,
             };
-            try { web.CoreWebView2.Navigate(b[0]); vm.WebpageUrl = new(b[0]); goto done; } catch { }
-            try { web.CoreWebView2.Navigate(b[1]); vm.WebpageUrl = new(b[1]); goto done; } catch { }
-            try { web.CoreWebView2.Navigate(b[2]); vm.WebpageUrl = new(b[2]); goto done; } catch { }
-            try { web.CoreWebView2.Navigate(b[3]); vm.WebpageUrl = new(b[3]); goto done; } catch { }
-            try { web.CoreWebView2.Navigate(b[4]); vm.WebpageUrl = new(b[4]); goto done; } catch { }
+            try { web.CoreWebView2.Navigate(b[0]); vm.WebpageUrl = new(b[0]); return; } catch { }
+            try { web.CoreWebView2.Navigate(b[1]); vm.WebpageUrl = new(b[1]); return; } catch { }
+            try { web.CoreWebView2.Navigate(b[2]); vm.WebpageUrl = new(b[2]); return; } catch { }
+            try { web.CoreWebView2.Navigate(b[3]); vm.WebpageUrl = new(b[3]); return; } catch { }
+            try { web.CoreWebView2.Navigate(b[4]); vm.WebpageUrl = new(b[4]); return; } catch { }
             vm.WebpageUrl = new("about:blank");
-            vm.InternetNavigationFailed = true;
-            return;
-        done: vm.InternetNavigationFailed = false;
+            setWebMessages(WebPreviewState.LoadFailed);
         }
 
         void playPauseVideo () {
@@ -229,6 +234,29 @@ namespace UI {
             WindowManager.LetUIUpdate();
 
             initializeSliderVideoPreview();
+        }
+
+        void setWebMessages (WebPreviewState wps) {
+            switch (wps) {
+                case WebPreviewState.Start:
+                    vm.HasNoWebContentMessage1 = "Webpage preview";
+                    vm.HasNoWebContentMessage2 = "displays here";
+                    vm.HasWebContent = false;
+                    break;
+                case WebPreviewState.Loading:
+                    vm.HasNoWebContentMessage1 = "Loading ...";
+                    vm.HasNoWebContentMessage2 = "";
+                    vm.HasWebContent = false;
+                    break;
+                case WebPreviewState.LoadFailed:
+                    vm.HasNoWebContentMessage1 = "Could not load";
+                    vm.HasNoWebContentMessage2 = "webpage";
+                    vm.HasWebContent = false;
+                    break;
+                case WebPreviewState.LoadSucceeded:
+                    vm.HasWebContent = true;
+                    break;
+            }
         }
 
         void shiftDown () {
@@ -574,6 +602,12 @@ namespace UI {
             if (e.Key == Key.Enter) {
                 navigateUrl();
                 e.Handled = true;
+            }
+        }
+
+        void Url_TextChanged (object sender, TextChangedEventArgs e) {
+            if (string.IsNullOrEmpty(url.Text)) {
+                setWebMessages(WebPreviewState.Start);
             }
         }
     }

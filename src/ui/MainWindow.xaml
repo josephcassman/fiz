@@ -782,6 +782,7 @@
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      KeyDown="Url_KeyDown"
+                                     TextChanged="Url_TextChanged"
                                      Name="url" />
                         </Grid>
                         <Border Grid.Column="1"
@@ -795,14 +796,14 @@
                                 &#xE721;
                             </Button>
                         </Border>
-                        <wv2:WebView2 Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource collapsedWhenTrue}}"
+                        <wv2:WebView2 Visibility="{Binding Path=HasWebContent, Converter={StaticResource visibleWhenTrue}}"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="2"
                                       Grid.Row="1"
                                       Height="465"
                                       Source="about:blank"
                                       Name="web" />
-                        <StackPanel Visibility="{Binding Path=InternetNavigationFailed, Converter={StaticResource visibleWhenTrue}}"
+                        <StackPanel Visibility="{Binding Path=HasWebContent, Converter={StaticResource collapsedWhenTrue}}"
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2"
                                     Grid.Row="1"
@@ -813,13 +814,13 @@
                                        FontSize="50"
                                        Foreground="LightGray"
                                        AllowDrop="True"
-                                       Text="Could not load" />
+                                       Text="{Binding Path=HasNoWebContentMessage1}" />
                             <TextBlock VerticalAlignment="Center"
                                        HorizontalAlignment="Center"
                                        FontSize="50"
                                        Foreground="LightGray"
                                        AllowDrop="True"
-                                       Text="web page" />
+                                       Text="{Binding Path=HasNoWebContentMessage2}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
