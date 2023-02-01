@@ -20,6 +20,7 @@
         Name="window">
     <Window.Resources>
         <vm:BoolToCollapsedConverter x:Key="collapsedWhenTrue" />
+        <vm:BoolToNotActiveOpacityConverter x:Key="boolToNotActiveOpacity" />
         <vm:BoolToVisibleConverter x:Key="visibleWhenTrue" />
         <vm:InvertConverter x:Key="invert" />
         <vm:MainContentHeightConverter x:Key="mainContentHeight" />
@@ -28,7 +29,6 @@
         <vm:MultiBoolToCollapsedConverter x:Key="multiCollapsedWhenTrue" />
         <vm:MultiBoolToVisibleConverter x:Key="multiVisibleWhenTrue" />
         <vm:TextToVisibleConverter x:Key="visibleWhenEmpty" />
-        <vm:BoolToNotActiveOpacityConverter x:Key="boolToNotActiveOpacity" />
         <DataTemplate x:Key="MediaListTemplate">
             <Grid Margin="3">
                 <Grid.RowDefinitions>
