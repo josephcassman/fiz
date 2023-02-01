@@ -60,19 +60,29 @@ namespace UI {
                 }
 
                 function keyboard_down (e) {
-                    if (e.key === "Control")
+                    if (e.key === "Control") {
                         dragable = true;
+                        removeUserSelect();
+                    }
                 }
 
                 function keyboard_up (e) {
                     if (e.key === "Control") {
                         dragable = false;
                         dragging = false;
+                        addUserSelect();
                     }
                 }
 
+                function addUserSelect () {
+                    document.querySelectorAll("*").forEach(a => a.style.userSelect = "auto");
+                }
+
+                function removeUserSelect () {
+                    document.querySelectorAll("*").forEach(a => a.style.userSelect = "none");
+                }
+
                 function wrap (element) {
-                    element.style.userSelect = "none";
                     element.addEventListener('mousedown', mouse_down);
                     element.addEventListener('mousemove', mouse_move);
                     element.addEventListener('mouseup', mouse_up);
