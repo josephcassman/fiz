@@ -209,7 +209,7 @@
                                    Grid.ColumnSpan="2"
                                    Grid.Row="0"
                                    Style="{StaticResource DescriptionText}"
-                                   Text="PICTURE MOUSE COMMANDS" />
+                                   Text="PICTURE &amp; WEB MOUSE COMMANDS" />
 
                         <TextBlock Grid.Column="0"
                                    Grid.Row="1"
