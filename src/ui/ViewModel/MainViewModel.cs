@@ -19,6 +19,13 @@ namespace UI.ViewModel {
         Unused,
     }
 
+    public enum WebPreviewState {
+        Start,
+        Loading,
+        LoadFailed,
+        LoadSucceeded,
+    }
+
     public sealed class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
@@ -154,10 +161,22 @@ namespace UI.ViewModel {
             set => Set(ref _internetMode, value);
         }
 
-        bool _internetNavigationFailed = false;
-        public bool InternetNavigationFailed {
-            get => _internetNavigationFailed;
-            set => Set(ref _internetNavigationFailed, value);
+        string _hasNoWebContentMessage1 = "";
+        public string HasNoWebContentMessage1 {
+            get => _hasNoWebContentMessage1;
+            set => Set(ref _hasNoWebContentMessage1, value);
+        }
+
+        string _hasNoWebContentMessage2 = "";
+        public string HasNoWebContentMessage2 {
+            get => _hasNoWebContentMessage2;
+            set => Set(ref _hasNoWebContentMessage2, value);
+        }
+
+        bool _hasWebContent = false;
+        public bool HasWebContent {
+            get => _hasWebContent;
+            set => Set(ref _hasWebContent, value);
         }
 
         MainWindowMode _mainWindowMode = MainWindowMode.MediaList;
