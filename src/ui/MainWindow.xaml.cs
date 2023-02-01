@@ -519,6 +519,7 @@ namespace UI {
 
         void InternetMode_Click (object sender, RoutedEventArgs e) {
             if (vm.MediaDisplayed) return;
+            setWebMessages(WebPreviewState.Start);
             vm.MainWindowMode = MainWindowMode.Internet;
         }
 
