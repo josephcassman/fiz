@@ -27,6 +27,7 @@
         <vm:MediaItemToVisibleWhenTrueConverter x:Key="mediaItemVisibleWhenTrue" />
         <vm:MultiBoolToCollapsedConverter x:Key="multiCollapsedWhenTrue" />
         <vm:MultiBoolToVisibleConverter x:Key="multiVisibleWhenTrue" />
+        <vm:TextToVisibleConverter x:Key="visibleWhenEmpty" />
         <vm:BoolToNotActiveOpacityConverter x:Key="boolToNotActiveOpacity" />
         <DataTemplate x:Key="MediaListTemplate">
             <Grid Margin="3">
@@ -762,15 +763,27 @@
                             <RowDefinition Height="60" />
                             <RowDefinition Height="475" />
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Column="0"
-                                 Grid.Row="0"
-                                 FontSize="20"
-                                 Padding="5"
-                                 Margin="10,0,0,0"
-                                 VerticalAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 KeyDown="Url_KeyDown"
-                                 Name = "url"/>
+                        <Grid Grid.Column="0"
+                              Grid.Row="0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              Margin="10,0,0,0">
+                            <TextBlock Margin="15,0,0,0"
+                                       FontSize="20"
+                                       Text="Enter a URL"
+                                       Foreground="LightGray"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Visibility="{Binding ElementName=url, Path=Text, Converter={StaticResource visibleWhenEmpty}}"
+                                       Panel.ZIndex="1"
+                                       IsHitTestVisible="False" />
+                            <TextBox FontSize="20"
+                                     Padding="5"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     KeyDown="Url_KeyDown"
+                                     Name="url" />
+                        </Grid>
                         <Border Grid.Column="1"
                                 Grid.Row="0"
                                 Style="{StaticResource IconButtonBorder}"
