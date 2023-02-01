@@ -95,6 +95,8 @@ namespace UI {
                     a.style.position = "absolute";
                     a.style.width = "99vw";
                     a.style.height = "99vh";
+                    a.style.transformOrigin = "top center";
+                    a.style.transform = "scale(2)";
 
                     while (0 < document.body.childNodes.length)
                         a.appendChild(document.body.childNodes[0]);
