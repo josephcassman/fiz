@@ -30,6 +30,82 @@ namespace UI {
                 vm.VideoTotalLength = video.NaturalDuration.TimeSpan;
                 video.Position = vm.VideoPosition;
             };
+
+            web.CoreWebView2InitializationCompleted += async (_, _) => {
+                var a = """
+                let a, ax = 0, ay = 0, dragable, dragging, curx, cury;
+
+                function mouse_down (e) {
+                    curx = e.clientX;
+                    cury = e.clientY;
+                    dragging = true;
+                }
+
+                function mouse_move (e) {
+                    if (dragable !== true) return;
+                    if (dragging !== true) return;
+                    if (!e) { e = window.event; }
+                    let dx = curx - e.clientX;
+                    let dy = cury - e.clientY;
+                    ax -= dx;
+                    ay -= dy;
+                    curx = e.clientX;
+                    cury = e.clientY;
+                    a.style.left = ax + "px";
+                    a.style.top = ay + "px";
+                }
+
+                function mouse_up (e) {
+                    dragging = false;
+                }
+
+                function keyboard_down (e) {
+                    if (e.key === "Control")
+                        dragable = true;
+                }
+
+                function keyboard_up (e) {
+                    if (e.key === "Control") {
+                        dragable = false;
+                        dragging = false;
+                    }
+                }
+
+                function wrap (element) {
+                    element.style.userSelect = "none";
+                    element.addEventListener('mousedown', mouse_down);
+                    element.addEventListener('mousemove', mouse_move);
+                    element.addEventListener('mouseup', mouse_up);
+                    element.addEventListener('keydown', keyboard_down);
+                    element.addEventListener('keyup', keyboard_up);
+                }
+
+                window.addEventListener("load", function() {
+                    const html = document.getElementsByTagName("html")[0];
+                    html.style.width = "100%";
+                    html.style.height = "100%";
+                    html.style.margin = "0";
+
+                    const body = document.getElementsByTagName("body")[0];
+                    body.style.width = "100%";
+                    body.style.height = "100%";
+                    body.style.margin = "0";
+
+                    a = document.createElement("div");
+                    a.style.position = "absolute";
+                    a.style.width = "99vw";
+                    a.style.height = "99vh";
+
+                    while (0 < document.body.childNodes.length)
+                        a.appendChild(document.body.childNodes[0]);
+
+                    document.body.appendChild(a);
+
+                    document.querySelectorAll("*").forEach(a => wrap(a));
+                });
+                """;
+                await web.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(a);
+            };
         }
 
         // State for panning and zooming picture media
