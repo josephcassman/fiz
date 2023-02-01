@@ -79,12 +79,18 @@ namespace UI.ViewModel {
 
         public static double StartLocationLeft {
             get => readDouble("StartLocationLeft");
-            set { writeDouble("StartLocationLeft", value); }
+            set {
+                if (value < 0) value = 0;
+                writeDouble("StartLocationLeft", value);
+            }
         }
 
         public static double StartLocationTop {
             get => readDouble("StartLocationTop");
-            set { writeDouble("StartLocationTop", value); }
+            set {
+                if (value < 0) value = 0;
+                writeDouble("StartLocationTop", value);
+            }
         }
 
         static SqliteConnection Connection {
