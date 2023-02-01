@@ -521,6 +521,7 @@ namespace UI {
             if (vm.MediaDisplayed) return;
             setWebMessages(WebPreviewState.Start);
             vm.MainWindowMode = MainWindowMode.Internet;
+            url.Focus();
         }
 
         void MediaListMode_Click (object sender, RoutedEventArgs e) {
