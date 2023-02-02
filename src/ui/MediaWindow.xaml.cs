@@ -32,7 +32,7 @@ namespace UI {
             };
 
             web.CoreWebView2InitializationCompleted += async (_, _) => {
-                var a = """
+                var a = $$"""
                 let a, ax = 0, ay = 0, dragable, dragging, curx, cury;
 
                 function mouse_down (e) {
@@ -95,7 +95,7 @@ namespace UI {
                     html.style.width = "100%";
                     html.style.height = "100%";
                     html.style.margin = "0";
-                    html.style.scale = "2";
+                    html.style.scale = "{{vm.WebPageScaleFactor}}";
                     html.style.willChange = "scale";
                     html.style.transformOrigin = "top center";
                     html.style.transition = "all 0.35s cubic-bezier(0.33, 1, 0.68, 1)";

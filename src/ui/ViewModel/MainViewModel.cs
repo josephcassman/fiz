@@ -31,6 +31,7 @@ namespace UI.ViewModel {
             SettingsStorage.Initialize();
             StartLocationLeft = SettingsStorage.StartLocationLeft;
             StartLocationTop = SettingsStorage.StartLocationTop;
+            WebPageScaleFactor = SettingsStorage.WebPageScaleFactor;
 
             var count = 0;
             foreach (var path in SettingsStorage.MediaListPaths) {
@@ -380,6 +381,15 @@ namespace UI.ViewModel {
         public string VideoTotalLengthText {
             get => _videoTotalLengthText;
             set => Set(ref _videoTotalLengthText, value);
+        }
+
+        double _webPageScaleFactor = 1.0;
+        public double WebPageScaleFactor {
+            get => _webPageScaleFactor;
+            set {
+                Set(ref _webPageScaleFactor, value);
+                SettingsStorage.WebPageScaleFactor = value;
+            }
         }
 
         public void PauseVideo () { PauseVideoEvent?.Invoke(this, EventArgs.Empty); }

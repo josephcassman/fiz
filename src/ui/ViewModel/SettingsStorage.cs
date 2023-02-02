@@ -23,6 +23,11 @@ namespace UI.ViewModel {
             }
         }
 
+        public static double WebPageScaleFactor {
+            get => readDouble("WebPageScaleFactor");
+            set { writeDouble("WebPageScaleFactor", value); }
+        }
+
         public static string SingleVideoPath {
             get => readString("SingleVideoPath") ?? "";
             set { writeString("SingleVideoPath", value); }
@@ -64,13 +69,17 @@ namespace UI.ViewModel {
         }
 
         public static void Initialize () {
-            var sql = @"
+            var sql = """
             CREATE TABLE IF NOT EXISTS Settings (
                 Name TEXT PRIMARY KEY,
                 Value TEXT NOT NULL) WITHOUT ROWID;
 
+            INSERT INTO Settings (Name, Value)
+            VALUES ('WebPageScaleFactor', 1.0);
+
             CREATE TABLE IF NOT EXISTS MediaList (
-                Path TEXT PRIMARY KEY) WITHOUT ROWID;";
+                Path TEXT PRIMARY KEY) WITHOUT ROWID;
+            """;
             using var con = connection;
             var cmd = new SqliteCommand(sql, con);
             try { cmd.ExecuteNonQuery(); }
