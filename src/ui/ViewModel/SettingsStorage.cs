@@ -5,23 +5,9 @@ using System.IO;
 
 namespace UI.ViewModel {
     public static class SettingsStorage {
-        public static void Initialize () {
-            var sql = @"
-            CREATE TABLE IF NOT EXISTS Settings (
-                Name TEXT PRIMARY KEY,
-                Value TEXT NOT NULL) WITHOUT ROWID;
-
-            CREATE TABLE IF NOT EXISTS MediaList (
-                Path TEXT PRIMARY KEY) WITHOUT ROWID;";
-            using var con = Connection;
-            var cmd = new SqliteCommand(sql, con);
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
         public static List<string> MediaListPaths {
             get {
-                using var con = Connection;
+                using var con = connection;
                 var sql = $@"
                 SELECT Path
                   FROM MediaList;";
@@ -35,36 +21,6 @@ namespace UI.ViewModel {
                 catch { }
                 return r;
             }
-        }
-
-        public static void ClearMediaListPaths () {
-            using var con = Connection;
-            var sql = @"DELETE FROM MediaList;";
-            var cmd = new SqliteCommand(sql, con);
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
-        public static void DeleteMediaListPath (string path) {
-            using var con = Connection;
-            var sql = @"
-            DELETE FROM MediaList (Path)
-            VALUES (@Path);";
-            var cmd = new SqliteCommand(sql, con);
-            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
-        public static void SaveMediaListPath (string path) {
-            using var con = Connection;
-            var sql = @"
-            INSERT OR REPLACE INTO MediaList (Path)
-            VALUES (@Path);";
-            var cmd = new SqliteCommand(sql, con);
-            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
         }
 
         public static string SingleVideoPath {
@@ -88,7 +44,51 @@ namespace UI.ViewModel {
             }
         }
 
-        static SqliteConnection Connection {
+        public static void ClearMediaListPaths () {
+            using var con = connection;
+            var sql = @"DELETE FROM MediaList;";
+            var cmd = new SqliteCommand(sql, con);
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static void DeleteMediaListPath (string path) {
+            using var con = connection;
+            var sql = @"
+            DELETE FROM MediaList (Path)
+            VALUES (@Path);";
+            var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static void Initialize () {
+            var sql = @"
+            CREATE TABLE IF NOT EXISTS Settings (
+                Name TEXT PRIMARY KEY,
+                Value TEXT NOT NULL) WITHOUT ROWID;
+
+            CREATE TABLE IF NOT EXISTS MediaList (
+                Path TEXT PRIMARY KEY) WITHOUT ROWID;";
+            using var con = connection;
+            var cmd = new SqliteCommand(sql, con);
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        public static void SaveMediaListPath (string path) {
+            using var con = connection;
+            var sql = @"
+            INSERT OR REPLACE INTO MediaList (Path)
+            VALUES (@Path);";
+            var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
+            try { cmd.ExecuteNonQuery(); }
+            catch { }
+        }
+
+        static SqliteConnection connection {
             get {
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
                 var cs = new SqliteConnectionStringBuilder() { DataSource = path }.ToString();
@@ -107,7 +107,7 @@ namespace UI.ViewModel {
         }
 
         static bool readBool (string name) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = readCommand(name, con);
             int r = 0;
             try {
@@ -121,7 +121,7 @@ namespace UI.ViewModel {
         }
 
         static double readDouble (string name) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = readCommand(name, con);
             double r = 0.0;
             try {
@@ -135,7 +135,7 @@ namespace UI.ViewModel {
         }
 
         static string? readString (string name) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = readCommand(name, con);
             string? r = null;
             try {
@@ -156,7 +156,7 @@ namespace UI.ViewModel {
         }
 
         static void writeBool (string name, bool value) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = writeCommand(name, con);
             cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
             cmd.Parameters.Add("@Value", SqliteType.Integer).Value = value ? 1 : 0;
@@ -165,7 +165,7 @@ namespace UI.ViewModel {
         }
 
         static void writeDouble (string name, double value) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = writeCommand(name, con);
             cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
             cmd.Parameters.Add("@Value", SqliteType.Real).Value = value;
@@ -174,7 +174,7 @@ namespace UI.ViewModel {
         }
 
         static void writeString (string name, string value) {
-            using var con = Connection;
+            using var con = connection;
             var cmd = writeCommand(name, con);
             cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
             cmd.Parameters.Add("@Value", SqliteType.Text).Value = value;
