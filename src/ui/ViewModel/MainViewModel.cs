@@ -29,7 +29,6 @@ namespace UI.ViewModel {
     public sealed class MainViewModel : BindableBase {
         public MainViewModel() {
             SettingsStorage.Initialize();
-            ShowMediaFullscreen = SettingsStorage.ShowMediaFullscreen;
             StartLocationLeft = SettingsStorage.StartLocationLeft;
             StartLocationTop = SettingsStorage.StartLocationTop;
 
@@ -394,15 +393,6 @@ namespace UI.ViewModel {
         }
 
         // Settings
-
-        bool _showMediaFullscreen = true;
-        public bool ShowMediaFullscreen {
-            get => _showMediaFullscreen;
-            set {
-                Set(ref _showMediaFullscreen, value);
-                SettingsStorage.ShowMediaFullscreen = value;
-            }
-        }
 
         double _startLocationLeft = 0.0;
         public double StartLocationLeft {

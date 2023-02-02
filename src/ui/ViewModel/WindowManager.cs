@@ -25,22 +25,14 @@ namespace UI.ViewModel {
             window.Closing += closing;
             window.WindowStartupLocation = WindowStartupLocation.Manual;
             var width = SystemParameters.VirtualScreenWidth - SystemParameters.PrimaryScreenWidth;
-            if (vm.ShowMediaFullscreen) {
-                window.Left = SystemParameters.PrimaryScreenWidth;
-                window.Top = 0;
-                window.Height = SystemParameters.VirtualScreenHeight;
-                window.Width = width;
-                window.Loaded += (s, e) => {
-                    var a = (s as Window) ?? new();
-                    a.WindowState = WindowState.Maximized;
-                };
-            }
-            else {
-                window.Left = SystemParameters.PrimaryScreenWidth + width * 0.025;
-                window.Top = SystemParameters.VirtualScreenHeight * 0.025;
-                window.Height = SystemParameters.VirtualScreenHeight * 0.95;
-                window.Width = width * 0.95;
-            }
+            window.Left = SystemParameters.PrimaryScreenWidth;
+            window.Top = 0;
+            window.Height = SystemParameters.VirtualScreenHeight;
+            window.Width = width;
+            window.Loaded += (s, e) => {
+                var a = (s as Window) ?? new();
+                a.WindowState = WindowState.Maximized;
+            };
             window.Show();
         }
     }

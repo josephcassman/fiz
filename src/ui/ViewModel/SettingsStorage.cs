@@ -67,11 +67,6 @@ namespace UI.ViewModel {
             catch { }
         }
 
-        public static bool ShowMediaFullscreen {
-            get => readBool("ShowMediaFullscreen");
-            set { writeBool("ShowMediaFullscreen", value); }
-        }
-
         public static string SingleVideoPath {
             get => readString("SingleVideoPath") ?? "";
             set { writeString("SingleVideoPath", value); }
