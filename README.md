@@ -15,8 +15,8 @@ _Fiz_ is a simple media viewer for picture, video, and web page media to display
 * Minimal OS version: Windows 10.0.17763.0
 
 ## BUILD AND DEPLOY STEPS
-* Download and install [Visual Studio](https://visualstudio.microsoft.com/)
-* Include the __.NET desktop development__ workload in the installation
+* Download and install [Visual Studio](https://visualstudio.microsoft.com/).
+* Include the __.NET desktop development__ workload in the installation.
 * Publish the __win-x64__ profile.
 * Copy `Fiz.exe` from the `ui/bin/publish` folder to the client computer.
 
