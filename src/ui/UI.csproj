@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://github.com/josephcassman/fiz</PackageProjectUrl>
     <RepositoryUrl>https://github.com/josephcassman/fiz</RepositoryUrl>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
-    <AssemblyVersion>0.2</AssemblyVersion>
+    <AssemblyVersion>0.4</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <Version>$(AssemblyVersion)</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
