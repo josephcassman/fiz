@@ -12,12 +12,6 @@ namespace UI {
 
         public MainViewModel vm => App.ViewModel;
 
-        void updateWindowLocation () {
-            WindowManager.SetWindowPosition(Application.Current.MainWindow, vm);
-            Left = Application.Current.MainWindow.Left + 15;
-            Top = Application.Current.MainWindow.Top + 15;
-        }
-
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
