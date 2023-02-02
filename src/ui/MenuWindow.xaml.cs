@@ -14,6 +14,14 @@ namespace UI {
 
         void Close_Click (object sender, RoutedEventArgs e) { Close(); }
 
+        void DecreaseWebPageScaleFactor_Click (object sender, RoutedEventArgs e) {
+            vm.WebPageScaleFactor -= 0.2;
+        }
+
+        void IncreaseWebPageScaleFactor_Click (object sender, RoutedEventArgs e) {
+            vm.WebPageScaleFactor += 0.2;
+        }
+
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 try { DragMove(); } catch { }
