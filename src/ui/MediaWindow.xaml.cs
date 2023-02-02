@@ -88,6 +88,11 @@ namespace UI {
                     element.addEventListener('mouseup', mouse_up);
                     element.addEventListener('keydown', keyboard_down);
                     element.addEventListener('keyup', keyboard_up);
+
+                    // Prevent anchors from opening in a new window
+                    if (element.nodeName === "A") {
+                        element.target = "";
+                    }
                 }
 
                 window.addEventListener("load", function() {
