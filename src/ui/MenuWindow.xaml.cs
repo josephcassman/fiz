@@ -7,8 +7,11 @@ namespace UI {
         public MenuWindow () {
             InitializeComponent();
             DataContext = vm;
+            Closing += Window_Closing;
             MouseDown += Window_MouseDown;
         }
+
+        Window window = new();
 
         public MainViewModel vm => App.ViewModel;
 
@@ -20,6 +23,14 @@ namespace UI {
 
         void IncreaseWebPageScaleFactor_Click (object sender, RoutedEventArgs e) {
             vm.WebPageScaleFactor += 0.2;
+        }
+
+        void SetMediaWindowLocation_Click (object sender, RoutedEventArgs e) {
+            window = WindowManager.ShowSampleMediaWindow(vm);
+        }
+
+        void Window_Closing (object? sender, System.ComponentModel.CancelEventArgs e) {
+            window?.Close();
         }
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {

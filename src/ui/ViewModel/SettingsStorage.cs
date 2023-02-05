@@ -23,6 +23,26 @@ namespace UI.ViewModel {
             }
         }
 
+        public static double MediaWindowHeight {
+            get => readDouble("MediaWindowHeight");
+            set { writeDouble("MediaWindowHeight", value); }
+        }
+
+        public static double MediaWindowLeft {
+            get => readDouble("MediaWindowLeft");
+            set { writeDouble("MediaWindowLeft", value); }
+        }
+
+        public static double MediaWindowTop {
+            get => readDouble("MediaWindowTop");
+            set { writeDouble("MediaWindowTop", value); }
+        }
+
+        public static double MediaWindowWidth {
+            get => readDouble("MediaWindowWidth");
+            set { writeDouble("MediaWindowWidth", value); }
+        }
+
         public static double WebPageScaleFactor {
             get => readDouble("WebPageScaleFactor");
             set { writeDouble("WebPageScaleFactor", value); }
@@ -75,7 +95,11 @@ namespace UI.ViewModel {
                 Value TEXT NOT NULL) WITHOUT ROWID;
 
             INSERT INTO Settings (Name, Value)
-            VALUES ('WebPageScaleFactor', 1.0);
+            VALUES ('WebPageScaleFactor', 1.0),
+                   ('MediaWindowLeft', 0.0),
+                   ('MediaWindowTop', 0.0),
+                   ('MediaWindowHeight', 0.0),
+                   ('MediaWindowWidth', 0.0);
 
             CREATE TABLE IF NOT EXISTS MediaList (
                 Path TEXT PRIMARY KEY) WITHOUT ROWID;

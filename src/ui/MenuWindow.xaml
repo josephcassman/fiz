@@ -12,7 +12,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="570" Width="464">
+        Title="MenuWindow" Height="625" Width="464">
     <Window.Resources>
         <Style x:Key="MenuIconButton" TargetType="Button">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -103,7 +103,16 @@
                     </Button>
                 </Border>
 
-                <Grid Canvas.Top="35"
+                <Button Canvas.Top="50"
+                        Canvas.Left="25"
+                        Width="350"
+                        Style="{StaticResource ContentButton}"
+                        FontSize="25"
+                        Click="SetMediaWindowLocation_Click">
+                    Set Media Window Location
+                </Button>
+
+                <Grid Canvas.Top="85"
                       Canvas.Left="25"
                       Width="400"
                       Height="80">
@@ -155,7 +164,7 @@
                     </Button>
                 </Grid>
 
-                <Border Canvas.Top="105"
+                <Border Canvas.Top="160"
                         Canvas.Left="15"
                         Width="420"
                         Height="300"
@@ -239,7 +248,7 @@
                     </Grid>
                 </Border>
 
-                <Border Canvas.Top="415"
+                <Border Canvas.Top="470"
                         Canvas.Left="15"
                         Width="420"
                         Height="130"
