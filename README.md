@@ -6,9 +6,10 @@ _Fiz_ is a simple media viewer for picture, video, and web page media to display
 * Display web pages
 * Display windowed or fullscreen on a secondary monitor
 * Three modes: picture + video list, single video, web page
-* Can start video at any location in single video mode
+* Can start video at any point in time in single video mode
 * Pan and zoom picture media
 * Pan and zoom web pages
+* Display media on any monitor, regardless of how many are used
 
 ## REQUIREMENTS
 * Target OS version: Windows 10.0.19041.0
