@@ -25,8 +25,8 @@ namespace UI.ViewModel {
             window.WindowStartupLocation = WindowStartupLocation.Manual;
             window.Left = vm.MediaWindowLeft;
             window.Top = vm.MediaWindowTop;
-            window.Height = vm.MediaWindowHeight;
-            window.Width = vm.MediaWindowWidth;
+            window.Height = vm.MediaWindowHeight == 0.0 ? 500.0 : vm.MediaWindowHeight;
+            window.Width = vm.MediaWindowWidth == 0.0 ? 800.0 : vm.MediaWindowWidth;
             window.Show();
         }
 
