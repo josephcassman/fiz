@@ -70,24 +70,24 @@
                Name="grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="6*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="1"
                        Grid.Row="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="50"
+                       FontSize="45"
                        Background="Transparent"
                        Foreground="White"
                        TextWrapping="WrapWithOverflow"
-                       Text="Place this window where media will be displayed to record the location for use." />
+                       Text="Place this window where media will be displayed. The location is stored when the window is closed." />
 
         </Grid>
 
