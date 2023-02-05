@@ -225,7 +225,7 @@ namespace UI {
 
             singleVideoPreview.MediaOpened += (_, _) => vm.SingleVideoPreviewTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
 
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(1000);
 
             vm.SingleVideoPreviewIsLoading = false;
             Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
