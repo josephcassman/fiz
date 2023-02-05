@@ -98,14 +98,12 @@ namespace UI {
         void maxify () {
             vm.Minified = false;
             Height = maximalHeight;
-            WindowManager.SetWindowPosition(this, vm);
             initializeSliderVideoPreview();
         }
 
         void minify () {
             vm.Minified = true;
             Height = minimalHeight;
-            WindowManager.SetWindowPosition(this, vm);
             initializeSliderVideoPreview();
         }
 
