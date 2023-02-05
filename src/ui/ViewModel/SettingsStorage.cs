@@ -33,6 +33,11 @@ namespace UI.ViewModel {
             set { writeDouble("MediaWindowLeft", value); }
         }
 
+        public static bool MediaWindowMaximized {
+            get => readBool("MediaWindowMaximized");
+            set { writeBool("MediaWindowMaximized", value); }
+        }
+
         public static double MediaWindowTop {
             get => readDouble("MediaWindowTop");
             set { writeDouble("MediaWindowTop", value); }
