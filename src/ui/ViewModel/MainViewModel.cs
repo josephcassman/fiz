@@ -77,6 +77,11 @@ namespace UI.ViewModel {
 
             updateVideoPositionTimer.Tick += (_, _) => GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
             updateVideoPositionTimer.Start();
+
+            MediaWindowLeft = SettingsStorage.MediaWindowLeft;
+            MediaWindowTop = SettingsStorage.MediaWindowTop;
+            MediaWindowHeight = SettingsStorage.MediaWindowHeight;
+            MediaWindowWidth = SettingsStorage.MediaWindowWidth;
         }
 
         static readonly HashSet<string> PictureExtensions = new() {
@@ -242,6 +247,11 @@ namespace UI.ViewModel {
         public event EventHandler? SetVideoPositionEvent;
         public event EventHandler? PauseVideoEvent;
         public event EventHandler? PlayVideoEvent;
+
+        public double MediaWindowLeft;
+        public double MediaWindowTop;
+        public double MediaWindowHeight;
+        public double MediaWindowWidth;
 
         bool _mediaDisplayed = false;
         public bool MediaDisplayed {
