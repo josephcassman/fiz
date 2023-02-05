@@ -28,6 +28,7 @@
     <PackageIcon>fiz.png</PackageIcon>
     <Description>A simple media viewer</Description>
     <Title>Fiz</Title>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
