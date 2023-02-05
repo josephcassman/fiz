@@ -34,6 +34,7 @@ namespace UI.ViewModel {
                     window.WindowState = WindowState.Maximized;
                 };
             }
+            window.Closing += closing;
             window.Show();
         }
 
