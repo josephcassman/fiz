@@ -78,6 +78,7 @@ namespace UI.ViewModel {
             updateVideoPositionTimer.Tick += (_, _) => GetVideoPositionEvent?.Invoke(this, EventArgs.Empty);
             updateVideoPositionTimer.Start();
 
+            MediaWindowMaximized = SettingsStorage.MediaWindowMaximized;
             MediaWindowLeft = SettingsStorage.MediaWindowLeft;
             MediaWindowTop = SettingsStorage.MediaWindowTop;
             MediaWindowHeight = SettingsStorage.MediaWindowHeight;
@@ -248,6 +249,7 @@ namespace UI.ViewModel {
         public event EventHandler? PauseVideoEvent;
         public event EventHandler? PlayVideoEvent;
 
+        public bool MediaWindowMaximized;
         public double MediaWindowLeft;
         public double MediaWindowTop;
         public double MediaWindowHeight;
