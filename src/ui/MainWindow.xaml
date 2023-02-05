@@ -13,7 +13,6 @@
         Background="Transparent"
         AllowsTransparency="True"
         mc:Ignorable="d"
-        Topmost="True"
         AllowDrop="True"
         WindowStartupLocation="Manual"
         Title="Fiz" Height="710" Width="514"
