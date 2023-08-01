@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1518.46" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
   </ItemGroup>
 
   <ItemGroup>
