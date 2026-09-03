@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
@@ -103,7 +105,8 @@ namespace UI.ViewModel {
                     Save();
                 }
             }
-            catch {
+            catch (Exception ex) {
+                Trace.TraceError("Failed to load settings from '{0}': {1}", filePath, ex);
                 data = new();
             }
         }
@@ -117,12 +120,15 @@ namespace UI.ViewModel {
                     File.Move(tempPath, filePath, overwrite: true);
                 }
             }
-            catch {
+            catch (Exception ex) {
+                Trace.TraceWarning("Atomic settings save failed, falling back to direct write: {0}", ex);
                 try {
                     var json = JsonSerializer.Serialize(data, jsonOptions);
                     File.WriteAllText(filePath, json);
                 }
-                catch { }
+                catch (Exception fallbackEx) {
+                    Trace.TraceError("Failed to save settings to '{0}': {1}", filePath, fallbackEx);
+                }
             }
         }
 

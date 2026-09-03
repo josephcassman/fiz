@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -193,10 +194,12 @@ namespace UI {
 
         void setMedia () {
             vm.StopTimer();
-            try { video.Stop(); } catch { }
+            try { video.Stop(); }
+            catch (Exception ex) { Trace.WriteLine($"[MediaWindow] Ignoring exception stopping video: {ex.Message}"); }
             vm.VideoPaused = true;
             if (vm.InternetMode) {
-                try { web.Source = vm.WebpageUrl; } catch { }
+                try { web.Source = vm.WebpageUrl; }
+                catch (Exception ex) { Trace.TraceWarning("Failed to set web source in MediaWindow to '{0}': {1}", vm.WebpageUrl, ex.Message); }
                 return;
             }
             if (vm.MediaListMode) {

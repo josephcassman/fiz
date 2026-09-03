@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -107,7 +108,9 @@ namespace UI.ViewModel {
                 dpiX = dpi.DpiScaleX;
                 dpiY = dpi.DpiScaleY;
             }
-            catch { }
+            catch (Exception ex) {
+                Trace.WriteLine($"[WindowManager] VisualTreeHelper.GetDpi failed, falling back to GetDpiForWindow: {ex.Message}");
+            }
 
             if ((dpiX <= 0 || (dpiX == 1.0 && dpiY == 1.0)) && handle != IntPtr.Zero) {
                 uint dpiForWindow = GetDpiForWindow(handle);

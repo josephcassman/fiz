@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,8 +77,10 @@ namespace UI {
         }
 
         void initializeSliderVideoPreview () {
-            try { sliderMinifiedPositionChangePreview.Stop(); } catch { }
-            try { sliderMaxifiedPositionChangePreview.Stop(); } catch { }
+            try { sliderMinifiedPositionChangePreview.Stop(); }
+            catch (Exception ex) { Trace.WriteLine($"[MainWindow] Ignoring exception stopping minified slider preview: {ex.Message}"); }
+            try { sliderMaxifiedPositionChangePreview.Stop(); }
+            catch (Exception ex) { Trace.WriteLine($"[MainWindow] Ignoring exception stopping maxified slider preview: {ex.Message}"); }
             if (vm.InternetMode) return;
             if (vm.MediaListMode && (!vm.MediaListHasContents || vm.CurrentMediaItem is not VideoItem)) return;
             var source = vm.SingleVideoMode ? vm.SingleVideo.Source : ((VideoItem) vm.CurrentMediaItem).Source;
@@ -139,7 +142,8 @@ namespace UI {
                 web.CoreWebView2.Navigate(uri.AbsoluteUri);
                 vm.WebpageUrl = uri;
             }
-            catch {
+            catch (Exception ex) {
+                Trace.TraceWarning("WebView2 navigation failed for '{0}': {1}", uri.AbsoluteUri, ex.Message);
                 vm.WebpageUrl = new("about:blank");
                 setWebMessages(WebPreviewState.LoadFailed);
             }
@@ -213,7 +217,8 @@ namespace UI {
             vm.SingleVideoPreviewIsLoading = true;
             vm.SingleVideo = new();
 
-            try { singleVideoPreview.Stop(); } catch { }
+            try { singleVideoPreview.Stop(); }
+            catch (Exception ex) { Trace.WriteLine($"[MainWindow] Ignoring exception stopping single video preview: {ex.Message}"); }
 
             Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
@@ -588,7 +593,8 @@ namespace UI {
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
-                try { DragMove(); } catch { }
+                try { DragMove(); }
+                catch (InvalidOperationException ex) { Trace.WriteLine($"[MainWindow] DragMove ignored: {ex.Message}"); }
             mediaList.Focus();
         }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using UI.ViewModel;
@@ -35,7 +36,8 @@ namespace UI {
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
-                try { DragMove(); } catch { }
+                try { DragMove(); }
+                catch (InvalidOperationException ex) { Trace.WriteLine($"[MenuWindow] DragMove ignored: {ex.Message}"); }
         }
     }
 }
