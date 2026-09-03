@@ -145,5 +145,45 @@ namespace UI.Tests {
                 vm.StopTimer();
             }
         }
+
+        [STATestMethod]
+        public void MediaItemsCurrentIndex_InvalidOrNegativeIndex_DoesNotThrowAndResetsDisplayFlags() {
+            var vm = new MainViewModel();
+            try {
+                // When empty, setting to -1 should not throw and reset flags
+                vm.MediaItemsCurrentIndex = -1;
+                Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
+                Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
+
+                // Add items
+                var pic = new PictureItem { FileName = "test.png", FilePath = @"C:\test.png" };
+                var vid = new VideoItem { FileName = "test.mp4", FilePath = @"C:\test.mp4" };
+                vm.AddMediaItem(pic);
+                vm.AddMediaItem(vid);
+
+                // Valid picture index
+                vm.MediaItemsCurrentIndex = 0;
+                Assert.IsTrue(vm.PictureDisplayedOnMediaWindow);
+                Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
+
+                // Valid video index
+                vm.MediaItemsCurrentIndex = 1;
+                Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
+                Assert.IsTrue(vm.VideoDisplayedOnMediaWindow);
+
+                // Reset to -1
+                vm.MediaItemsCurrentIndex = -1;
+                Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
+                Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
+
+                // Out of range index
+                vm.MediaItemsCurrentIndex = 99;
+                Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
+                Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
+            }
+            finally {
+                vm.StopTimer();
+            }
+        }
     }
 }

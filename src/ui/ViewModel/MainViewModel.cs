@@ -133,8 +133,14 @@ namespace UI.ViewModel {
             set {
                 Set(ref _mediaItemsCurrentIndex, value);
 
-                PictureDisplayedOnMediaWindow = MediaItems[value].IsPicture;
-                VideoDisplayedOnMediaWindow = MediaItems[value].IsVideo;
+                if (0 <= value && value < MediaItems.Count) {
+                    PictureDisplayedOnMediaWindow = MediaItems[value].IsPicture;
+                    VideoDisplayedOnMediaWindow = MediaItems[value].IsVideo;
+                }
+                else {
+                    PictureDisplayedOnMediaWindow = false;
+                    VideoDisplayedOnMediaWindow = false;
+                }
 
                 SetMediaListMedia?.Invoke(this, EventArgs.Empty);
             }
