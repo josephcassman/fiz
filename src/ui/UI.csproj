@@ -32,7 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSTest" Version="4.4.0" />
+    <InternalsVisibleTo Include="UI.Tests" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,10 +18,18 @@ namespace UI.ViewModel {
     }
 
     public static class SettingsStorage {
-        static readonly string filePath = initializeFilePath();
+        static string filePath = initializeFilePath();
         static readonly JsonSerializerOptions jsonOptions = new() { WriteIndented = true };
         static SettingsData data = new();
         static readonly object fileLock = new();
+
+        internal static void UseCustomFilePath (string? customPath) {
+            filePath = customPath ?? initializeFilePath();
+        }
+
+        internal static void ResetData (SettingsData? customData = null) {
+            data = customData ?? new();
+        }
 
         public static List<string> MediaListPaths => [.. data.MediaListPaths];
 
