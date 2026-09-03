@@ -120,21 +120,29 @@ namespace UI {
         void navigateUrl () {
             if (web == null || web.CoreWebView2 == null) return;
             setWebMessages(WebPreviewState.Loading);
-            var a = url.Text ?? "";
-            var b = new string[] {
-                a,
-                "https://" + a,
-                "https://www." + a,
-                "http://" + a,
-                "http://www." + a,
-            };
-            try { web.CoreWebView2.Navigate(b[0]); vm.WebpageUrl = new(b[0]); return; } catch { }
-            try { web.CoreWebView2.Navigate(b[1]); vm.WebpageUrl = new(b[1]); return; } catch { }
-            try { web.CoreWebView2.Navigate(b[2]); vm.WebpageUrl = new(b[2]); return; } catch { }
-            try { web.CoreWebView2.Navigate(b[3]); vm.WebpageUrl = new(b[3]); return; } catch { }
-            try { web.CoreWebView2.Navigate(b[4]); vm.WebpageUrl = new(b[4]); return; } catch { }
-            vm.WebpageUrl = new("about:blank");
-            setWebMessages(WebPreviewState.LoadFailed);
+            var a = url.Text?.Trim() ?? "";
+            if (string.IsNullOrEmpty(a)) {
+                vm.WebpageUrl = new("about:blank");
+                setWebMessages(WebPreviewState.LoadFailed);
+                return;
+            }
+            if (!Uri.TryCreate(a, UriKind.Absolute, out var uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeFile && uri.Scheme != "about")) {
+                Uri.TryCreate("https://" + a, UriKind.Absolute, out uri);
+            }
+            if (uri == null) {
+                vm.WebpageUrl = new("about:blank");
+                setWebMessages(WebPreviewState.LoadFailed);
+                return;
+            }
+            try {
+                web.CoreWebView2.Navigate(uri.AbsoluteUri);
+                vm.WebpageUrl = uri;
+            }
+            catch {
+                vm.WebpageUrl = new("about:blank");
+                setWebMessages(WebPreviewState.LoadFailed);
+            }
         }
 
         void playPauseVideo () {
