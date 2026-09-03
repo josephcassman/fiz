@@ -3,21 +3,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Threading;
 
 namespace UI.ViewModel {
     public static partial class WindowManager {
-        public static void LetUIUpdate () {
-            DispatcherFrame frame = new();
-            DispatcherOperationCallback callback = new(delegate (object parameter) {
-                frame.Continue = false;
-                return null;
-            });
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, callback, null);
-            Dispatcher.PushFrame(frame);
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(delegate { }));
-        }
-
         public static void SetWindowPosition (Window window, MainViewModel vm) {
             window.Left = vm.StartLocationLeft;
             window.Top = vm.StartLocationTop;

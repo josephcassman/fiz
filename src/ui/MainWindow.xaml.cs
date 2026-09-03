@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -203,7 +203,7 @@ namespace UI {
             initializeSliderVideoPreview();
         }
 
-        void setSingleVideo (string path) {
+        async void setSingleVideo (string path) {
             if (MainViewModel.GetMediaType(path) != MediaType.Video) return;
 
             vm.SingleVideoPreviewIsLoading = true;
@@ -211,27 +211,41 @@ namespace UI {
 
             try { singleVideoPreview.Stop(); } catch { }
 
-            Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
-            WindowManager.LetUIUpdate();
-
             Uri uri = new(path);
             vm.SingleVideo = new VideoItem {
                 FileName = Path.GetFileName(path),
                 FilePath = path,
                 Source = uri,
             };
-            singleVideoPreview.Source = uri;
-            singleVideoPreview.Position = TimeSpan.Zero;
 
-            singleVideoPreview.MediaOpened += (_, _) => vm.SingleVideoPreviewTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
+            var tcs = new TaskCompletionSource<bool>();
+            RoutedEventHandler onOpened = (_, _) => tcs.TrySetResult(true);
+            EventHandler<ExceptionRoutedEventArgs> onFailed = (_, _) => tcs.TrySetResult(false);
 
-            Thread.Sleep(1000);
+            singleVideoPreview.MediaOpened += onOpened;
+            singleVideoPreview.MediaFailed += onFailed;
 
-            vm.SingleVideoPreviewIsLoading = false;
-            Dispatcher.Invoke(delegate { }, DispatcherPriority.Render);
-            WindowManager.LetUIUpdate();
+            try {
+                singleVideoPreview.Source = uri;
+                singleVideoPreview.Position = TimeSpan.Zero;
 
-            initializeSliderVideoPreview();
+                await Task.WhenAny(tcs.Task, Task.Delay(2000));
+
+                if (tcs.Task.IsCompletedSuccessfully && tcs.Task.Result) {
+                    if (singleVideoPreview.NaturalDuration.HasTimeSpan) {
+                        vm.SingleVideoPreviewTotalLength = singleVideoPreview.NaturalDuration.TimeSpan;
+                    }
+                }
+            }
+            finally {
+                singleVideoPreview.MediaOpened -= onOpened;
+                singleVideoPreview.MediaFailed -= onFailed;
+
+                if (vm.SingleVideo?.FilePath == path) {
+                    vm.SingleVideoPreviewIsLoading = false;
+                    initializeSliderVideoPreview();
+                }
+            }
         }
 
         void setWebMessages (WebPreviewState wps) {
@@ -330,25 +344,24 @@ namespace UI {
             Storyboard.SetTargetProperty(growHeight, new PropertyPath(HeightProperty));
             showNoMediaFilesFoundMessage.Children.Add(growHeight);
 
-            showNoMediaFilesFoundMessage.Completed += (_, _) => {
-                Thread.Sleep(2000);
-                noMediaFilesFoundMessage.Dispatcher.BeginInvoke(new Action(() => {
-                    Storyboard hide = new();
-                    hide.Completed += (_, _) => {
-                        noMediaFilesFoundMessage.Visibility = Visibility.Collapsed;
-                    };
+            showNoMediaFilesFoundMessage.Completed += async (_, _) => {
+                await Task.Delay(2000);
 
-                    DoubleAnimation fadeOut = new() {
-                        From = 0.8,
-                        To = 0.0,
-                        Duration = new(new TimeSpan(0, 0, 0, 0, 500)),
-                        EasingFunction = new ExponentialEase(),
-                    };
-                    Storyboard.SetTargetProperty(fadeOut, new PropertyPath(OpacityProperty));
-                    hide.Children.Add(fadeOut);
+                Storyboard hide = new();
+                hide.Completed += (_, _) => {
+                    noMediaFilesFoundMessage.Visibility = Visibility.Collapsed;
+                };
 
-                    hide.Begin(noMediaFilesFoundMessage);
-                }));
+                DoubleAnimation fadeOut = new() {
+                    From = 0.8,
+                    To = 0.0,
+                    Duration = new(new TimeSpan(0, 0, 0, 0, 500)),
+                    EasingFunction = new ExponentialEase(),
+                };
+                Storyboard.SetTargetProperty(fadeOut, new PropertyPath(OpacityProperty));
+                hide.Children.Add(fadeOut);
+
+                hide.Begin(noMediaFilesFoundMessage);
             };
 
             noMediaFilesFoundMessage.Visibility = Visibility.Visible;
