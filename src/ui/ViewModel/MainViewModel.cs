@@ -83,7 +83,7 @@ namespace UI.ViewModel {
             MediaWindowWidth = SettingsStorage.MediaWindowWidth;
         }
 
-        static readonly HashSet<string> PictureExtensions = new() {
+        static readonly HashSet<string> PictureExtensions = [
             ".bmp",
             ".gif",
             ".jpg",
@@ -93,9 +93,9 @@ namespace UI.ViewModel {
             ".tif",
             ".tiff",
             ".webp",
-        };
+        ];
 
-        static readonly HashSet<string> VideoExtensions = new() {
+        static readonly HashSet<string> VideoExtensions = [
             ".avi",
             ".mov",
             ".mp4",
@@ -103,7 +103,7 @@ namespace UI.ViewModel {
             ".mpeg",
             ".mpg",
             ".wmv",
-        };
+        ];
 
         public static MediaType GetMediaType (string path) {
             var extension = Path.GetExtension(path).ToLower();
