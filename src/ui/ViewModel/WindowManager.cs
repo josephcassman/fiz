@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace UI.ViewModel {
     public static partial class WindowManager {
@@ -77,15 +78,54 @@ namespace UI.ViewModel {
             public int Top;
             public int Right;
             public int Bottom;
+
+            public static implicit operator Rect (RECTANGLE r) => new(r.Left, r.Top, r.Right - r.Left, r.Bottom - r.Top);
+            public static implicit operator RECTANGLE (Rect r) => new() {
+                Left = (int)Math.Round(r.Left),
+                Top = (int)Math.Round(r.Top),
+                Right = (int)Math.Round(r.Right),
+                Bottom = (int)Math.Round(r.Bottom)
+            };
         }
 
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static partial bool GetWindowRect (IntPtr hWnd, out RECTANGLE lpRect);
 
-        public static RECTANGLE GetWindowRectangle (Window window) {
-            GetWindowRect((new WindowInteropHelper(window)).Handle, out RECTANGLE r);
-            return r;
+        [LibraryImport("user32.dll")]
+        private static partial uint GetDpiForWindow (IntPtr hWnd);
+
+        public static Rect GetWindowRectangle (Window window) {
+            var handle = new WindowInteropHelper(window).Handle;
+            GetWindowRect(handle, out RECTANGLE r);
+
+            double dpiX = 0;
+            double dpiY = 0;
+
+            try {
+                var dpi = VisualTreeHelper.GetDpi(window);
+                dpiX = dpi.DpiScaleX;
+                dpiY = dpi.DpiScaleY;
+            }
+            catch { }
+
+            if ((dpiX <= 0 || (dpiX == 1.0 && dpiY == 1.0)) && handle != IntPtr.Zero) {
+                uint dpiForWindow = GetDpiForWindow(handle);
+                if (dpiForWindow > 0) {
+                    dpiX = dpiForWindow / 96.0;
+                    dpiY = dpiForWindow / 96.0;
+                }
+            }
+
+            if (dpiX <= 0) dpiX = 1.0;
+            if (dpiY <= 0) dpiY = 1.0;
+
+            return new Rect(
+                r.Left / dpiX,
+                r.Top / dpiY,
+                (r.Right - r.Left) / dpiX,
+                (r.Bottom - r.Top) / dpiY
+            );
         }
     }
 }
