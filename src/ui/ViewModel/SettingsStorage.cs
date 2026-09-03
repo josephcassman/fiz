@@ -97,7 +97,7 @@ namespace UI.ViewModel {
                 Name TEXT PRIMARY KEY,
                 Value TEXT NOT NULL) WITHOUT ROWID;
 
-            INSERT INTO Settings (Name, Value)
+            INSERT OR IGNORE INTO Settings (Name, Value)
             VALUES ('WebPageScaleFactor', 1.0),
                    ('MediaWindowLeft', 0.0),
                    ('MediaWindowTop', 0.0),
