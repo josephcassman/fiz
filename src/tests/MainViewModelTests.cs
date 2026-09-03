@@ -152,6 +152,7 @@ namespace UI.Tests {
             try {
                 // When empty, setting to -1 should not throw and reset flags
                 vm.MediaItemsCurrentIndex = -1;
+                Assert.IsNull(vm.CurrentMediaItem);
                 Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
                 Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
 
@@ -163,21 +164,25 @@ namespace UI.Tests {
 
                 // Valid picture index
                 vm.MediaItemsCurrentIndex = 0;
+                Assert.AreSame(pic, vm.CurrentMediaItem);
                 Assert.IsTrue(vm.PictureDisplayedOnMediaWindow);
                 Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
 
                 // Valid video index
                 vm.MediaItemsCurrentIndex = 1;
+                Assert.AreSame(vid, vm.CurrentMediaItem);
                 Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
                 Assert.IsTrue(vm.VideoDisplayedOnMediaWindow);
 
                 // Reset to -1
                 vm.MediaItemsCurrentIndex = -1;
+                Assert.IsNull(vm.CurrentMediaItem);
                 Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
                 Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
 
                 // Out of range index
                 vm.MediaItemsCurrentIndex = 99;
+                Assert.IsNull(vm.CurrentMediaItem);
                 Assert.IsFalse(vm.PictureDisplayedOnMediaWindow);
                 Assert.IsFalse(vm.VideoDisplayedOnMediaWindow);
             }

@@ -125,7 +125,8 @@ namespace UI.ViewModel {
 
         public ObservableCollection<MediaItem> MediaItems = new();
 
-        public MediaItem CurrentMediaItem => MediaItems[MediaItemsCurrentIndex];
+        public MediaItem? CurrentMediaItem => 0 <= MediaItemsCurrentIndex && MediaItemsCurrentIndex < MediaItems.Count ?
+            MediaItems[MediaItemsCurrentIndex] : null;
 
         int _mediaItemsCurrentIndex = -1;
         public int MediaItemsCurrentIndex {
