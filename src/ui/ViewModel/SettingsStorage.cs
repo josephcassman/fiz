@@ -124,10 +124,29 @@ namespace UI.ViewModel {
             catch { }
         }
 
+        static readonly string dbPath = initializeDbPath();
+
+        static string initializeDbPath () {
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Fiz");
+            Directory.CreateDirectory(folder);
+            var newPath = Path.Combine(folder, "settings.db");
+
+            var oldPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
+            if (!File.Exists(newPath) && File.Exists(oldPath)) {
+                try {
+                    File.Move(oldPath, newPath);
+                }
+                catch {
+                    try { File.Copy(oldPath, newPath); } catch { }
+                }
+            }
+
+            return newPath;
+        }
+
         static SqliteConnection connection {
             get {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
-                var cs = new SqliteConnectionStringBuilder() { DataSource = path }.ToString();
+                var cs = new SqliteConnectionStringBuilder() { DataSource = dbPath }.ToString();
                 var r = new SqliteConnection(cs);
                 r.Open();
                 return r;
