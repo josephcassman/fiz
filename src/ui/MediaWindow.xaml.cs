@@ -19,12 +19,19 @@ namespace UI {
             MouseWheel += Window_MouseWheel;
             PreviewKeyDown += Window_PreviewKeyDown;
             SizeChanged += Window_SizeChanged;
-            vm.SetMediaListMedia += (_, _) => { setMedia(); };
+            Closing += MediaWindow_Closing;
 
-            vm.GetVideoPositionEvent += (_, _) => vm.VideoPosition = video.Position;
-            vm.SetVideoPositionEvent += (_, _) => video.Position = vm.VideoPosition;
-            vm.PauseVideoEvent += (_, _) => pauseVideo();
-            vm.PlayVideoEvent += (_, _) => playVideo();
+            set_media_list_media = (_, _) => setMedia();
+            get_video_position_event = (_, _) => vm.VideoPosition = video.Position;
+            set_video_position_event = (_, _) => video.Position = vm.VideoPosition;
+            pause_video_event = (_, _) => pauseVideo();
+            play_video_event = (_, _) => playVideo();
+
+            vm.SetMediaListMedia += set_media_list_media;
+            vm.GetVideoPositionEvent += get_video_position_event;
+            vm.SetVideoPositionEvent += set_video_position_event ;
+            vm.PauseVideoEvent += pause_video_event;
+            vm.PlayVideoEvent += play_video_event;
 
             video.MediaOpened += (_, _) => {
                 vm.VideoTotalLength = video.NaturalDuration.TimeSpan;
@@ -126,6 +133,12 @@ namespace UI {
                 await web.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(a);
             };
         }
+
+        readonly EventHandler set_media_list_media;
+        readonly EventHandler get_video_position_event;
+        readonly EventHandler set_video_position_event;
+        readonly EventHandler pause_video_event;
+        readonly EventHandler play_video_event;
 
         // State for panning and zooming picture media
         const float ZoomInFactor = 1.1f;
@@ -387,6 +400,14 @@ namespace UI {
                     break;
                 case Key.Up: vm.MoveToPreviousMediaItem(); break;
             }
+        }
+
+        void MediaWindow_Closing (object? sender, System.ComponentModel.CancelEventArgs e) {
+            vm.SetMediaListMedia -= set_media_list_media;
+            vm.GetVideoPositionEvent -= get_video_position_event;
+            vm.SetVideoPositionEvent -= set_video_position_event;
+            vm.PauseVideoEvent -= pause_video_event;
+            vm.PlayVideoEvent -= play_video_event;
         }
     }
 }
