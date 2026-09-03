@@ -268,33 +268,31 @@ namespace UI {
         }
 
         void shiftDown () {
-            if (vm.MediaItems.Count == 0) return;
-            if (mediaList.Items.Count - 1 <= mediaList.SelectedIndex) return;
+            if (vm.MediaItems.Count <= 1) return;
             if (mediaList.SelectedItem == null) mediaList.SelectedIndex = 0;
             var i = mediaList.SelectedIndex;
+            if (i < 0 || i >= vm.MediaItems.Count - 1) return;
 
-            // Necessary to cause the thumbnail to update
-            mediaList.ItemsSource = null;
-
-            (vm.MediaItems[i], vm.MediaItems[i + 1]) = (vm.MediaItems[i + 1], vm.MediaItems[i]);
-            mediaList.ItemsSource = vm.MediaItems;
-
-            mediaList.SelectedIndex = i + 1;
+            var newIndex = i + 1;
+            vm.MediaItems.Move(i, newIndex);
+            mediaList.SelectedIndex = newIndex;
+            vm.MediaItemsCurrentIndex = newIndex;
+            mediaList.ScrollIntoView(mediaList.SelectedItem);
+            initializeSliderVideoPreview();
         }
 
         void shiftUp () {
-            if (vm.MediaItems.Count == 0) return;
-            if (mediaList.SelectedIndex == 0) return;
+            if (vm.MediaItems.Count <= 1) return;
             if (mediaList.SelectedItem == null) mediaList.SelectedIndex = 0;
             var i = mediaList.SelectedIndex;
+            if (i <= 0 || i >= vm.MediaItems.Count) return;
 
-            // Necessary to cause the thumbnail to update
-            mediaList.ItemsSource = null;
-
-            (vm.MediaItems[i], vm.MediaItems[i - 1]) = (vm.MediaItems[i - 1], vm.MediaItems[i]);
-            mediaList.ItemsSource = vm.MediaItems;
-
-            mediaList.SelectedIndex = i - 1;
+            var newIndex = i - 1;
+            vm.MediaItems.Move(i, newIndex);
+            mediaList.SelectedIndex = newIndex;
+            vm.MediaItemsCurrentIndex = newIndex;
+            mediaList.ScrollIntoView(mediaList.SelectedItem);
+            initializeSliderVideoPreview();
         }
 
         void showMediaListMedia () {
