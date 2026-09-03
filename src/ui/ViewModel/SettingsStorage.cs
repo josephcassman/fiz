@@ -1,240 +1,135 @@
-using Microsoft.Data.Sqlite;
 using System.IO;
+using System.Text.Json;
 
 namespace UI.ViewModel {
+    public sealed class SettingsData {
+        public double WebPageScaleFactor { get; set; } = 1.0;
+        public double StartLocationLeft { get; set; } = 0.0;
+        public double StartLocationTop { get; set; } = 0.0;
+        public double MediaWindowLeft { get; set; } = 0.0;
+        public double MediaWindowTop { get; set; } = 0.0;
+        public double MediaWindowWidth { get; set; } = 0.0;
+        public double MediaWindowHeight { get; set; } = 0.0;
+        public bool MediaWindowMaximized { get; set; } = false;
+        public string SingleVideoPath { get; set; } = "";
+        public List<string> MediaListPaths { get; set; } = [];
+    }
+
     public static class SettingsStorage {
-        public static List<string> MediaListPaths {
-            get {
-                using var con = connection;
-                var sql = $@"
-                SELECT Path
-                  FROM MediaList;";
-                var cmd = new SqliteCommand(sql, con);
-                List<string> r = [];
-                try {
-                    var reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                        r.Add(reader.GetString(0));
-                }
-                catch { }
-                return r;
-            }
-        }
+        static readonly string filePath = initializeFilePath();
+        static readonly JsonSerializerOptions jsonOptions = new() { WriteIndented = true };
+        static SettingsData data = new();
+        static readonly object fileLock = new();
+
+        public static List<string> MediaListPaths => [.. data.MediaListPaths];
 
         public static double MediaWindowHeight {
-            get => readDouble("MediaWindowHeight");
-            set { writeDouble("MediaWindowHeight", value); }
+            get => data.MediaWindowHeight;
+            set { data.MediaWindowHeight = value; Save(); }
         }
 
         public static double MediaWindowLeft {
-            get => readDouble("MediaWindowLeft");
-            set { writeDouble("MediaWindowLeft", value); }
+            get => data.MediaWindowLeft;
+            set { data.MediaWindowLeft = value; Save(); }
         }
 
         public static bool MediaWindowMaximized {
-            get => readBool("MediaWindowMaximized");
-            set { writeBool("MediaWindowMaximized", value); }
+            get => data.MediaWindowMaximized;
+            set { data.MediaWindowMaximized = value; Save(); }
         }
 
         public static double MediaWindowTop {
-            get => readDouble("MediaWindowTop");
-            set { writeDouble("MediaWindowTop", value); }
+            get => data.MediaWindowTop;
+            set { data.MediaWindowTop = value; Save(); }
         }
 
         public static double MediaWindowWidth {
-            get => readDouble("MediaWindowWidth");
-            set { writeDouble("MediaWindowWidth", value); }
+            get => data.MediaWindowWidth;
+            set { data.MediaWindowWidth = value; Save(); }
         }
 
         public static double WebPageScaleFactor {
-            get => readDouble("WebPageScaleFactor");
-            set { writeDouble("WebPageScaleFactor", value); }
+            get => data.WebPageScaleFactor;
+            set { data.WebPageScaleFactor = value; Save(); }
         }
 
         public static string SingleVideoPath {
-            get => readString("SingleVideoPath") ?? "";
-            set { writeString("SingleVideoPath", value); }
+            get => data.SingleVideoPath;
+            set { data.SingleVideoPath = value; Save(); }
         }
 
         public static double StartLocationLeft {
-            get => readDouble("StartLocationLeft");
+            get => data.StartLocationLeft;
             set {
                 if (value < 0) value = 0;
-                writeDouble("StartLocationLeft", value);
+                data.StartLocationLeft = value;
             }
         }
 
         public static double StartLocationTop {
-            get => readDouble("StartLocationTop");
+            get => data.StartLocationTop;
             set {
                 if (value < 0) value = 0;
-                writeDouble("StartLocationTop", value);
+                data.StartLocationTop = value;
             }
         }
 
         public static void ClearMediaListPaths () {
-            using var con = connection;
-            var sql = @"DELETE FROM MediaList;";
-            var cmd = new SqliteCommand(sql, con);
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
+            data.MediaListPaths.Clear();
+            Save();
         }
 
         public static void DeleteMediaListPath (string path) {
-            using var con = connection;
-            var sql = @"
-            DELETE FROM MediaList
-             WHERE Path = @Path;";
-            var cmd = new SqliteCommand(sql, con);
-            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
-        public static void Initialize () {
-            var sql = """
-            CREATE TABLE IF NOT EXISTS Settings (
-                Name TEXT PRIMARY KEY,
-                Value TEXT NOT NULL) WITHOUT ROWID;
-
-            INSERT OR IGNORE INTO Settings (Name, Value)
-            VALUES ('WebPageScaleFactor', 1.0),
-                   ('MediaWindowLeft', 0.0),
-                   ('MediaWindowTop', 0.0),
-                   ('MediaWindowHeight', 0.0),
-                   ('MediaWindowWidth', 0.0);
-
-            CREATE TABLE IF NOT EXISTS MediaList (
-                Path TEXT PRIMARY KEY) WITHOUT ROWID;
-            """;
-            using var con = connection;
-            var cmd = new SqliteCommand(sql, con);
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
+            if (data.MediaListPaths.Remove(path)) {
+                Save();
+            }
         }
 
         public static void SaveMediaListPath (string path) {
-            using var con = connection;
-            var sql = @"
-            INSERT OR REPLACE INTO MediaList (Path)
-            VALUES (@Path);";
-            var cmd = new SqliteCommand(sql, con);
-            cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
+            if (!data.MediaListPaths.Contains(path)) {
+                data.MediaListPaths.Add(path);
+                Save();
+            }
         }
 
-        static readonly string dbPath = initializeDbPath();
+        public static void Initialize () {
+            try {
+                if (File.Exists(filePath)) {
+                    var json = File.ReadAllText(filePath);
+                    data = JsonSerializer.Deserialize<SettingsData>(json) ?? new();
+                }
+                else {
+                    data = new();
+                    Save();
+                }
+            }
+            catch {
+                data = new();
+            }
+        }
 
-        static string initializeDbPath () {
+        public static void Save () {
+            try {
+                lock (fileLock) {
+                    var json = JsonSerializer.Serialize(data, jsonOptions);
+                    var tempPath = filePath + ".tmp";
+                    File.WriteAllText(tempPath, json);
+                    File.Move(tempPath, filePath, overwrite: true);
+                }
+            }
+            catch {
+                try {
+                    var json = JsonSerializer.Serialize(data, jsonOptions);
+                    File.WriteAllText(filePath, json);
+                }
+                catch { }
+            }
+        }
+
+        static string initializeFilePath () {
             var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Fiz");
             Directory.CreateDirectory(folder);
-            var newPath = Path.Combine(folder, "settings.db");
-
-            var oldPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.db");
-            if (!File.Exists(newPath) && File.Exists(oldPath)) {
-                try {
-                    File.Move(oldPath, newPath);
-                }
-                catch {
-                    try { File.Copy(oldPath, newPath); } catch { }
-                }
-            }
-
-            return newPath;
-        }
-
-        static SqliteConnection connection {
-            get {
-                var cs = new SqliteConnectionStringBuilder() { DataSource = dbPath }.ToString();
-                var r = new SqliteConnection(cs);
-                r.Open();
-                return r;
-            }
-        }
-
-        static SqliteCommand readCommand (string name, SqliteConnection con) {
-            var sql = $@"
-            SELECT Value
-            FROM Settings
-            WHERE Name = '{name}';";
-            return new SqliteCommand(sql, con);
-        }
-
-        static bool readBool (string name) {
-            using var con = connection;
-            var cmd = readCommand(name, con);
-            int r = 0;
-            try {
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows) return false;
-                reader.Read();
-                r = reader.GetInt32(0);
-            }
-            catch { }
-            return r == 1;
-        }
-
-        static double readDouble (string name) {
-            using var con = connection;
-            var cmd = readCommand(name, con);
-            double r = 0.0;
-            try {
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows) return 0.0;
-                reader.Read();
-                r = reader.GetDouble(0);
-            }
-            catch { }
-            return r;
-        }
-
-        static string? readString (string name) {
-            using var con = connection;
-            var cmd = readCommand(name, con);
-            string? r = null;
-            try {
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows) return null;
-                reader.Read();
-                r = reader.GetString(0);
-            }
-            catch { }
-            return r;
-        }
-
-        static SqliteCommand writeCommand (string name, SqliteConnection con) {
-            var sql = $@"
-            INSERT OR REPLACE INTO Settings (Name, Value)
-            VALUES (@Name, @Value);";
-            return new SqliteCommand(sql, con);
-        }
-
-        static void writeBool (string name, bool value) {
-            using var con = connection;
-            var cmd = writeCommand(name, con);
-            cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
-            cmd.Parameters.Add("@Value", SqliteType.Integer).Value = value ? 1 : 0;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
-        static void writeDouble (string name, double value) {
-            using var con = connection;
-            var cmd = writeCommand(name, con);
-            cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
-            cmd.Parameters.Add("@Value", SqliteType.Real).Value = value;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
-        }
-
-        static void writeString (string name, string value) {
-            using var con = connection;
-            var cmd = writeCommand(name, con);
-            cmd.Parameters.Add("@Name", SqliteType.Text).Value = name;
-            cmd.Parameters.Add("@Value", SqliteType.Text).Value = value;
-            try { cmd.ExecuteNonQuery(); }
-            catch { }
+            return Path.Combine(folder, "settings.json");
         }
     }
 }

@@ -561,6 +561,7 @@ namespace UI {
         void Window_Closing (object? sender, System.ComponentModel.CancelEventArgs e) {
             media?.Close();
             vm.BackupMediaItems();
+            SettingsStorage.Save();
         }
 
         void Window_Loaded (object sender, RoutedEventArgs e) {
