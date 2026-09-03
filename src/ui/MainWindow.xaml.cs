@@ -581,21 +581,31 @@ namespace UI {
                 case Key.Down:
                     if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftDown();
                     else moveNext();
+                    e.Handled = true;
                     break;
-                case Key.Escape: media?.Close(); break;
-                case Key.Left: media?.SkipBackwardVideo(); break;
-                case Key.Right: media?.SkipForwardVideo(); break;
+                case Key.Escape:
+                    media?.Close();
+                    e.Handled = true;
+                    break;
+                case Key.Left:
+                    media?.SkipBackwardVideo();
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    media?.SkipForwardVideo();
+                    e.Handled = true;
+                    break;
                 case Key.Space:
                     if (mediaList.SelectedValue is PictureItem) return;
                     media?.PlayPauseVideo();
+                    e.Handled = true;
                     break;
                 case Key.Up:
                     if (e.KeyboardDevice.Modifiers == ModifierKeys.Shift) shiftUp();
                     else movePrevious();
+                    e.Handled = true;
                     break;
             }
-            if (!url.IsFocused)
-                e.Handled = true;
         }
 
         void Url_KeyDown (object sender, KeyEventArgs e) {
