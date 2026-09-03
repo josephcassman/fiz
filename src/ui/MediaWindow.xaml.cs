@@ -107,7 +107,7 @@ namespace UI {
                     html.style.width = "100%";
                     html.style.height = "100%";
                     html.style.margin = "0";
-                    html.style.scale = "{{vm.WebPageScaleFactor}}";
+                    html.style.scale = "{{vm.WebPageScaleFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)}}";
                     html.style.willChange = "scale";
                     html.style.transformOrigin = "top center";
                     html.style.transition = "all 0.35s cubic-bezier(0.33, 1, 0.68, 1)";
