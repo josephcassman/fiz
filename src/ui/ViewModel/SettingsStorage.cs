@@ -85,8 +85,8 @@ namespace UI.ViewModel {
         public static void DeleteMediaListPath (string path) {
             using var con = connection;
             var sql = @"
-            DELETE FROM MediaList (Path)
-            VALUES (@Path);";
+            DELETE FROM MediaList
+             WHERE Path = @Path;";
             var cmd = new SqliteCommand(sql, con);
             cmd.Parameters.Add("@Path", SqliteType.Text).Value = path;
             try { cmd.ExecuteNonQuery(); }
