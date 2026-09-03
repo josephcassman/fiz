@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 using UI.ViewModel;
 
@@ -11,7 +11,7 @@ namespace UI {
             SizeChanged += Window_SizeChanged;
         }
 
-        public MainViewModel vm => App.ViewModel;
+        public static MainViewModel vm => App.ViewModel;
 
         void Close_Click (object sender, RoutedEventArgs e) {
             Close();

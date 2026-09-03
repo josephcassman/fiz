@@ -1,4 +1,3 @@
-﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -147,7 +146,7 @@ namespace UI {
         bool panning = false;
         Vector panningDelta = new();
 
-        public MainViewModel vm => App.ViewModel;
+        public static MainViewModel vm => App.ViewModel;
 
         void fadeOutNavigation () {
             static DoubleAnimation animation () => new() {

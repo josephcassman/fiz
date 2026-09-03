@@ -1,13 +1,9 @@
-﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using UI.ViewModel;
 
 namespace UI {
@@ -33,13 +29,13 @@ namespace UI {
             };
         }
 
-        public MainViewModel vm => App.ViewModel;
+        public static MainViewModel vm => App.ViewModel;
         MediaWindow? media;
 
         const double minimalHeight = 130;
         const double maximalHeight = 710;
 
-        readonly string[] NoResults = new string[] { "" };
+        readonly string[] NoResults = [""];
 
         static bool isDigitKeyPress (KeyEventArgs a) =>
             a.KeyboardDevice.Modifiers == 0 &&
@@ -248,7 +244,7 @@ namespace UI {
             }
         }
 
-        void setWebMessages (WebPreviewState wps) {
+        static void setWebMessages (WebPreviewState wps) {
             switch (wps) {
                 case WebPreviewState.Start:
                     vm.HasNoWebContentMessage1 = "Webpage preview";

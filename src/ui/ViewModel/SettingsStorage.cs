@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 using System.IO;
 
 namespace UI.ViewModel {
@@ -12,7 +10,7 @@ namespace UI.ViewModel {
                 SELECT Path
                   FROM MediaList;";
                 var cmd = new SqliteCommand(sql, con);
-                List<string> r = new();
+                List<string> r = [];
                 try {
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())

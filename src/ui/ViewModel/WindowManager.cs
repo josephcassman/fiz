@@ -1,4 +1,3 @@
-﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -85,8 +84,7 @@ namespace UI.ViewModel {
         private static partial bool GetWindowRect (IntPtr hWnd, out RECTANGLE lpRect);
 
         public static RECTANGLE GetWindowRectangle (Window window) {
-            RECTANGLE r;
-            GetWindowRect((new WindowInteropHelper(window)).Handle, out r);
+            GetWindowRect((new WindowInteropHelper(window)).Handle, out RECTANGLE r);
             return r;
         }
     }
