@@ -83,7 +83,10 @@ namespace UI {
             catch (Exception ex) { Trace.WriteLine($"[MainWindow] Ignoring exception stopping maxified slider preview: {ex.Message}"); }
             if (vm.InternetMode) return;
             if (vm.MediaListMode && (!vm.MediaListHasContents || vm.CurrentMediaItem is not VideoItem)) return;
-            var source = vm.SingleVideoMode ? vm.SingleVideo.Source : ((VideoItem) vm.CurrentMediaItem).Source;
+            var source = vm.SingleVideoMode
+                ? vm.SingleVideo?.Source
+                : (vm.CurrentMediaItem as VideoItem)?.Source;
+            if (source is null) return;
             if (vm.Minified) {
                 sliderMinifiedPositionChangePreview.Source = source;
                 sliderMinifiedPositionChangePreview.Pause();
