@@ -60,7 +60,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="C:\Users\kjoic\code\fiz\src\ui\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
