@@ -1,3 +1,6 @@
+// Copyright 2026 Joseph Cassman
+// SPDX-License-Identifier: Apache-2.0
+
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
