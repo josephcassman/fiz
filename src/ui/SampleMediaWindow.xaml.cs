@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using UI.ViewModel;
@@ -46,7 +47,8 @@ namespace UI {
 
         void Window_MouseDown (object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
-                DragMove();
+                try { DragMove(); }
+                catch (InvalidOperationException ex) { Trace.WriteLine($"[SampleMediaWindow] DragMove ignored: {ex.Message}"); }
         }
 
         void Window_SizeChanged (object sender, SizeChangedEventArgs e) {
