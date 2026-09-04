@@ -411,8 +411,9 @@ namespace UI.ViewModel {
         public double WebPageScaleFactor {
             get => _webPageScaleFactor;
             set {
-                Set(ref _webPageScaleFactor, value);
-                SettingsStorage.WebPageScaleFactor = value;
+                var clamped = Math.Clamp(Math.Round(value, 1), 0.2, 5.0);
+                Set(ref _webPageScaleFactor, clamped);
+                SettingsStorage.WebPageScaleFactor = clamped;
             }
         }
 

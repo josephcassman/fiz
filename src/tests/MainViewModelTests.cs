@@ -214,5 +214,34 @@ namespace UI.Tests {
                 }
             }
         }
+
+        [STATestMethod]
+        public void WebPageScaleFactor_ClampingAndPrecision_ClampsBetweenBoundsAndRoundsToOneDecimalPlace() {
+            var vm = new MainViewModel();
+            try {
+                // Precision drift rounding
+                vm.WebPageScaleFactor = 0.80000000000000004;
+                Assert.AreEqual(0.8, vm.WebPageScaleFactor);
+                Assert.AreEqual(0.8, SettingsStorage.WebPageScaleFactor);
+
+                // Zero clamping
+                vm.WebPageScaleFactor = 0.0;
+                Assert.AreEqual(0.2, vm.WebPageScaleFactor);
+                Assert.AreEqual(0.2, SettingsStorage.WebPageScaleFactor);
+
+                // Negative clamping
+                vm.WebPageScaleFactor = -1.5;
+                Assert.AreEqual(0.2, vm.WebPageScaleFactor);
+                Assert.AreEqual(0.2, SettingsStorage.WebPageScaleFactor);
+
+                // Upper bound clamping
+                vm.WebPageScaleFactor = 6.0;
+                Assert.AreEqual(5.0, vm.WebPageScaleFactor);
+                Assert.AreEqual(5.0, SettingsStorage.WebPageScaleFactor);
+            }
+            finally {
+                vm.StopTimer();
+            }
+        }
     }
 }
