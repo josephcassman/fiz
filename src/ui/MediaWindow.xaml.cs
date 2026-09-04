@@ -206,7 +206,7 @@ namespace UI {
                 return;
             }
             if (vm.MediaListMode) {
-                if (vm.CurrentMediaItem.IsPicture) {
+                if (vm.CurrentMediaItem is PictureItem pictureItem) {
                     // Reset the picture layout.
                     // Undo the panning translation and
                     // zooming scale factors.
@@ -216,11 +216,11 @@ namespace UI {
                     zoomTransform = new();
                     picture.RenderTransform = zoomTransform;
 
-                    picture.Source = ((PictureItem) vm.CurrentMediaItem).Source;
+                    picture.Source = pictureItem.Source;
                 }
-                else {
+                else if (vm.CurrentMediaItem is VideoItem videoItem) {
                     video.Close();
-                    video.Source = ((VideoItem) vm.CurrentMediaItem).Source;
+                    video.Source = videoItem.Source;
                     playVideo();
                     vm.StartTimer();
                 }
