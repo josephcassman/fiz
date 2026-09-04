@@ -171,13 +171,18 @@ namespace UI {
                 var uri = new Uri(path);
                 switch(MainViewModel.GetMediaType(path)) {
                     case MediaType.Picture:
-                        ++count;
-                        var bmp = new BitmapImage(uri);
-                        vm.AddMediaItem(new PictureItem {
-                            FileName = name,
-                            FilePath = path,
-                            Source = bmp,
-                        });
+                        try {
+                            var bmp = new BitmapImage(uri);
+                            vm.AddMediaItem(new PictureItem {
+                                FileName = name,
+                                FilePath = path,
+                                Source = bmp,
+                            });
+                            ++count;
+                        }
+                        catch (Exception ex) {
+                            Trace.TraceWarning("Failed to load image from '{0}': {1}", path, ex.Message);
+                        }
                         break;
                     case MediaType.Video:
                         ++count;

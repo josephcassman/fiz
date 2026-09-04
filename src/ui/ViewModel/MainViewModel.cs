@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Windows.Media.Imaging;
@@ -35,20 +36,26 @@ namespace UI.ViewModel {
             foreach (var path in SettingsStorage.MediaListPaths) {
                 if (!File.Exists(path)) SettingsStorage.DeleteMediaListPath(path);
                 else {
-                    count++;
                     var name = Path.GetFileName(path);
                     var extension = Path.GetExtension(path);
                     var uri = new Uri(path);
                     switch (GetMediaType(path)) {
                         case MediaType.Picture:
-                            var bmp = new BitmapImage(uri);
-                            AddMediaItem(new PictureItem {
-                                FileName = name,
-                                FilePath = path,
-                                Source = bmp,
-                            });
+                            try {
+                                var bmp = new BitmapImage(uri);
+                                AddMediaItem(new PictureItem {
+                                    FileName = name,
+                                    FilePath = path,
+                                    Source = bmp,
+                                });
+                                count++;
+                            }
+                            catch (Exception ex) {
+                                Trace.TraceWarning("Failed to load image from '{0}': {1}", path, ex.Message);
+                            }
                             break;
                         case MediaType.Video:
+                            count++;
                             AddMediaItem(new VideoItem {
                                 FileName = name,
                                 FilePath = path,

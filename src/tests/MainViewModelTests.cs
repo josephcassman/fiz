@@ -190,5 +190,29 @@ namespace UI.Tests {
                 vm.StopTimer();
             }
         }
+
+        [STATestMethod]
+        public void MainViewModel_CorruptedOrZeroByteImageOnStartup_SkipsCorruptedItemWithoutCrashing() {
+            var tempCorruptedFile = Path.Combine(Path.GetTempPath(), $"fiz_corrupted_{Guid.NewGuid():N}.png");
+            try {
+                // Create a 0-byte file with an image extension
+                File.WriteAllBytes(tempCorruptedFile, Array.Empty<byte>());
+                SettingsStorage.MediaListPaths.Add(tempCorruptedFile);
+
+                var vm = new MainViewModel();
+                try {
+                    Assert.AreEqual(0, vm.MediaItems.Count);
+                    Assert.IsFalse(vm.MediaListHasContents);
+                }
+                finally {
+                    vm.StopTimer();
+                }
+            }
+            finally {
+                if (File.Exists(tempCorruptedFile)) {
+                    try { File.Delete(tempCorruptedFile); } catch { }
+                }
+            }
+        }
     }
 }
